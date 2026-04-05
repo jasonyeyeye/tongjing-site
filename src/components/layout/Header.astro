@@ -6,6 +6,7 @@ const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 
 const navItems = [
+  { key: 'home', href: `/${locale}` },
   { key: 'products', href: `/${locale}/products` },
   { key: 'tools', href: `/${locale}/tools` },
   { key: 'news', href: `/${locale}/news` },
