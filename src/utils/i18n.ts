@@ -1,7 +1,7 @@
-import en from '../i18n/en.yaml';
-import zh from '../i18n/zh.yaml';
-import ja from '../i18n/ja.yaml';
-import de from '../i18n/de.yaml';
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+import ja from '../i18n/ja.json';
+import de from '../i18n/de.json';
 
 export const locales = ['zh', 'en', 'ja', 'de'] as const;
 export type Locale = (typeof locales)[number];

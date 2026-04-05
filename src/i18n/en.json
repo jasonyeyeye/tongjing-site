@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About Us",
+    "contact": "Contact",
+    "news": "News"
+  },
+  "hero": {
+    "title": "Precision Crystal Solutions",
+    "subtitle": "Professional manufacturer of crystal resonators, oscillators and RTC modules",
+    "cta": "View Products"
+  },
+  "product": {
+    "title": "Products",
+    "resonators": "Crystal Resonators",
+    "oscillators": "Crystal Oscillators",
+    "rtc": "RTC Modules",
+    "viewDetail": "View Details",
+    "parameters": "Parameters"
+  },
+  "footer": {
+    "address": "Address",
+    "email": "Email",
+    "phone": "Phone",
+    "copyright": "© 2024 TongJing Electronics. All rights reserved."
+  },
+  "seo": {
+    "title": "TongJing Electronics - Crystal Resonator Manufacturer",
+    "description": "Professional manufacturer of quartz crystal resonators, oscillators and RTC modules in Hefei, China."
+  }
+}
