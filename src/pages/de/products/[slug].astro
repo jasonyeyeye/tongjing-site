@@ -1,0 +1,244 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/layout/Container.astro';
+import ParameterGroup from '../../../components/product/ParameterGroup.astro';
+import CrossReference from '../../../components/product/CrossReference.astro';
+import ProductCard from '../../../components/product/ProductCard.astro';
+import Badge from '../../../components/ui/Badge.astro';
+import Button from '../../../components/ui/Button.astro';
+import InquiryForm from '../../../components/form/InquiryForm.astro';
+import { useTranslations } from '../../../utils/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'tj3225k' } },
+    { params: { slug: 'tj2520k' } },
+    { params: { slug: 'tj2016k' } },
+    { params: { slug: 'tj3225o' } },
+    { params: { slug: 'tj1610k' } },
+    { params: { slug: 'tj2520o' } },
+  ];
+}
+
+const t = useTranslations('de');
+
+const parameterGroups = [
+  {
+    title: '基本信息',
+    collapsible: false,
+    parameters: [
+      { name: '型号', value: 'TJ3225K-26.000M', highlight: true },
+      { name: '品牌', value: 'TongJing (同晶)' },
+      { name: '封装', value: 'SMD 3225 (3.2×2.5×0.8mm)' },
+      { name: '包装', value: '编带包装, 3000pcs/reel' },
+    ],
+  },
+  {
+    title: '频率参数',
+    collapsible: false,
+    parameters: [
+      { name: '标称频率', value: '26.000 MHz', highlight: true },
+      { name: '频率偏差', value: '±10 ppm', highlight: true },
+      { name: '负载电容', value: '12 pF', highlight: true },
+      { name: '并联电容', value: '3 pF Max' },
+      { name: '频率温度特性', value: '-40°C to +85°C' },
+    ],
+  },
+  {
+    title: '电气参数',
+    collapsible: true,
+    defaultOpen: false,
+    parameters: [
+      { name: '动态电阻 (RR)', value: '30 Ω Max', highlight: true },
+      { name: '激励功率', value: '100 μW Max' },
+      { name: '品质因数 Q', value: '40,000 Typ' },
+      { name: ' shunt Capacitance', value: '3 pF Max' },
+      { name: '绝缘电阻', value: '500 MΩ Min' },
+    ],
+  },
+  {
+    title: '环境参数',
+    collapsible: true,
+    defaultOpen: false,
+    parameters: [
+      { name: '工作温度', value: '-40°C to +85°C' },
+      { name: '存储温度', value: '-55°C to +125°C' },
+      { name: '频率老化', value: '±3 ppm/year Max' },
+      { name: '耐焊接热', value: '+260°C for 10 sec' },
+    ],
+  },
+];
+
+const certifications = ['RoHS', 'REACH', '无卤', 'AEC-Q200'];
+
+const crossRefProducts = [
+  { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225' },
+  { tongjing: 'TJ2520K-24M', epson: 'FA-128', ndk: 'NX2520SA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520' },
+  { tongjing: 'TJ2016K-16M', epson: 'FA-1608', ndk: 'NX2012SA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016' },
+];
+
+const relatedProducts = [
+  { model: 'TJ3225K-24.000M', frequency: '24MHz', tolerance: '±10ppm', package: 'SMD3225', stock: '480,000 PCS', priceRange: '$0.08 - $0.11', badge: 'default' as const, href: '/zh/products/tj3225k-24' },
+  { model: 'TJ3225K-25.000M', frequency: '25MHz', tolerance: '±10ppm', package: 'SMD3225', stock: '350,000 PCS', priceRange: '$0.08 - $0.11', badge: 'default' as const, href: '/zh/products/tj3225k-25' },
+  { model: 'TJ3225K-27.000M', frequency: '27MHz', tolerance: '±10ppm', package: 'SMD3225', stock: '220,000 PCS', priceRange: '$0.08 - $0.12', badge: 'default' as const, href: '/zh/products/tj3225k-27' },
+  { model: 'TJ3225K-32.000M', frequency: '32MHz', tolerance: '±10ppm', package: 'SMD3225', stock: '150,000 PCS', priceRange: '$0.09 - $0.13', badge: 'default' as const, href: '/zh/products/tj3225k-32' },
+];
+---
+
+<BaseLayout title={`TJ3225K-26.000M - ${t.seo.title}`} description={t.seo.description}>
+  <!-- Breadcrumb -->
+  <div class="bg-light-gray py-3">
+    <Container>
+      <nav class="flex items-center gap-2 text-sm text-mid-gray">
+        <a href={`/${'zh'}`} class="hover:text-charcoal">首页</a>
+        <span>/</span>
+        <a href={`/${'zh'}/products`} class="hover:text-charcoal">产品中心</a>
+        <span>/</span>
+        <a href={`/${'zh'}/products/resonators`} class="hover:text-charcoal">谐振器</a>
+        <span>/</span>
+        <span class="text-charcoal">TJ3225K-26.000M</span>
+      </nav>
+    </Container>
+  </div>
+
+  <!-- Product Overview -->
+  <section class="py-12">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Images -->
+        <div>
+          <div class="aspect-square bg-light-gray rounded-xl mb-4 flex items-center justify-center">
+            <svg class="w-32 h-32 text-mid-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="grid grid-cols-4 gap-2">
+            {[1, 2, 3, 4].map(() => (
+              <div class="aspect-square bg-light-gray rounded-lg"></div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <Badge variant="hot">热销</Badge>
+          </div>
+          <h1 class="text-2xl font-bold font-mono text-charcoal mb-2">TJ3225K-26.000M</h1>
+          <p class="text-mid-gray mb-6">TongJing (同晶) · SMD3225 (3.2×2.5×0.8mm)</p>
+
+          <!-- Quick Specs -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-light-gray rounded-lg p-4">
+              <p class="text-xs text-mid-gray mb-1">标称频率</p>
+              <p class="font-semibold text-crystal-orange">26.000 MHz</p>
+            </div>
+            <div class="bg-light-gray rounded-lg p-4">
+              <p class="text-xs text-mid-gray mb-1">频率偏差</p>
+              <p class="font-semibold">±10 ppm</p>
+            </div>
+            <div class="bg-light-gray rounded-lg p-4">
+              <p class="text-xs text-mid-gray mb-1">负载电容</p>
+              <p class="font-semibold">12 pF</p>
+            </div>
+            <div class="bg-light-gray rounded-lg p-4">
+              <p class="text-xs text-mid-gray mb-1">动态电阻</p>
+              <p class="font-semibold">30 Ω Max</p>
+            </div>
+          </div>
+
+          <!-- Stock & Price -->
+          <div class="bg-success/10 border border-success/20 rounded-lg p-4 mb-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-success font-medium flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  现货库存
+                </p>
+                <p class="text-lg font-bold text-charcoal mt-1">500,000 PCS</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm text-mid-gray">价格区间</p>
+                <p class="text-xl font-bold text-crystal-orange">$0.08 - $0.12</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col gap-3">
+            <div class="flex gap-3">
+              <div class="flex items-center border border-light-gray rounded-lg">
+                <button class="px-4 py-2 text-mid-gray hover:bg-light-gray transition-colors">-</button>
+                <input type="number" value="3000" class="w-20 text-center border-none focus:ring-0" />
+                <button class="px-4 py-2 text-mid-gray hover:bg-light-gray transition-colors">+</button>
+              </div>
+              <span class="flex items-center text-sm text-mid-gray">pcs</span>
+            </div>
+            <div class="flex gap-3">
+              <Button variant="primary" size="lg" class="flex-1">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                加入询价
+              </Button>
+              <Button variant="outline" size="lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Datasheet
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Detailed Parameters -->
+  <section class="py-12 bg-light-gray">
+    <Container>
+      <h2 class="text-2xl font-bold text-charcoal mb-6">{t.product.parameters}</h2>
+      <ParameterGroup groups={parameterGroups} certifications={certifications} />
+    </Container>
+  </section>
+
+  <!-- Cross Reference -->
+  <section class="py-12">
+    <Container>
+      <h2 class="text-2xl font-bold text-charcoal mb-6">替代型号对照 / Cross Reference</h2>
+      <CrossReference products={crossRefProducts} />
+    </Container>
+  </section>
+
+  <!-- Related Products -->
+  <section class="py-12 bg-light-gray">
+    <Container>
+      <h2 class="text-2xl font-bold text-charcoal mb-6">相关产品</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {relatedProducts.map((product) => (
+          <ProductCard
+            model={product.model}
+            frequency={product.frequency}
+            tolerance={product.tolerance}
+            package={product.package}
+            stock={product.stock}
+            priceRange={product.priceRange}
+            badge={product.badge}
+            href={product.href}
+          />
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Inquiry Form -->
+  <section class="py-12">
+    <Container>
+      <div class="max-w-4xl mx-auto">
+        <InquiryForm products={[{ model: 'TJ3225K-26.000M', quantity: 3000 }]} />
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/layout/Container.astro';
+import Button from '../../../components/ui/Button.astro';
+import { useTranslations } from '../../../utils/i18n';
+
+const t = useTranslations('ja');
+
+const categories = [
+  { key: 'all', label: t.news.categories.all },
+  { key: 'tech', label: t.news.categories.tech },
+  { key: 'industry', label: t.news.categories.industry },
+  { key: 'company', label: t.news.categories.company },
+];
+
+const articles = [
+  {
+    title: '石英晶体谐振器的工作原理与应用',
+    category: 'tech',
+    date: '2026-03-15',
+    excerpt: '石英晶体谐振器是基于石英晶体的压电效应工作的精密电子元件...',
+    image: null,
+  },
+  {
+    title: '2026年晶振行业发展趋势分析',
+    category: 'industry',
+    date: '2026-03-10',
+    excerpt: '随着5G通信、汽车电子、物联网等领域的快速发展，晶振需求持续增长...',
+    image: null,
+  },
+  {
+    title: '同晶电子通过AEC-Q100认证',
+    category: 'company',
+    date: '2026-02-28',
+    excerpt: '热烈祝贺我司 RTC 模块产品线顺利通过 AEC-Q100 汽车级认证...',
+    image: null,
+  },
+  {
+    title: '如何选择合适的晶体谐振器封装',
+    category: 'tech',
+    date: '2026-02-20',
+    excerpt: '晶体谐振器的封装选择需要考虑尺寸、频率范围、精度要求等因素...',
+    image: null,
+  },
+];
+---
+
+<BaseLayout title={`${t.news.title} - ${t.seo.title}`} description={t.seo.description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-brand-blue to-deep-navy text-white py-12">
+    <Container>
+      <h1 class="text-3xl font-bold mb-2">{t.news.title}</h1>
+      <p class="text-white/80">技术文章、行业动态、公司新闻</p>
+    </Container>
+  </section>
+
+  <!-- Categories -->
+  <section class="py-6 border-b border-light-gray">
+    <Container>
+      <div class="flex flex-wrap gap-2">
+        {categories.map((cat) => (
+          <button class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            cat.key === 'all' ? 'bg-crystal-orange text-white' : 'bg-light-gray text-charcoal hover:bg-mid-gray hover:text-white'
+          }`}>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Articles -->
+  <section class="py-12">
+    <Container>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {articles.map((article) => (
+          <article class="bg-white rounded-xl border border-light-gray overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="aspect-video bg-light-gray flex items-center justify-center">
+              <svg class="w-16 h-16 text-mid-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <span class={`px-2 py-0.5 text-xs rounded ${
+                  article.category === 'tech' ? 'bg-tech-blue/10 text-tech-blue' :
+                  article.category === 'industry' ? 'bg-warning/10 text-warning' :
+                  'bg-success/10 text-success'
+                }`}>
+                  {article.category === 'tech' ? '技术文章' : article.category === 'industry' ? '行业动态' : '公司新闻'}
+                </span>
+                <span class="text-xs text-mid-gray">{article.date}</span>
+              </div>
+              <h2 class="text-lg font-semibold text-charcoal mb-2 hover:text-crystal-orange transition-colors cursor-pointer">
+                {article.title}
+              </h2>
+              <p class="text-sm text-mid-gray line-clamp-2">{article.excerpt}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center gap-2 mt-12">
+        <Button variant="outline" size="sm" disabled>上一页</Button>
+        <Button variant="primary" size="sm">1</Button>
+        <Button variant="outline" size="sm">2</Button>
+        <Button variant="outline" size="sm">3</Button>
+        <Button variant="outline" size="sm">下一页</Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

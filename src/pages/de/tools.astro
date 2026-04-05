@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import CrossReference from '../../components/product/CrossReference.astro';
+import Button from '../../components/ui/Button.astro';
+import { useTranslations } from '../../utils/i18n';
+
+const t = useTranslations('de');
+
+const allProducts = [
+  { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225' },
+  { tongjing: 'TJ3225K-24M', epson: 'FA-238V', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225' },
+  { tongjing: 'TJ2520K-24M', epson: 'FA-128', ndk: 'NX2520SA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520' },
+  { tongjing: 'TJ2520K-25M', epson: 'FA-128', ndk: 'NX2520GA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520' },
+  { tongjing: 'TJ2016K-16M', epson: 'FA-1608', ndk: 'NX2012SA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016' },
+  { tongjing: 'TJ2016K-24M', epson: 'FA-1608', ndk: 'NX2012GA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016' },
+  { tongjing: 'TJ1610K-12M', epson: 'FA-1612', ndk: 'NX1612SA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610' },
+  { tongjing: 'TJ1610K-24M', epson: 'FA-1612', ndk: 'NX1612GA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610' },
+];
+
+const brands = ['全部', 'EPSON', 'NDK', 'KDS', '村田'];
+---
+
+<BaseLayout title={`选型工具 - ${t.seo.title}`} description={t.seo.description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-brand-blue to-deep-navy text-white py-12">
+    <Container>
+      <h1 class="text-3xl font-bold mb-2">{t.nav.tools}</h1>
+      <p class="text-white/80">快速查找替代型号，对标 EPSON / NDK / KDS / 村田</p>
+    </Container>
+  </section>
+
+  <!-- Search -->
+  <section class="py-12 bg-light-gray">
+    <Container>
+      <div class="max-w-5xl mx-auto">
+        <div class="bg-white rounded-xl border border-light-gray p-6">
+          <h2 class="text-lg font-semibold text-charcoal mb-4">品牌对标搜索</h2>
+          <div class="flex flex-wrap gap-3 mb-4">
+            {brands.map((brand, index) => (
+              <button class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                index === 0 ? 'bg-crystal-orange text-white' : 'bg-light-gray text-charcoal hover:bg-mid-gray hover:text-white'
+              }`}>
+                {brand}
+              </button>
+            ))}
+          </div>
+          <div class="flex gap-3">
+            <input
+              type="search"
+              placeholder="输入 EPSON / NDK / KDS / 村田 型号进行搜索..."
+              class="flex-1 h-12 px-4 rounded-lg border border-light-gray focus:border-tech-blue focus:ring-1 focus:ring-tech-blue transition-colors"
+            />
+            <Button variant="primary" size="lg">搜索</Button>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="text-xs text-mid-gray">热门搜索:</span>
+            {['FA-238', 'NX3225GA', 'DSX211G', 'CRSS2012', 'FA-128'].map((s) => (
+              <span class="text-xs text-tech-blue bg-tech-blue/10 px-2 py-1 rounded cursor-pointer hover:bg-tech-blue/20">{s}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Full Table -->
+  <section class="py-12">
+    <Container>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-charcoal">完整型号对照表</h2>
+        <Button variant="outline" size="sm">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          导出Excel
+        </Button>
+      </div>
+      <CrossReference products={allProducts} />
+    </Container>
+  </section>
+
+  <!-- Selection Guide -->
+  <section class="py-12 bg-light-gray">
+    <Container>
+      <h2 class="text-2xl font-bold text-charcoal mb-6">选型指南</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6">
+          <div class="text-3xl mb-4">📦</div>
+          <h3 class="font-semibold text-charcoal mb-2">封装选择</h3>
+          <p class="text-sm text-mid-gray">根据板级空间选择合适的封装尺寸，从 3225 到 1610，我司提供全系列</p>
+        </div>
+        <div class="bg-white rounded-xl p-6">
+          <div class="text-3xl mb-4">🎯</div>
+          <h3 class="font-semibold text-charcoal mb-2">频率精度</h3>
+          <p class="text-sm text-mid-gray">普通应用选 ±30ppm，通信设备选 ±10ppm，高精度需求可定制</p>
+        </div>
+        <div class="bg-white rounded-xl p-6">
+          <div class="text-3xl mb-4">💰</div>
+          <h3 class="font-semibold text-charcoal mb-2">负载电容</h3>
+          <p class="text-sm text-mid-gray">常见 12pF、8pF、20pF，需与驱动电路匹配，详情见Datasheet</p>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
