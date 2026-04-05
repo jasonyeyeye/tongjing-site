@@ -1,6 +1,7 @@
 ---
 import Badge from '../ui/Badge.astro';
 import Button from '../ui/Button.astro';
+import { getLocaleFromUrl, useTranslations } from '../../utils/i18n';
 
 interface Props {
   model: string;
@@ -32,17 +33,32 @@ const {
   href,
 } = Astro.props;
 
-const badgeLabels = {
-  hot: 'Hot',
-  new: 'New',
-  default: 'Standard',
-  discontinued: 'Discontinued',
-  futures: 'Future',
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const badgeLabels: Record<string, string> = {
+  hot: locale === 'zh' ? '热销' : locale === 'ja' ? '热销' : locale === 'de' ? 'Heiß' : 'Hot',
+  new: locale === 'zh' ? '新品' : locale === 'ja' ? '新型' : locale === 'de' ? 'Neu' : 'New',
+  default: locale === 'zh' ? '常规' : locale === 'ja' ? '通常' : locale === 'de' ? 'Standard' : 'Standard',
+  discontinued: locale === 'zh' ? '停产' : locale === 'ja' ? '生産中止' : locale === 'de' ? 'Eingestellt' : 'Discontinued',
+  futures: locale === 'zh' ? '期货' : locale === 'ja' ? '先物' : locale === 'de' ? 'Zukunft' : 'Future',
+};
+
+const labels = {
+  freq: locale === 'zh' ? '频率' : locale === 'ja' ? '周波数' : locale === 'de' ? 'Frequenz' : 'Freq',
+  tolerance: locale === 'zh' ? '精度' : locale === 'ja' ? '許容差' : locale === 'de' ? 'Toleranz' : 'Tolerance',
+  package: locale === 'zh' ? '封装' : locale === 'ja' ? 'パッケージ' : locale === 'de' ? 'Gehäuse' : 'Package',
+  load: locale === 'zh' ? '负载电容' : locale === 'ja' ? '負荷容量' : locale === 'de' ? 'Last' : 'Load',
+  esr: locale === 'zh' ? '等效串联电阻' : locale === 'ja' ? '等価直列抵抗' : locale === 'de' ? 'ESR' : 'ESR',
+  stock: locale === 'zh' ? '库存' : locale === 'ja' ? '在庫' : locale === 'de' ? 'Bestand' : 'Stock',
+  datasheet: locale === 'zh' ? '数据手册' : locale === 'ja' ? 'データシート' : locale === 'de' ? 'Datenblatt' : 'Datasheet',
+  details: locale === 'zh' ? '详情' : locale === 'ja' ? '詳細' : locale === 'de' ? 'Details' : 'Details',
+  inquiry: locale === 'zh' ? '询价' : locale === 'ja' ? 'Inquiry' : locale === 'de' ? 'Anfrage' : 'Inquiry',
 };
 ---
 
 <div class="group relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-out-expo overflow-hidden">
-  <!-- Glow effect on hover (behind the card) -->
+  <!-- Glow effect on hover -->
   <div class="absolute -inset-1 bg-gradient-to-br from-cosmic-400/20 to-aurora-400/20 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300 -z-10"></div>
 
   <!-- Image -->
@@ -88,26 +104,26 @@ const badgeLabels = {
     <!-- Core Parameters -->
     <dl class="space-y-1.5 text-sm mb-5">
       <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
-        <dt class="text-gray-400 text-xs w-16">Freq</dt>
+        <dt class="text-gray-400 text-xs w-16">{labels.freq}</dt>
         <dd class="text-gray-700 font-medium">{frequency}</dd>
       </div>
       <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
-        <dt class="text-gray-400 text-xs w-16">Tolerance</dt>
+        <dt class="text-gray-400 text-xs w-16">{labels.tolerance}</dt>
         <dd class="text-gray-700 font-medium">{tolerance}</dd>
       </div>
       <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
-        <dt class="text-gray-400 text-xs w-16">Package</dt>
+        <dt class="text-gray-400 text-xs w-16">{labels.package}</dt>
         <dd class="text-gray-700 font-medium">{packageType}</dd>
       </div>
       {loadCapacitance && (
         <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
-          <dt class="text-gray-400 text-xs w-16">Load</dt>
+          <dt class="text-gray-400 text-xs w-16">{labels.load}</dt>
           <dd class="text-gray-700 font-medium">{loadCapacitance}</dd>
         </div>
       )}
       {esr && (
         <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
-          <dt class="text-gray-400 text-xs w-16">ESR</dt>
+          <dt class="text-gray-400 text-xs w-16">{labels.esr}</dt>
           <dd class="text-gray-700 font-medium">{esr}</dd>
         </div>
       )}
@@ -119,7 +135,7 @@ const badgeLabels = {
         <div class="flex items-center justify-between text-sm">
           <span class="flex items-center gap-2 text-success">
             <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span>
-            Stock: {stock}
+            {labels.stock}: {stock}
           </span>
         </div>
         {priceRange && (
@@ -134,19 +150,19 @@ const badgeLabels = {
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
-        Datasheet
+        {labels.datasheet}
       </button>
       <a
         href={href}
         class="px-3 py-2 rounded-lg text-cosmic-600 hover:bg-cosmic-50 transition-all duration-200 text-xs font-medium text-center"
       >
-        Details
+        {labels.details}
       </a>
       <a
         href={`${href}?inquiry=true`}
         class="px-3 py-2 rounded-lg bg-gradient-to-br from-aurora-400 to-aurora-500 text-white font-medium text-xs text-center shadow-[0_2px_8px_rgba(249,115,22,0.25)] hover:shadow-[0_4px_12px_rgba(249,115,22,0.35)] hover:from-aurora-300 hover:to-aurora-400 transition-all duration-200"
       >
-        Inquiry
+        {labels.inquiry}
       </a>
     </div>
   </div>
