@@ -1,3 +1,255 @@
 ---
-return Astro.redirect('/en/');
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import ProductCard from '../components/product/ProductCard.astro';
+import Button from '../components/ui/Button.astro';
+import { useTranslations } from '../utils/i18n';
+
+const t = useTranslations('en');
+
+const features = [
+  {
+    icon: '🏭',
+    title: t.about.strengths.automation.title,
+    desc: t.about.strengths.automation.desc,
+  },
+  {
+    icon: '⚡',
+    title: t.about.strengths.quality.title,
+    desc: t.about.strengths.quality.desc,
+  },
+  {
+    icon: '🎯',
+    title: t.about.strengths.direct.title,
+    desc: t.about.strengths.direct.desc,
+  },
+  {
+    icon: '🔬',
+    title: t.about.strengths.capacity.title,
+    desc: t.about.strengths.capacity.desc,
+  },
+];
+
+const featuredProducts = [
+  {
+    model: 'TJ3225K-26.000M',
+    frequency: '26MHz',
+    tolerance: '±10ppm',
+    package: 'SMD3225',
+    loadCapacitance: '12pF',
+    esr: '30Ω',
+    stock: '500,000 PCS',
+    priceRange: '$0.08 - $0.12',
+    badge: 'hot' as const,
+    href: '/products/tj3225k',
+  },
+  {
+    model: 'TJ2520K-24.000M',
+    frequency: '24MHz',
+    tolerance: '±20ppm',
+    package: 'SMD2520',
+    loadCapacitance: '12pF',
+    esr: '40Ω',
+    stock: '320,000 PCS',
+    priceRange: '$0.07 - $0.10',
+    badge: 'new' as const,
+    href: '/products/tj2520k',
+  },
+  {
+    model: 'TJ2016K-16.000M',
+    frequency: '16MHz',
+    tolerance: '±10ppm',
+    package: 'SMD2016',
+    loadCapacitance: '8pF',
+    esr: '50Ω',
+    stock: '180,000 PCS',
+    priceRange: '$0.06 - $0.09',
+    badge: 'default' as const,
+    href: '/products/tj2016k',
+  },
+  {
+    model: 'TJ3225O-25.000M',
+    frequency: '25MHz',
+    tolerance: '±50ppm',
+    package: 'SMD3225',
+    loadCapacitance: '20pF',
+    esr: '30Ω',
+    stock: 'Futures 2 weeks',
+    badge: 'futures' as const,
+    href: '/products/tj3225o',
+  },
+];
 ---
+
+<BaseLayout title={t.seo.title} description={t.seo.description}>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-[#1E3A5F] to-[#0F172A] text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.4%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    <Container class="relative py-20 lg:py-32">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+          {t.hero.title}
+        </h1>
+        <p class="text-xl text-white/80 mb-8 leading-relaxed">
+          {t.hero.subtitle}
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <Button variant="primary" size="lg" href="/products">
+            {t.hero.cta}
+          </Button>
+          <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-[#1E3A5F]" href="/contact">
+            {t.hero.ctaSecondary}
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="py-16 bg-[#F8FAFC]">
+    <Container>
+      <h2 class="text-3xl font-bold text-center text-[#1E293B] mb-12">Core Advantages</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {features.map((feature) => (
+          <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="text-4xl mb-4">{feature.icon}</div>
+            <h3 class="text-lg font-semibold text-[#1E293B] mb-2">{feature.title}</h3>
+            <p class="text-sm text-[#94A3B8]">{feature.desc}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Product Categories -->
+  <section class="py-16">
+    <Container>
+      <h2 class="text-3xl font-bold text-center text-[#1E293B] mb-12">{t.product.title}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="/products/resonators" class="group bg-[#F8FAFC] rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-[#1E3A5F]/10 to-[#2563EB]/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-[#1E3A5F]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#1E293B] group-hover:text-[#F97316] transition-colors mb-2">
+              {t.product.resonators}
+            </h3>
+            <p class="text-sm text-[#94A3B8] mb-4">Crystal Resonator</p>
+            <p class="text-sm text-[#475569]">3225 / 2520 / 2016 Package</p>
+          </div>
+        </a>
+
+        <a href="/products/oscillators" class="group bg-[#F8FAFC] rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-[#F97316]/10 to-[#EA580C]/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-[#F97316]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#1E293B] group-hover:text-[#F97316] transition-colors mb-2">
+              {t.product.oscillators}
+            </h3>
+            <p class="text-sm text-[#94A3B8] mb-4">Crystal Oscillator</p>
+            <p class="text-sm text-[#475569]">Precision up to ±10ppm</p>
+          </div>
+        </a>
+
+        <a href="/products/rtc" class="group bg-[#F8FAFC] rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-[#10B981]/10 to-[#3B82F6]/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-[#10B981]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#1E293B] group-hover:text-[#F97316] transition-colors mb-2">
+              {t.product.rtc}
+            </h3>
+            <p class="text-sm text-[#94A3B8] mb-4">RTC Module</p>
+            <p class="text-sm text-[#475569]">3215 / 2012 / 1610 Package</p>
+          </div>
+        </a>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-16 bg-[#F8FAFC]">
+    <Container>
+      <div class="flex items-center justify-between mb-12">
+        <h2 class="text-3xl font-bold text-[#1E293B]">Featured Products</h2>
+        <a href="/products" class="text-[#F97316] font-medium hover:underline flex items-center gap-1">
+          View All
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {featuredProducts.map((product) => (
+          <ProductCard
+            model={product.model}
+            frequency={product.frequency}
+            tolerance={product.tolerance}
+            package={product.package}
+            loadCapacitance={product.loadCapacitance}
+            esr={product.esr}
+            stock={product.stock}
+            priceRange={product.priceRange}
+            badge={product.badge}
+            href={product.href}
+          />
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Cross Reference Search -->
+  <section class="py-16 bg-white">
+    <Container>
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-[#1E293B] mb-4">Cross Reference · Alternative Part Search</h2>
+        <p class="text-[#94A3B8] mb-8">Quick search for EPSON / NDK / KDS / Murata alternatives</p>
+        <div class="flex gap-3">
+          <input
+            type="search"
+            placeholder="Enter EPSON / NDK / KDS / Murata part number..."
+            class="flex-1 h-12 px-4 rounded-lg border border-[#E2E8F0] focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors"
+          />
+          <Button variant="primary" size="lg">Search</Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Certifications -->
+  <section class="py-16 bg-[#1E3A5F] text-white">
+    <Container>
+      <h2 class="text-2xl font-bold text-center mb-8">Certifications</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {['ISO9001', 'ISO14001', 'RoHS', 'REACH', 'AEC-Q100', 'Halogen Free'].map((cert) => (
+          <span class="px-6 py-3 bg-white/10 rounded-lg font-medium">{cert}</span>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white">
+    <Container class="text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold mb-4">Ready to Start Your Project?</h2>
+      <p class="text-lg text-white/90 mb-8">Contact our technical team for professional selection support</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <Button variant="secondary" size="lg" href="/contact" class="bg-white text-[#F97316] hover:bg-[#F8FAFC]">
+          Get Quote
+        </Button>
+        <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-[#F97316]">
+          Download Catalog
+        </Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
