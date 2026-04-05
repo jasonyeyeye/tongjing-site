@@ -1,0 +1,66 @@
+---
+import { locales, type Locale } from '../../utils/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const currentPath = Astro.url.pathname;
+const pathWithoutLocale = currentPath.replace(/^\/(zh|en|ja|de)/, '') || '/';
+
+const localeNames: Record<Locale, string> = {
+  zh: '中文',
+  en: 'EN',
+  ja: '日本語',
+  de: 'DE',
+};
+---
+
+<div class="relative">
+  <button
+    id="lang-switch"
+    class="flex items-center gap-1 px-3 py-1.5 text-sm text-charcoal border border-light-gray rounded-lg hover:border-brand-blue transition-colors"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+    </svg>
+    {localeNames[locale]}
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div
+    id="lang-dropdown"
+    class="hidden absolute right-0 mt-1 w-28 bg-white border border-light-gray rounded-lg shadow-lg z-50"
+  >
+    {locales.map((loc) => (
+      <a
+        href={`/${loc}${pathWithoutLocale}`}
+        class={`block px-4 py-2 text-sm first:rounded-t-lg last:rounded-b-lg ${
+          loc === locale
+            ? 'text-crystal-orange font-medium bg-light-gray'
+            : 'text-charcoal hover:bg-light-gray'
+        }`}
+      >
+        {localeNames[loc]}
+      </a>
+    ))}
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById('lang-switch');
+  const dropdown = document.getElementById('lang-dropdown');
+
+  btn?.addEventListener('click', () => {
+    dropdown?.classList.toggle('hidden');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!btn?.contains(e.target as Node) && !dropdown?.contains(e.target as Node)) {
+      dropdown?.classList.add('hidden');
+    }
+  });
+</script>

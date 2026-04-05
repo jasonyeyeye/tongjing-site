@@ -1,35 +1,278 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Hero from '../../components/Hero.astro';
-import ProductCard from '../../components/ProductCard.astro';
+import Container from '../../components/layout/Container.astro';
+import ProductCard from '../../components/product/ProductCard.astro';
+import Button from '../../components/ui/Button.astro';
 import { useTranslations } from '../../utils/i18n';
 
 const t = useTranslations('zh');
+
+const features = [
+  {
+    icon: '🏭',
+    title: t.about.strengths.automation.title,
+    desc: t.about.strengths.automation.desc,
+  },
+  {
+    icon: '⚡',
+    title: t.about.strengths.quality.title,
+    desc: t.about.strengths.quality.desc,
+  },
+  {
+    icon: '🎯',
+    title: t.about.strengths.direct.title,
+    desc: t.about.strengths.direct.desc,
+  },
+  {
+    icon: '🔬',
+    title: t.about.strengths.capacity.title,
+    desc: t.about.strengths.capacity.desc,
+  },
+];
+
+const featuredProducts = [
+  {
+    model: 'TJ3225K-26.000M',
+    frequency: '26MHz',
+    tolerance: '±10ppm',
+    package: 'SMD3225',
+    loadCapacitance: '12pF',
+    esr: '30Ω',
+    stock: '500,000 PCS',
+    priceRange: '$0.08 - $0.12',
+    badge: 'hot' as const,
+    href: '/zh/products/tj3225k',
+  },
+  {
+    model: 'TJ2520K-24.000M',
+    frequency: '24MHz',
+    tolerance: '±20ppm',
+    package: 'SMD2520',
+    loadCapacitance: '12pF',
+    esr: '40Ω',
+    stock: '320,000 PCS',
+    priceRange: '$0.07 - $0.10',
+    badge: 'new' as const,
+    href: '/zh/products/tj2520k',
+  },
+  {
+    model: 'TJ2016K-16.000M',
+    frequency: '16MHz',
+    tolerance: '±10ppm',
+    package: 'SMD2016',
+    loadCapacitance: '8pF',
+    esr: '50Ω',
+    stock: '180,000 PCS',
+    priceRange: '$0.06 - $0.09',
+    badge: 'default' as const,
+    href: '/zh/products/tj2016k',
+  },
+  {
+    model: 'TJ3225O-25.000M',
+    frequency: '25MHz',
+    tolerance: '±50ppm',
+    package: 'SMD3225',
+    loadCapacitance: '20pF',
+    esr: '30Ω',
+    stock: '期货 2周',
+    badge: 'futures' as const,
+    href: '/zh/products/tj3225o',
+  },
+];
 ---
 
 <BaseLayout title={t.seo.title} description={t.seo.description}>
-  <Hero locale="zh" />
-  
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">{t.product.title}</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <ProductCard
-          title={t.product.resonators}
-          description="HC-49S/SMD 贴片谐振器，频率范围 3.2MHz~100MHz"
-          href="/zh/products/resonators"
-        />
-        <ProductCard
-          title={t.product.oscillators}
-          description="石英晶体振荡器，精度可达 ±10ppm"
-          href="/zh/products/oscillators"
-        />
-        <ProductCard
-          title={t.product.rtc}
-          description="实时时钟模块，集成晶体和补偿电路"
-          href="/zh/products/rtc"
-        />
-      </div>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-brand-blue to-deep-navy text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.4%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
     </div>
+    <Container class="relative py-20 lg:py-32">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+          {t.hero.title}
+        </h1>
+        <p class="text-xl text-white/80 mb-8 leading-relaxed">
+          {t.hero.subtitle}
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <Button variant="primary" size="lg" href={`/${'zh'}/products`}>
+            {t.hero.cta}
+          </Button>
+          <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-brand-blue" href={`/${'zh'}/contact`}>
+            {t.hero.ctaSecondary}
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="py-16 bg-light-gray">
+    <Container>
+      <h2 class="text-3xl font-bold text-center text-charcoal mb-12">核心优势</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {features.map((feature) => (
+          <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="text-4xl mb-4">{feature.icon}</div>
+            <h3 class="text-lg font-semibold text-charcoal mb-2">{feature.title}</h3>
+            <p class="text-sm text-mid-gray">{feature.desc}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Product Categories -->
+  <section class="py-16">
+    <Container>
+      <h2 class="text-3xl font-bold text-center text-charcoal mb-12">{t.product.title}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href={`/${'zh'}/products/resonators`} class="group bg-light-gray rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-brand-blue/10 to-tech-blue/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-brand-blue/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-charcoal group-hover:text-crystal-orange transition-colors mb-2">
+              {t.product.resonators}
+            </h3>
+            <p class="text-sm text-mid-gray mb-4">Crystal Resonator</p>
+            <p class="text-sm text-dark-gray">3225 / 2520 / 2016 封装</p>
+            <span class="inline-flex items-center text-crystal-orange text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
+              {t.product.viewDetail}
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href={`/${'zh'}/products/oscillators`} class="group bg-light-gray rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-crystal-orange/10 to-sunset-orange/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-crystal-orange/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-charcoal group-hover:text-crystal-orange transition-colors mb-2">
+              {t.product.oscillators}
+            </h3>
+            <p class="text-sm text-mid-gray mb-4">Crystal Oscillator</p>
+            <p class="text-sm text-dark-gray">精度可达 ±10ppm</p>
+            <span class="inline-flex items-center text-crystal-orange text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
+              {t.product.viewDetail}
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href={`/${'zh'}/products/rtc`} class="group bg-light-gray rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-success/10 to-tech-blue/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-success/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-charcoal group-hover:text-crystal-orange transition-colors mb-2">
+              {t.product.rtc}
+            </h3>
+            <p class="text-sm text-mid-gray mb-4">RTC Module</p>
+            <p class="text-sm text-dark-gray">3215 / 2012 / 1610 封装</p>
+            <span class="inline-flex items-center text-crystal-orange text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
+              {t.product.viewDetail}
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-16 bg-light-gray">
+    <Container>
+      <div class="flex items-center justify-between mb-12">
+        <h2 class="text-3xl font-bold text-charcoal">精选产品</h2>
+        <a href={`/${'zh'}/products`} class="text-crystal-orange font-medium hover:underline flex items-center gap-1">
+          查看全部
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {featuredProducts.map((product) => (
+          <ProductCard
+            model={product.model}
+            frequency={product.frequency}
+            tolerance={product.tolerance}
+            package={product.package}
+            loadCapacitance={product.loadCapacitance}
+            esr={product.esr}
+            stock={product.stock}
+            priceRange={product.priceRange}
+            badge={product.badge}
+            href={product.href}
+          />
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Cross Reference Search -->
+  <section class="py-16 bg-white">
+    <Container>
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-charcoal mb-4">日系对标 · 替代型号查询</h2>
+        <p class="text-mid-gray mb-8">快速查找 EPSON / NDK / KDS / 村田 替代型号</p>
+        <div class="flex gap-3">
+          <input
+            type="search"
+            placeholder="输入 EPSON / NDK / KDS / 村田 型号..."
+            class="flex-1 h-12 px-4 rounded-lg border border-light-gray focus:border-tech-blue focus:ring-1 focus:ring-tech-blue transition-colors"
+          />
+          <Button variant="primary" size="lg">搜索</Button>
+        </div>
+        <div class="flex flex-wrap justify-center gap-2 mt-4">
+          {['EPSON FA-238', 'NDK NX3225GA', 'KDS DSX211G', '村田 CRSS2012'].map((example) => (
+            <span class="text-xs text-mid-gray bg-light-gray px-2 py-1 rounded">{example}</span>
+          ))}
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Certifications -->
+  <section class="py-16 bg-brand-blue text-white">
+    <Container>
+      <h2 class="text-2xl font-bold text-center mb-8">资质证书</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {['ISO9001', 'ISO14001', 'RoHS', 'REACH', 'AEC-Q100', '无卤'].map((cert) => (
+          <span class="px-6 py-3 bg-white/10 rounded-lg font-medium">{cert}</span>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gradient-to-r from-crystal-orange to-sunset-orange text-white">
+    <Container class="text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold mb-4">准备好开始您的项目了吗？</h2>
+      <p class="text-lg text-white/90 mb-8">联系我们的技术团队，获取专业选型支持</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <Button variant="secondary" size="lg" href={`/${'zh'}/contact`} class="bg-white text-crystal-orange hover:bg-light-gray">
+          联系报价
+        </Button>
+        <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-crystal-orange">
+          下载选型手册
+        </Button>
+      </div>
+    </Container>
   </section>
 </BaseLayout>

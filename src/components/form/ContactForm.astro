@@ -1,0 +1,49 @@
+---
+import Input from '../ui/Input.astro';
+import Select from '../ui/Select.astro';
+import Button from '../ui/Button.astro';
+---
+
+<div class="bg-white rounded-xl border border-light-gray p-6">
+  <h3 class="text-xl font-semibold text-charcoal mb-6">联系我们</h3>
+  
+  <form class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Input label="姓名" name="name" required placeholder="您的姓名" />
+      <Input label="公司" name="company" required placeholder="您的公司" />
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Input label="邮箱" name="email" type="email" required placeholder="name@company.com" />
+      <Input label="电话" name="phone" type="tel" placeholder="+86 XXX XXXX XXXX" />
+    </div>
+
+    <Select
+      label="咨询类型"
+      name="type"
+      options={[
+        { value: '', label: '请选择' },
+        { value: 'product', label: '产品咨询' },
+        { value: 'technical', label: '技术支持' },
+        { value: 'pricing', label: '价格咨询' },
+        { value: 'cooperation', label: '商务合作' },
+        { value: 'other', label: '其他' },
+      ]}
+    />
+
+    <div class="space-y-1">
+      <label for="message" class="block text-sm font-medium text-charcoal">留言</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="4"
+        placeholder="请输入您的留言..."
+        class="w-full px-4 py-3 rounded-lg border border-light-gray text-charcoal placeholder:text-mid-gray focus:border-tech-blue focus:ring-1 focus:ring-tech-blue transition-colors resize-none"
+      ></textarea>
+    </div>
+
+    <Button variant="primary" size="lg" type="submit" class="w-full">
+      提交
+    </Button>
+  </form>
+</div>

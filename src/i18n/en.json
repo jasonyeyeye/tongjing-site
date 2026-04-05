@@ -2,14 +2,16 @@
   "nav": {
     "home": "Home",
     "products": "Products",
+    "tools": "Selection Tools",
     "about": "About Us",
     "contact": "Contact",
     "news": "News"
   },
   "hero": {
-    "title": "Precision Crystal Solutions",
-    "subtitle": "Professional manufacturer of crystal resonators, oscillators and RTC modules",
-    "cta": "View Products"
+    "title": "30 Years of Crystal Expertise, Japanese Quality",
+    "subtitle": "TongJing Electronics — R&D, Automated Production, Global Direct Sales",
+    "cta": "View Products",
+    "ctaSecondary": "Contact Us"
   },
   "product": {
     "title": "Products",
@@ -17,7 +19,72 @@
     "oscillators": "Crystal Oscillators",
     "rtc": "RTC Modules",
     "viewDetail": "View Details",
-    "parameters": "Parameters"
+    "parameters": "Parameters",
+    "filter": "Filter",
+    "sort": "Sort",
+    "stock": "Stock",
+    "price": "Price",
+    "search": "Search products",
+    "resultCount": "{count} products found"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Professional Crystal Oscillator Manufacturer, Japanese Quality Heritage",
+    "intro": "Hefei TongJing Electronics Co., Ltd. was established in 2005, specializing in R&D, production and sales of quartz crystal resonators, oscillators and RTC modules.",
+    "strengths": {
+      "automation": {
+        "title": "Leading Automation",
+        "desc": "China's first In-Line automated production line"
+      },
+      "quality": {
+        "title": "Japanese Quality",
+        "desc": "25+ years experienced technical team"
+      },
+      "direct": {
+        "title": "Direct from Manufacturer",
+        "desc": "No distributors, better pricing"
+      },
+      "capacity": {
+        "title": "Abundant Capacity",
+        "desc": "100M units/month, guaranteed delivery"
+      }
+    },
+    "certifications": {
+      "title": "Certifications",
+      "items": ["ISO9001", "ISO14001", "RoHS", "REACH", "AEC-Q100", "Halogen Free"]
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get Professional Technical Support",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "hours": "Business Hours",
+    "offices": {
+      "title": "Offices",
+      "shenzhen": "Shenzhen Office",
+      "jiangsu": "Jiangsu Office"
+    }
+  },
+  "news": {
+    "title": "News",
+    "categories": {
+      "all": "All",
+      "tech": "Technical Articles",
+      "industry": "Industry News",
+      "company": "Company News"
+    }
+  },
+  "inquiry": {
+    "title": "Send Inquiry",
+    "name": "Name",
+    "company": "Company",
+    "email": "Email",
+    "phone": "Phone",
+    "products": "Products",
+    "message": "Message",
+    "submit": "Submit Inquiry"
   },
   "footer": {
     "address": "Address",
@@ -27,6 +94,6 @@
   },
   "seo": {
     "title": "TongJing Electronics - Crystal Resonator Manufacturer",
-    "description": "Professional manufacturer of quartz crystal resonators, oscillators and RTC modules in Hefei, China."
+    "description": "Professional manufacturer of quartz crystal resonators, oscillators and RTC modules. Japanese quality, global direct sales."
   }
 }

@@ -1,0 +1,58 @@
+---
+interface Props {
+  filters: Array<{
+    name: string;
+    options: Array<{ value: string; label: string; count?: number }>;
+  }>;
+}
+
+const { filters } = Astro.props;
+---
+
+<div class="space-y-6">
+  {filters.map((filter, filterIndex) => (
+    <div class="border-b border-light-gray pb-6">
+      <h4 class="font-medium text-charcoal mb-3">{filter.name}</h4>
+      <div class="space-y-2">
+        {filter.options.map((option) => (
+          <label class="flex items-center gap-2 cursor-pointer group">
+            <input
+              type="checkbox"
+              name={filter.name}
+              value={option.value}
+              class="w-4 h-4 rounded border-mid-gray text-tech-blue focus:ring-tech-blue"
+            />
+            <span class="text-sm text-dark-gray group-hover:text-charcoal transition-colors">
+              {option.label}
+            </span>
+            {option.count && (
+              <span class="text-xs text-mid-gray ml-auto">({option.count})</span>
+            )}
+          </label>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  <!-- Cross Reference Brands -->
+  <div class="border-b border-light-gray pb-6">
+    <h4 class="font-medium text-charcoal mb-3">品牌对标</h4>
+    <div class="grid grid-cols-2 gap-2">
+      {['EPSON', 'NDK', 'KDS', '村田'].map((brand) => (
+        <button class="px-3 py-2 text-sm border border-light-gray rounded-lg hover:border-tech-blue hover:text-tech-blue transition-colors text-center">
+          {brand}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex gap-2">
+    <button class="flex-1 px-4 py-2 text-sm border border-light-gray rounded-lg hover:bg-light-gray transition-colors">
+      重置
+    </button>
+    <button class="flex-1 px-4 py-2 text-sm bg-crystal-orange text-white rounded-lg hover:bg-sunset-orange transition-colors">
+      应用筛选
+    </button>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+---
+interface Props {
+  groups: Array<{
+    title: string;
+    parameters: Array<{
+      name: string;
+      value: string;
+      highlight?: boolean;
+    }>;
+    collapsible?: boolean;
+    defaultOpen?: boolean;
+  }>;
+  certifications?: string[];
+}
+
+const { groups, certifications = [] } = Astro.props;
+---
+
+<div class="space-y-4">
+  {groups.map((group, groupIndex) => (
+    <div class="border border-light-gray rounded-lg overflow-hidden">
+      <button
+        class={`group-header w-full flex items-center justify-between px-4 py-3 bg-brand-blue text-white font-medium ${
+          group.collapsible ? 'cursor-pointer' : ''
+        }`}
+        data-collapse={group.collapsible}
+        data-target={`group-${groupIndex}`}
+      >
+        <span>{group.title}</span>
+        {group.collapsible && (
+          <svg class="w-5 h-5 transform transition-transform accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        )}
+      </button>
+      
+      <div id={`group-${groupIndex}`} class={`accordion-content ${group.defaultOpen === false ? 'hidden' : ''}`}>
+        <table class="w-full text-sm">
+          <tbody>
+            {group.parameters.map((param, rowIndex) => (
+              <tr class={rowIndex % 2 === 0 ? 'bg-white' : 'bg-light-gray'}>
+                <td class="px-4 py-3 text-dark-gray font-medium w-36">{param.name}</td>
+                <td class={`px-4 py-3 ${param.highlight ? 'text-crystal-orange font-semibold' : 'text-charcoal'}`}>{param.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  ))}
+
+  {/* Certifications */}
+  {certifications.length > 0 && (
+    <div class="border border-light-gray rounded-lg p-4">
+      <h4 class="font-medium text-charcoal mb-3">认证信息</h4>
+      <div class="flex flex-wrap gap-3">
+        {certifications.map((cert) => (
+          <span class="flex items-center gap-1.5 px-2 py-1 bg-success/10 text-success rounded text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            {cert}
+          </span>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll('[data-collapse="true"]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-target');
+      const content = document.getElementById(target!);
+      const icon = btn.querySelector('.accordion-icon');
+      
+      content?.classList.toggle('hidden');
+      icon?.classList.toggle('rotate-180');
+    });
+  });
+</script>

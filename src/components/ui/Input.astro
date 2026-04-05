@@ -1,0 +1,39 @@
+---
+interface Props {
+  label?: string;
+  name: string;
+  type?: 'text' | 'email' | 'tel' | 'number' | 'password';
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  placeholder,
+  required = false,
+  disabled = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class="space-y-1">
+  {label && (
+    <label for={name} class="block text-sm font-medium text-charcoal">
+      {label}
+      {required && <span class="text-error"> *</span>}
+    </label>
+  )}
+  <input
+    type={type}
+    name={name}
+    id={name}
+    placeholder={placeholder}
+    required={required}
+    disabled={disabled}
+    class={`w-full h-12 px-4 rounded-lg border border-light-gray text-charcoal placeholder:text-mid-gray focus:border-tech-blue focus:ring-1 focus:ring-tech-blue transition-colors disabled:bg-light-gray disabled:cursor-not-allowed ${className}`}
+  />
+</div>

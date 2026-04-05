@@ -1,7 +1,7 @@
 ---
 import SEO from '../components/SEO.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -14,11 +14,11 @@ const { title, description, image } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" class="scroll-smooth">
   <head>
     <SEO title={title} description={description} image={image} />
   </head>
-  <body class="flex flex-col min-h-screen">
+  <body class="flex flex-col min-h-screen bg-white text-charcoal">
     <Header />
     <main class="flex-1">
       <slot />

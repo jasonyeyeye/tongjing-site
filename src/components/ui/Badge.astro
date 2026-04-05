@@ -1,0 +1,22 @@
+---
+interface Props {
+  variant?: 'hot' | 'new' | 'default' | 'discontinued' | 'futures';
+  class?: string;
+}
+
+const { variant = 'default', class: className = '' } = Astro.props;
+
+const variants = {
+  hot: 'bg-crystal-orange text-white',
+  new: 'bg-success text-white',
+  default: 'bg-light-gray text-dark-gray',
+  discontinued: 'bg-error text-white',
+  futures: 'bg-warning text-white',
+};
+
+const classes = `inline-flex items-center px-2 py-0.5 text-xs font-medium rounded ${variants[variant]} ${className}`;
+---
+
+<span class={classes}>
+  <slot />
+</span>

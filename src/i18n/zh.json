@@ -2,31 +2,98 @@
   "nav": {
     "home": "首页",
     "products": "产品中心",
+    "tools": "选型工具",
     "about": "关于我们",
     "contact": "联系我们",
-    "news": "新闻动态"
+    "news": "资讯中心"
   },
   "hero": {
-    "title": "精密晶体解决方案",
-    "subtitle": "专业生产石英晶体谐振器、振荡器和RTC模块",
-    "cta": "查看产品"
+    "title": "专注晶振30年，日系品质",
+    "subtitle": "同晶电子 — 自主研发、自动化生产、全球直供",
+    "cta": "了解产品",
+    "ctaSecondary": "联系我们"
   },
   "product": {
     "title": "产品中心",
-    "resonators": "晶体谐振器",
-    "oscillators": "晶体振荡器",
-    "rtc": "RTC模块",
+    "resonators": "石英晶体谐振器",
+    "oscillators": "石英晶体振荡器",
+    "rtc": "RTC实时时钟模块",
     "viewDetail": "查看详情",
-    "parameters": "参数"
+    "parameters": "参数",
+    "filter": "筛选",
+    "sort": "排序",
+    "stock": "库存",
+    "price": "价格",
+    "search": "搜索产品型号",
+    "resultCount": "找到 {count} 个产品"
+  },
+  "about": {
+    "title": "关于我们",
+    "subtitle": "晶振行业专业制造商，日系品质基因",
+    "intro": "合肥同晶电子有限公司成立于2005年，是一家专业从事石英晶体谐振器、振荡器和RTC模块研发、生产、销售的国家高新技术企业。",
+    "strengths": {
+      "automation": {
+        "title": "自动化领先",
+        "desc": "国内首条In-Line自动化产线"
+      },
+      "quality": {
+        "title": "日系品质",
+        "desc": "25年+经验技术团队"
+      },
+      "direct": {
+        "title": "原厂直供",
+        "desc": "不做代理，价格优势"
+      },
+      "capacity": {
+        "title": "产能充裕",
+        "desc": "月产1亿只，交期保障"
+      }
+    },
+    "certifications": {
+      "title": "资质证书",
+      "items": ["ISO9001", "ISO14001", "RoHS", "REACH", "AEC-Q100", "无卤"]
+    }
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "获取专业选型支持",
+    "phone": "电话",
+    "email": "邮箱",
+    "address": "地址",
+    "hours": "工作时间",
+    "offices": {
+      "title": "分支机构",
+      "shenzhen": "深圳办",
+      "jiangsu": "江苏办"
+    }
+  },
+  "news": {
+    "title": "资讯中心",
+    "categories": {
+      "all": "全部",
+      "tech": "技术文章",
+      "industry": "行业动态",
+      "company": "公司新闻"
+    }
+  },
+  "inquiry": {
+    "title": "发送询价",
+    "name": "姓名",
+    "company": "公司",
+    "email": "邮箱",
+    "phone": "电话",
+    "products": "询价产品",
+    "message": "留言",
+    "submit": "发送询价"
   },
   "footer": {
     "address": "地址",
     "email": "邮箱",
     "phone": "电话",
-    "copyright": "© 2024 合肥同晶电子有限公司 版权所有"
+    "copyright": "合肥同晶电子有限公司 版权所有"
   },
   "seo": {
     "title": "同晶电子 - 晶体谐振器生产厂家",
-    "description": "合肥同晶电子专业生产石英晶体谐振器、振荡器和RTC模块。"
+    "description": "合肥同晶电子专业生产石英晶体谐振器、振荡器和RTC模块，日系品质，全球直供。"
   }
 }

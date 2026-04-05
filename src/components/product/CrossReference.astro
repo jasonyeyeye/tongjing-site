@@ -1,0 +1,41 @@
+---
+interface Props {
+  products: Array<{
+    tongjing: string;
+    epson: string;
+    ndk: string;
+    kds: string;
+    murata: string;
+    package: string;
+  }>;
+}
+
+const { products } = Astro.props;
+---
+
+<div class="overflow-x-auto">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="bg-brand-blue text-white">
+        <th class="px-4 py-3 text-left font-semibold">TongJing</th>
+        <th class="px-4 py-3 text-left font-semibold">EPSON</th>
+        <th class="px-4 py-3 text-left font-semibold">NDK</th>
+        <th class="px-4 py-3 text-left font-semibold">KDS</th>
+        <th class="px-4 py-3 text-left font-semibold">村田</th>
+        <th class="px-4 py-3 text-left font-semibold">封装</th>
+      </tr>
+    </thead>
+    <tbody>
+      {products.map((product, index) => (
+        <tr class={index % 2 === 0 ? 'bg-white' : 'bg-light-gray'}>
+          <td class="px-4 py-3 font-mono font-medium text-crystal-orange">{product.tongjing}</td>
+          <td class="px-4 py-3 font-mono text-charcoal">{product.epson}</td>
+          <td class="px-4 py-3 font-mono text-charcoal">{product.ndk}</td>
+          <td class="px-4 py-3 font-mono text-charcoal">{product.kds}</td>
+          <td class="px-4 py-3 font-mono text-charcoal">{product.murata}</td>
+          <td class="px-4 py-3 text-mid-gray">{product.package}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

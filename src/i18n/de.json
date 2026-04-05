@@ -2,14 +2,16 @@
   "nav": {
     "home": "Startseite",
     "products": "Produkte",
+    "tools": "Auswahlwerkzeuge",
     "about": "Über uns",
     "contact": "Kontakt",
     "news": "Neuigkeiten"
   },
   "hero": {
-    "title": "Präzise Kristallösungen",
-    "subtitle": "Professioneller Hersteller von Quarzschwingern, Oszillatoren und RTC-Modulen",
-    "cta": "Produkte ansehen"
+    "title": "30 Jahre Kristallexpertise, japanische Qualität",
+    "subtitle": "TongJing Electronics — F&E, Automatisierte Produktion, Globaler Direktvertrieb",
+    "cta": "Produkte ansehen",
+    "ctaSecondary": "Kontakt"
   },
   "product": {
     "title": "Produkte",
@@ -17,7 +19,72 @@
     "oscillators": "Quarzinoszillatoren",
     "rtc": "RTC-Module",
     "viewDetail": "Details ansehen",
-    "parameters": "Parameter"
+    "parameters": "Parameter",
+    "filter": "Filter",
+    "sort": "Sortieren",
+    "stock": "Bestand",
+    "price": "Preis",
+    "search": "Produkte suchen",
+    "resultCount": "{count} Produkte gefunden"
+  },
+  "about": {
+    "title": "Über uns",
+    "subtitle": "Professioneller Kristalloszillator-Hersteller, japanische Qualitätstradition",
+    "intro": "Hefei TongJing Electronics Co., Ltd. wurde 2005 gegründet und ist auf F&E, Produktion und Vertrieb von Quarzschwingern, Oszillatoren und RTC-Modulen spezialisiert.",
+    "strengths": {
+      "automation": {
+        "title": "Führende Automatisierung",
+        "desc": "Chinas erste In-Line Automatisierungslinie"
+      },
+      "quality": {
+        "title": "Japanische Qualität",
+        "desc": "25+ Jahre Erfahrung im Technik-Team"
+      },
+      "direct": {
+        "title": "Direkt vom Hersteller",
+        "desc": "Keine Händler, bessere Preise"
+      },
+      "capacity": {
+        "title": "Hohe Kapazität",
+        "desc": "100M Einheiten/Monat, garantierte Lieferzeit"
+      }
+    },
+    "certifications": {
+      "title": "Zertifizierungen",
+      "items": ["ISO9001", "ISO14001", "RoHS", "REACH", "AEC-Q100", "Halogenfrei"]
+    }
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Professionelle technische Unterstützung",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "address": "Adresse",
+    "hours": "Geschäftszeiten",
+    "offices": {
+      "title": "Niederlassungen",
+      "shenzhen": "Shenzhen Büro",
+      "jiangsu": "Jiangsu Büro"
+    }
+  },
+  "news": {
+    "title": "Neuigkeiten",
+    "categories": {
+      "all": "Alle",
+      "tech": "Technische Artikel",
+      "industry": "Branchennews",
+      "company": "Unternehmensnachrichten"
+    }
+  },
+  "inquiry": {
+    "title": "Anfrage senden",
+    "name": "Name",
+    "company": "Unternehmen",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "products": "Produkte",
+    "message": "Nachricht",
+    "submit": "Anfrage senden"
   },
   "footer": {
     "address": "Adresse",
@@ -27,6 +94,6 @@
   },
   "seo": {
     "title": "TongJing Electronics - Quarzschwinger Hersteller",
-    "description": "Professioneller Hersteller von Quarzschwingern, Oszillatoren und RTC-Modulen in Hefei, China."
+    "description": "Professioneller Hersteller von Quarzschwingern, Oszillatoren und RTC-Modulen. Japanische Qualität, globaler Direktvertrieb."
   }
 }

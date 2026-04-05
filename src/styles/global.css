@@ -1,18 +1,60 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
+  /* Primary Colors */
+  --color-brand-blue: #1E3A5F;
+  --color-tech-blue: #2563EB;
+  --color-deep-navy: #0F172A;
+  
+  /* Accent Colors */
+  --color-crystal-orange: #F97316;
+  --color-light-orange: #FB923C;
+  --color-sunset-orange: #EA580C;
+  
+  /* Neutrals */
+  --color-white: #FFFFFF;
+  --color-light-gray: #F8FAFC;
+  --color-mid-gray: #94A3B8;
+  --color-dark-gray: #475569;
+  --color-charcoal: #1E293B;
+  
+  /* Status Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  
+  /* Typography */
+  --font-sans: "Inter", "Noto Sans SC", "Noto Sans JP", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  
+  /* Transitions */
+  --transition-fast: 150ms;
+  --transition-normal: 250ms;
+  --transition-slow: 400ms;
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
+  color: var(--color-charcoal);
+  background-color: var(--color-white);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-tech-blue);
+  outline-offset: 2px;
 }
