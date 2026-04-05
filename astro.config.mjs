@@ -9,7 +9,7 @@ export default defineConfig({
   output: 'static',
   integrations: [react(), sitemap({
     i18n: {
-      defaultLocale: 'zh',
+      defaultLocale: 'en',
       locales: {
         zh: 'zh-CN',
         en: 'en-US',
@@ -23,10 +23,10 @@ export default defineConfig({
   },
   site: 'https://tongjing.example.com',
   i18n: {
-    defaultLocale: 'zh',
+    defaultLocale: 'en',
     locales: ['zh', 'en', 'ja', 'de'],
     routing: {
-      prefixDefaultLocale: true,
+      prefixDefaultLocale: false,
     },
   },
 });
