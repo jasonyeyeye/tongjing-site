@@ -4,11 +4,19 @@ interface Props {
   description: string;
   image?: string;
   canonical?: string;
+  locale?: string;
 }
 
-const { title, description, image, canonical } = Astro.props;
+const { title, description, image, canonical, locale = 'en' } = Astro.props;
 const siteUrl = 'https://tongjing.example.com';
 const defaultImage = `${siteUrl}/og-image.png`;
+
+const siteNames: Record<string, string> = {
+  en: 'TongJing Electronics',
+  zh: '同晶电子',
+  ja: 'TongJing電子',
+  de: 'TongJing Elektronik',
+};
 ---
 
 <meta charset="UTF-8" />
@@ -22,7 +30,7 @@ const defaultImage = `${siteUrl}/og-image.png`;
 <meta property="og:description" content={description} />
 <meta property="og:image" content={image ?? defaultImage} />
 <meta property="og:url" content={Astro.url.href} />
-<meta property="og:site_name" content="同晶电子" />
+<meta property="og:site_name" content={siteNames[locale] ?? siteNames.en} />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
