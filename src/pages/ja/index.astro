@@ -2,33 +2,198 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import ProductCard from '../../components/product/ProductCard.astro';
+import Button from '../../components/ui/Button.astro';
 import { useTranslations } from '../../utils/i18n';
 
 const t = useTranslations('ja');
+
+const featuredProducts = [
+  {
+    model: 'TJ3225K-26.000M',
+    frequency: '26MHz',
+    tolerance: '±10ppm',
+    package: 'SMD3225',
+    loadCapacitance: '12pF',
+    esr: '30Ω',
+    stock: '500,000 PCS',
+    priceRange: '$0.08 - $0.12',
+    badge: 'hot' as const,
+    href: '/ja/products/tj3225k',
+  },
+  {
+    model: 'TJ2520K-24.000M',
+    frequency: '24MHz',
+    tolerance: '±20ppm',
+    package: 'SMD2520',
+    loadCapacitance: '12pF',
+    esr: '40Ω',
+    stock: '320,000 PCS',
+    priceRange: '$0.07 - $0.10',
+    badge: 'new' as const,
+    href: '/ja/products/tj2520k',
+  },
+  {
+    model: 'TJ2016K-16.000M',
+    frequency: '16MHz',
+    tolerance: '±10ppm',
+    package: 'SMD2016',
+    loadCapacitance: '8pF',
+    esr: '50Ω',
+    stock: '180,000 PCS',
+    priceRange: '$0.06 - $0.09',
+    badge: 'default' as const,
+    href: '/ja/products/tj2016k',
+  },
+  {
+    model: 'TJ3225O-25.000M',
+    frequency: '25MHz',
+    tolerance: '±50ppm',
+    package: 'SMD3225',
+    loadCapacitance: '20pF',
+    esr: '30Ω',
+    stock: 'Futures 2 weeks',
+    badge: 'futures' as const,
+    href: '/ja/products/tj3225o',
+  },
+];
+
+const features = [
+  { icon: '🏭', title: t.about.strengths.automation.title, desc: t.about.strengths.automation.desc },
+  { icon: '⚡', title: t.about.strengths.quality.title, desc: t.about.strengths.quality.desc },
+  { icon: '🎯', title: t.about.strengths.direct.title, desc: t.about.strengths.direct.desc },
+  { icon: '🔬', title: t.about.strengths.capacity.title, desc: t.about.strengths.capacity.desc },
+];
 ---
 
 <BaseLayout title={t.seo.title} description={t.seo.description}>
   <Hero locale="ja" />
-  
+
+  <!-- Why Choose Us -->
+  <section class="py-16 bg-[#F8FAFC]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-center text-[#1E293B] mb-12">Core Advantages</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {features.map((feature) => (
+          <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="text-4xl mb-4">{feature.icon}</div>
+            <h3 class="text-lg font-semibold text-[#1E293B] mb-2">{feature.title}</h3>
+            <p class="text-sm text-[#94A3B8]">{feature.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Categories -->
   <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">{t.product.title}</h2>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-center text-[#1E293B] mb-12">{t.product.title}</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <ProductCard
-          title={t.product.resonators}
-          description="HC-49S/SMD 水晶振動子、周波数範囲 3.2MHz~100MHz"
-          href="/ja/products/resonators"
-        />
-        <ProductCard
-          title={t.product.oscillators}
-          description="精度 ±10ppm の水晶発振器"
-          href="/ja/products/oscillators"
-        />
-        <ProductCard
-          title={t.product.rtc}
-          description="水晶と補償回路を統合したRTCモジュール"
-          href="/ja/products/rtc"
-        />
+        <a href="/ja/products/resonators" class="group bg-[#F8FAFC] rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-[#1E3A5F]/10 to-[#2563EB]/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-[#1E3A5F]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#1E293B] group-hover:text-[#F97316] transition-colors mb-2">{t.product.resonators}</h3>
+            <p class="text-sm text-[#94A3B8] mb-4">Crystal Resonator</p>
+            <p class="text-sm text-[#475569]">3225 / 2520 / 2016 Package</p>
+          </div>
+        </a>
+
+        <a href="/ja/products/oscillators" class="group bg-[#F8FAFC] rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-[#F97316]/10 to-[#EA580C]/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-[#F97316]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#1E293B] group-hover:text-[#F97316] transition-colors mb-2">{t.product.oscillators}</h3>
+            <p class="text-sm text-[#94A3B8] mb-4">Crystal Oscillator</p>
+            <p class="text-sm text-[#475569]">Precision up to ±10ppm</p>
+          </div>
+        </a>
+
+        <a href="/ja/products/rtc" class="group bg-[#F8FAFC] rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-[#10B981]/10 to-[#3B82F6]/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-[#10B981]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-[#1E293B] group-hover:text-[#F97316] transition-colors mb-2">{t.product.rtc}</h3>
+            <p class="text-sm text-[#94A3B8] mb-4">RTC Module</p>
+            <p class="text-sm text-[#475569]">3215 / 2012 / 1610 Package</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-16 bg-[#F8FAFC]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-12">
+        <h2 class="text-3xl font-bold text-[#1E293B]">Featured Products</h2>
+        <a href="/ja/products" class="text-[#F97316] font-medium hover:underline flex items-center gap-1">
+          View All
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {featuredProducts.map((product) => (
+          <ProductCard
+            model={product.model}
+            frequency={product.frequency}
+            tolerance={product.tolerance}
+            package={product.package}
+            loadCapacitance={product.loadCapacitance}
+            esr={product.esr}
+            stock={product.stock}
+            priceRange={product.priceRange}
+            badge={product.badge}
+            href={product.href}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross Reference -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-[#1E293B] mb-4">Cross Reference · Alternative Part Search</h2>
+      <p class="text-[#94A3B8] mb-8">Quick search for EPSON / NDK / KDS / Murata alternatives</p>
+      <div class="flex gap-3">
+        <input type="search" placeholder="Enter EPSON / NDK / KDS / Murata part number..." class="flex-1 h-12 px-4 rounded-lg border border-[#E2E8F0] focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-colors" />
+        <Button variant="primary" size="lg">Search</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section class="py-16 bg-[#1E3A5F] text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-center mb-8">Certifications</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {['ISO9001', 'ISO14001', 'RoHS', 'REACH', 'AEC-Q100', 'Halogen Free'].map((cert) => (
+          <span class="px-6 py-3 bg-white/10 rounded-lg font-medium">{cert}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold mb-4">Ready to Start Your Project?</h2>
+      <p class="text-lg text-white/90 mb-8">Contact our technical team for professional selection support</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <Button variant="secondary" size="lg" href="/ja/contact" class="bg-white text-[#F97316] hover:bg-[#F8FAFC]">Get Quote</Button>
+        <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-[#F97316]">Download Catalog</Button>
       </div>
     </div>
   </section>

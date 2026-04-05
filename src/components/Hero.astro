@@ -1,5 +1,6 @@
 ---
 import { useTranslations, type Locale } from '../utils/i18n';
+import Button from './ui/Button.astro';
 
 interface Props {
   locale: Locale;
@@ -9,22 +10,26 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section class="bg-gradient-to-br from-primary-50 to-primary-100 py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-      {t.hero.title}
-    </h1>
-    <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-      {t.hero.subtitle}
-    </p>
-    <a
-      href={`/${locale}/products`}
-      class="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
-    >
-      {t.hero.cta}
-      <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-      </svg>
-    </a>
+<section class="relative bg-gradient-to-br from-[#1E3A5F] to-[#0F172A] text-white overflow-hidden">
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.4%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  </div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+    <div class="max-w-6xl mx-auto text-center">
+      <h1 class="w-full text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+        {t.hero.title}
+      </h1>
+      <p class="text-xl text-white/80 mb-8 leading-relaxed">
+        {t.hero.subtitle}
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <Button variant="primary" size="lg" href={`/${locale}/products`}>
+          {t.hero.cta}
+        </Button>
+        <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-[#1E3A5F]" href={`/${locale}/contact`}>
+          {t.hero.ctaSecondary}
+        </Button>
+      </div>
+    </div>
   </div>
 </section>
