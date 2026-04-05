@@ -9,11 +9,11 @@ const { locale } = Astro.props;
 const currentPath = Astro.url.pathname;
 const pathWithoutLocale = currentPath.replace(/^\/(zh|en|ja|de)/, '') || '/';
 
-const localeNames: Record<Locale, string> = {
+const supportedLocales = ['en', 'zh'] as const;
+
+const localeNames: Record<string, string> = {
   zh: '中文',
   en: 'EN',
-  ja: '日本語',
-  de: 'DE',
 };
 ---
 
@@ -39,7 +39,7 @@ const localeNames: Record<Locale, string> = {
     class="hidden absolute right-0 mt-1 w-28 bg-white border border-light-gray rounded-lg shadow-lg z-50"
     role="listbox"
   >
-    {locales.map((loc) => (
+    {supportedLocales.map((loc) => (
       <li role="option" aria-selected={loc === locale}>
         <a
           href={`/${loc}${pathWithoutLocale}`}
