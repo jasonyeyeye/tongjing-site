@@ -10,21 +10,40 @@ interface Props {
 const { label, name, options, required = false, class: className = '' } = Astro.props;
 ---
 
-<div class="space-y-1">
+<div class="space-y-1.5">
   {label && (
-    <label for={name} class="block text-sm font-medium text-charcoal">
+    <label for={name} class="block text-sm font-medium text-gray-700">
       {label}
-      {required && <span class="text-error"> *</span>}
+      {required && <span class="text-error ml-0.5">*</span>}
     </label>
   )}
-  <select
-    name={name}
-    id={name}
-    required={required}
-    class={`w-full h-12 px-4 rounded-lg border border-light-gray text-charcoal bg-white focus:border-tech-blue focus:ring-1 focus:ring-tech-blue transition-colors ${className}`}
-  >
-    {options.map((opt) => (
-      <option value={opt.value}>{opt.label}</option>
-    ))}
-  </select>
+  <div class="relative">
+    <select
+      name={name}
+      id={name}
+      required={required}
+      class={`
+        w-full h-12 px-4 pr-10 rounded-xl
+        bg-white border border-gray-200
+        text-gray-800
+        shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]
+        focus:border-cosmic-400 focus:ring-4 focus:ring-cosmic-400/10
+        hover:border-gray-300
+        transition-all duration-200 ease-out-expo
+        appearance-none cursor-pointer
+        bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748B'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")]
+        bg-[length:16px] bg-[right_12px_center] bg-no-repeat
+        ${className}
+      `}
+    >
+      {options.map((opt) => (
+        <option value={opt.value}>{opt.label}</option>
+      ))}
+    </select>
+    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
 </div>

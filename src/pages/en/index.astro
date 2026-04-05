@@ -30,52 +30,65 @@ const features = [
   },
 ];
 
-const featuredProducts = [
+interface FeaturedProduct {
+  model: string;
+  frequency: string;
+  tolerance: string;
+  packageType: string;
+  loadCapacitance: string;
+  esr: string;
+  stock: string;
+  priceRange: string;
+  badge: 'hot' | 'new' | 'default' | 'discontinued' | 'futures';
+  href: string;
+}
+
+const featuredProducts: FeaturedProduct[] = [
   {
     model: 'TJ3225K-26.000M',
     frequency: '26MHz',
     tolerance: '±10ppm',
-    package: 'SMD3225',
+    packageType: 'SMD3225',
     loadCapacitance: '12pF',
     esr: '30Ω',
     stock: '500,000 PCS',
     priceRange: '$0.08 - $0.12',
-    badge: 'hot' as const,
+    badge: 'hot',
     href: '/en/products/tj3225k',
   },
   {
     model: 'TJ2520K-24.000M',
     frequency: '24MHz',
     tolerance: '±20ppm',
-    package: 'SMD2520',
+    packageType: 'SMD2520',
     loadCapacitance: '12pF',
     esr: '40Ω',
     stock: '320,000 PCS',
     priceRange: '$0.07 - $0.10',
-    badge: 'new' as const,
+    badge: 'new',
     href: '/en/products/tj2520k',
   },
   {
     model: 'TJ2016K-16.000M',
     frequency: '16MHz',
     tolerance: '±10ppm',
-    package: 'SMD2016',
+    packageType: 'SMD2016',
     loadCapacitance: '8pF',
     esr: '50Ω',
     stock: '180,000 PCS',
     priceRange: '$0.06 - $0.09',
-    badge: 'default' as const,
+    badge: 'default',
     href: '/en/products/tj2016k',
   },
   {
     model: 'TJ3225O-25.000M',
     frequency: '25MHz',
     tolerance: '±50ppm',
-    package: 'SMD3225',
+    packageType: 'SMD3225',
     loadCapacitance: '20pF',
     esr: '30Ω',
     stock: 'Futures 2 weeks',
-    badge: 'futures' as const,
+    badge: 'futures',
     href: '/en/products/tj3225o',
   },
 ];
@@ -212,7 +225,7 @@ const featuredProducts = [
             model={product.model}
             frequency={product.frequency}
             tolerance={product.tolerance}
-            package={product.package}
+            packageType={product.packageType}
             loadCapacitance={product.loadCapacitance}
             esr={product.esr}
             stock={product.stock}

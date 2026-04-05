@@ -13,69 +13,134 @@ const navItems = [
 ];
 ---
 
-<footer class="bg-deep-navy text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+<footer class="relative bg-gradient-to-b from-gray-900 to-cosmic-900 text-white">
+  <!-- Gradient top border -->
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cosmic-500/50 to-transparent"></div>
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-aurora-400/30 to-transparent mt-px"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
       <!-- Brand -->
       <div class="lg:col-span-2">
-        <div class="flex items-center gap-2 mb-4">
-          <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-            <span class="text-brand-blue font-bold text-lg">TJ</span>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-cosmic-400 to-cosmic-600 rounded-xl blur-lg opacity-30"></div>
+            <div class="relative w-11 h-11 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center shadow-lg">
+              <span class="bg-gradient-to-br from-cosmic-600 to-cosmic-700 bg-clip-text text-transparent font-bold text-lg">TJ</span>
+            </div>
           </div>
-          <span class="text-xl font-bold">TongJing Electronics</span>
+          <div>
+            <span class="text-xl font-bold">TongJing Electronics</span>
+            <p class="text-xs text-cosmic-300 mt-0.5">Crystal Solutions Provider</p>
+          </div>
         </div>
-        <p class="text-mid-gray text-sm leading-relaxed mb-4">
+        <p class="text-gray-400 text-sm leading-relaxed mb-6 max-w-md">
           Hefei TongJing Electronics Co., Ltd.<br>
           Professional manufacturer of crystal resonators, oscillators and RTC modules<br>
-          R&D · Automated Production · Global Direct Sales
+          <span class="text-cosmic-300">R&D · Automated Production · Global Direct Sales</span>
         </p>
-        <div class="flex items-center gap-2 text-mid-gray text-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-          <span>+86 551-xxxx-xxxx</span>
+        <div class="flex items-center gap-3 text-gray-400 text-sm">
+          <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-800/50 rounded-lg border border-gray-700/50">
+            <svg class="w-4 h-4 text-cosmic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            <span>+86 551-xxxx-xxxx</span>
+          </div>
         </div>
       </div>
 
       <!-- Products -->
       <div>
-        <h4 class="font-semibold mb-4">{t.nav.products}</h4>
-        <ul class="space-y-2 text-sm">
-          <li><a href={`/${locale}/products/resonators`} class="text-mid-gray hover:text-crystal-orange transition-colors">{t.product.resonators}</a></li>
-          <li><a href={`/${locale}/products/oscillators`} class="text-mid-gray hover:text-crystal-orange transition-colors">{t.product.oscillators}</a></li>
-          <li><a href={`/${locale}/products/rtc`} class="text-mid-gray hover:text-crystal-orange transition-colors">{t.product.rtc}</a></li>
-          <li><a href={`/${locale}/tools`} class="text-mid-gray hover:text-crystal-orange transition-colors">{t.nav.tools}</a></li>
+        <h4 class="font-semibold mb-5 text-white">{t.nav.products}</h4>
+        <ul class="space-y-3">
+          <li>
+            <a href={`/${locale}/products/resonators`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+              <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
+              {t.product.resonators}
+            </a>
+          </li>
+          <li>
+            <a href={`/${locale}/products/oscillators`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+              <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
+              {t.product.oscillators}
+            </a>
+          </li>
+          <li>
+            <a href={`/${locale}/products/rtc`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+              <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
+              {t.product.rtc}
+            </a>
+          </li>
+          <li>
+            <a href={`/${locale}/tools`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+              <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
+              {t.nav.tools}
+            </a>
+          </li>
         </ul>
       </div>
 
       <!-- Company -->
       <div>
-        <h4 class="font-semibold mb-4">Company</h4>
-        <ul class="space-y-2 text-sm">
-          <li><a href={`/${locale}/about`} class="text-mid-gray hover:text-crystal-orange transition-colors">{t.nav.about}</a></li>
-          <li><a href={`/${locale}/news`} class="text-mid-gray hover:text-crystal-orange transition-colors">{t.nav.news}</a></li>
-          <li><a href={`/${locale}/contact`} class="text-mid-gray hover:text-crystal-orange transition-colors">{t.nav.contact}</a></li>
+        <h4 class="font-semibold mb-5 text-white">Company</h4>
+        <ul class="space-y-3">
+          <li>
+            <a href={`/${locale}/about`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+              <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
+              {t.nav.about}
+            </a>
+          </li>
+          <li>
+            <a href={`/${locale}/news`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+              <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
+              {t.nav.news}
+            </a>
+          </li>
+          <li>
+            <a href={`/${locale}/contact`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+              <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
+              {t.nav.contact}
+            </a>
+          </li>
         </ul>
       </div>
     </div>
 
     <!-- Certifications -->
-    <div class="mt-8 pt-8 border-t border-charcoal">
-      <div class="flex flex-wrap items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <span class="text-sm text-mid-gray">Certifications:</span>
-          <div class="flex items-center gap-3">
-            <span class="px-2 py-1 bg-charcoal rounded text-xs font-medium">ISO9001</span>
-            <span class="px-2 py-1 bg-charcoal rounded text-xs font-medium">RoHS</span>
-            <span class="px-2 py-1 bg-charcoal rounded text-xs font-medium">REACH</span>
-            <span class="px-2 py-1 bg-charcoal rounded text-xs font-medium">AEC-Q</span>
-            <span class="px-2 py-1 bg-charcoal rounded text-xs font-medium">Halogen Free</span>
+    <div class="mt-16 pt-8 border-t border-gray-800/50">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="text-sm text-gray-500">Certifications:</span>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">ISO9001</span>
+            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">ISO14001</span>
+            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">RoHS</span>
+            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">REACH</span>
+            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">AEC-Q100</span>
+            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">Halogen Free</span>
           </div>
         </div>
-        <p class="text-sm text-mid-gray">
+        <p class="text-sm text-gray-500">
           © 2026 TongJing Electronics. All rights reserved.
         </p>
       </div>
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-link {
+    position: relative;
+    transition: all 0.2s ease-out;
+  }
+
+  .footer-link:hover {
+    color: white;
+    padding-left: 0.5rem;
+  }
+
+  .footer-link:hover span:first-child {
+    background: var(--color-aurora-400);
+    width: 0.5rem;
+  }
+</style>

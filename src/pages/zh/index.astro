@@ -3,11 +3,31 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/layout/Container.astro';
 import ProductCard from '../../components/product/ProductCard.astro';
 import Button from '../../components/ui/Button.astro';
-import { useTranslations } from '../../utils/i18n';
+import { useTranslations, getLocaleFromUrl } from '../../utils/i18n';
 
-const t = useTranslations('zh');
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
 
-const features = [
+interface Feature {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+interface FeaturedProduct {
+  model: string;
+  frequency: string;
+  tolerance: string;
+  packageType: string;
+  loadCapacitance: string;
+  esr: string;
+  stock: string;
+  priceRange: string;
+  badge: 'hot' | 'new' | 'default' | 'discontinued' | 'futures';
+  href: string;
+}
+
+const features: Feature[] = [
   {
     icon: '🏭',
     title: t.about.strengths.automation.title,
@@ -30,93 +50,163 @@ const features = [
   },
 ];
 
-const featuredProducts = [
+const featuredProducts: FeaturedProduct[] = [
   {
     model: 'TJ3225K-26.000M',
     frequency: '26MHz',
     tolerance: '±10ppm',
-    package: 'SMD3225',
+    packageType: 'SMD3225',
     loadCapacitance: '12pF',
     esr: '30Ω',
     stock: '500,000 PCS',
     priceRange: '$0.08 - $0.12',
-    badge: 'hot' as const,
-    href: '/zh/products/tj3225k',
+    badge: 'hot',
+    href: `/${locale}/products/tj3225k`,
   },
   {
     model: 'TJ2520K-24.000M',
     frequency: '24MHz',
     tolerance: '±20ppm',
-    package: 'SMD2520',
+    packageType: 'SMD2520',
     loadCapacitance: '12pF',
     esr: '40Ω',
     stock: '320,000 PCS',
     priceRange: '$0.07 - $0.10',
-    badge: 'new' as const,
-    href: '/zh/products/tj2520k',
+    badge: 'new',
+    href: `/${locale}/products/tj2520k`,
   },
   {
     model: 'TJ2016K-16.000M',
     frequency: '16MHz',
     tolerance: '±10ppm',
-    package: 'SMD2016',
+    packageType: 'SMD2016',
     loadCapacitance: '8pF',
     esr: '50Ω',
     stock: '180,000 PCS',
     priceRange: '$0.06 - $0.09',
-    badge: 'default' as const,
-    href: '/zh/products/tj2016k',
+    badge: 'default',
+    href: `/${locale}/products/tj2016k`,
   },
   {
     model: 'TJ3225O-25.000M',
     frequency: '25MHz',
     tolerance: '±50ppm',
-    package: 'SMD3225',
+    packageType: 'SMD3225',
     loadCapacitance: '20pF',
     esr: '30Ω',
     stock: '期货 2周',
-    badge: 'futures' as const,
-    href: '/zh/products/tj3225o',
+    badge: 'futures',
+    href: `/${locale}/products/tj3225o`,
   },
 ];
 ---
 
 <BaseLayout title={t.seo.title} description={t.seo.description}>
   <!-- Hero Section -->
-  <section class="relative bg-gradient-to-br from-brand-blue to-deep-navy text-white overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.4%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  <section class="relative min-h-[600px] lg:min-h-[700px] text-white overflow-hidden">
+    <!-- Multi-layer gradient background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-cosmic-900 via-gray-900 to-cosmic-900"></div>
+
+    <!-- Animated grid pattern -->
+    <div class="absolute inset-0 animate-grid opacity-40"></div>
+
+    <!-- Radial gradient overlays -->
+    <div class="absolute inset-0">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-cosmic-500/20 via-transparent to-transparent"></div>
+      <div class="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-aurora-400/10 via-transparent to-transparent rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-gradient-to-br from-cosmic-500/15 via-transparent to-transparent rounded-full blur-3xl"></div>
     </div>
-    <Container class="relative py-20 lg:py-32">
-      <div class="max-w-6xl">
-        <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-          {t.hero.title}
+
+    <!-- Floating orbs -->
+    <div class="absolute top-1/4 left-[10%] w-2 h-2 bg-cosmic-300 rounded-full animate-float opacity-60"></div>
+    <div class="absolute top-[30%] right-[15%] w-3 h-3 bg-aurora-300 rounded-full animate-float opacity-40" style="animation-delay: 1s;"></div>
+    <div class="absolute bottom-[40%] left-[20%] w-2 h-2 bg-cosmic-400 rounded-full animate-float opacity-50" style="animation-delay: 2s;"></div>
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36">
+      <div class="max-w-4xl">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+          <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span>
+          <span class="text-sm text-cosmic-200">ISO9001 认证制造商</span>
+        </div>
+
+        <!-- Main heading -->
+        <h1 class="w-full text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+          <span class="gradient-text-light">{t.hero.title}</span>
         </h1>
-        <p class="text-xl text-white/80 mb-8 leading-relaxed">
+
+        <!-- Subtitle -->
+        <p class="text-xl lg:text-2xl text-cosmic-200 mb-10 leading-relaxed">
           {t.hero.subtitle}
         </p>
+
+        <!-- CTA Buttons -->
         <div class="flex flex-wrap gap-4">
-          <Button variant="primary" size="lg" href={`/${'zh'}/products`}>
+          <a
+            href={`/${locale}/products`}
+            class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-aurora-400 to-aurora-500 text-white rounded-xl font-semibold text-lg shadow-[0_4px_20px_rgba(249,115,22,0.4)] hover:shadow-[0_8px_30px_rgba(249,115,22,0.5)] hover:from-aurora-300 hover:to-aurora-400 transition-all duration-300 active:scale-[0.98]"
+          >
             {t.hero.cta}
-          </Button>
-          <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-brand-blue" href={`/${'zh'}/contact`}>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a
+            href={`/${locale}/contact`}
+            class="inline-flex items-center gap-3 px-8 py-4 bg-white/10 border border-white/20 text-white rounded-xl font-semibold text-lg backdrop-blur-sm hover:bg-white/20 hover:border-white/30 transition-all duration-300"
+          >
             {t.hero.ctaSecondary}
-          </Button>
+          </a>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="mt-16 pt-8 border-t border-white/10">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="text-center">
+              <div class="text-3xl lg:text-4xl font-bold text-white mb-1">30+</div>
+              <div class="text-sm text-cosmic-300">年行业经验</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl lg:text-4xl font-bold text-white mb-1">1亿</div>
+              <div class="text-sm text-cosmic-300">月产能</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl lg:text-4xl font-bold text-white mb-1">50+</div>
+              <div class="text-sm text-cosmic-300">服务国家</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl lg:text-4xl font-bold text-white mb-1">6</div>
+              <div class="text-sm text-cosmic-300">项认证</div>
+            </div>
+          </div>
         </div>
       </div>
-    </Container>
+    </div>
+
+    <!-- Bottom fade -->
+    <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
   </section>
 
   <!-- Why Choose Us -->
-  <section class="py-16 bg-light-gray">
+  <section class="py-20 bg-gray-50">
     <Container>
-      <h2 class="text-3xl font-bold text-center text-charcoal mb-12">核心优势</h2>
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">核心优势</h2>
+        <p class="text-gray-500 max-w-5xl mx-auto">行业领先的技术和制造优势</p>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {features.map((feature) => (
-          <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
-            <div class="text-4xl mb-4">{feature.icon}</div>
-            <h3 class="text-lg font-semibold text-charcoal mb-2">{feature.title}</h3>
-            <p class="text-sm text-mid-gray">{feature.desc}</p>
+        {features.map((feature, index) => (
+          <div class={`group relative bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 animate-fade-in-up stagger-${index + 1}`}>
+            <!-- Top border gradient -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cosmic-500 to-aurora-400 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+            <!-- Icon container -->
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cosmic-100 to-cosmic-50 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+              <span class="text-3xl">{feature.icon}</span>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">{feature.desc}</p>
           </div>
         ))}
       </div>
@@ -124,70 +214,82 @@ const featuredProducts = [
   </section>
 
   <!-- Product Categories -->
-  <section class="py-16">
+  <section class="py-20">
     <Container>
-      <h2 class="text-3xl font-bold text-center text-charcoal mb-12">{t.product.title}</h2>
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">{t.product.title}</h2>
+        <p class="text-gray-500 max-w-5xl mx-auto">全方位的晶体解决方案</p>
+      </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <a href={`/${'zh'}/products/resonators`} class="group bg-light-gray rounded-xl overflow-hidden hover:shadow-xl transition-all">
-          <div class="aspect-video bg-gradient-to-br from-brand-blue/10 to-tech-blue/10 flex items-center justify-center">
-            <svg class="w-20 h-20 text-brand-blue/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-            </svg>
+        <a href={`/${locale}/products/resonators`} class="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+          <div class="absolute inset-0 bg-gradient-to-br from-cosmic-500/5 to-cosmic-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="aspect-video flex items-center justify-center relative">
+            <div class="w-24 h-24 rounded-2xl bg-white/80 shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <svg class="w-12 h-12 text-cosmic-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+            </div>
           </div>
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-charcoal group-hover:text-crystal-orange transition-colors mb-2">
+          <div class="p-6 relative">
+            <h3 class="text-xl font-semibold text-gray-800 group-hover:text-cosmic-600 transition-colors mb-2">
               {t.product.resonators}
             </h3>
-            <p class="text-sm text-mid-gray mb-4">Crystal Resonator</p>
-            <p class="text-sm text-dark-gray">3225 / 2520 / 2016 封装</p>
-            <span class="inline-flex items-center text-crystal-orange text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
-              {t.product.viewDetail}
+            <p class="text-sm text-gray-500 mb-3">Crystal Resonator</p>
+            <p class="text-sm text-gray-400">3225 / 2520 / 2016 封装</p>
+            <div class="mt-4 flex items-center text-cosmic-500 font-medium text-sm group-hover:translate-x-2 transition-transform duration-300">
+              了解更多
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </span>
+            </div>
           </div>
         </a>
 
-        <a href={`/${'zh'}/products/oscillators`} class="group bg-light-gray rounded-xl overflow-hidden hover:shadow-xl transition-all">
-          <div class="aspect-video bg-gradient-to-br from-crystal-orange/10 to-sunset-orange/10 flex items-center justify-center">
-            <svg class="w-20 h-20 text-crystal-orange/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+        <a href={`/${locale}/products/oscillators`} class="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+          <div class="absolute inset-0 bg-gradient-to-br from-aurora-400/5 to-aurora-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="aspect-video flex items-center justify-center relative">
+            <div class="w-24 h-24 rounded-2xl bg-white/80 shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <svg class="w-12 h-12 text-aurora-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
           </div>
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-charcoal group-hover:text-crystal-orange transition-colors mb-2">
+          <div class="p-6 relative">
+            <h3 class="text-xl font-semibold text-gray-800 group-hover:text-aurora-500 transition-colors mb-2">
               {t.product.oscillators}
             </h3>
-            <p class="text-sm text-mid-gray mb-4">Crystal Oscillator</p>
-            <p class="text-sm text-dark-gray">精度可达 ±10ppm</p>
-            <span class="inline-flex items-center text-crystal-orange text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
-              {t.product.viewDetail}
+            <p class="text-sm text-gray-500 mb-3">Crystal Oscillator</p>
+            <p class="text-sm text-gray-400">精度可达 ±10ppm</p>
+            <div class="mt-4 flex items-center text-aurora-500 font-medium text-sm group-hover:translate-x-2 transition-transform duration-300">
+              了解更多
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </span>
+            </div>
           </div>
         </a>
 
-        <a href={`/${'zh'}/products/rtc`} class="group bg-light-gray rounded-xl overflow-hidden hover:shadow-xl transition-all">
-          <div class="aspect-video bg-gradient-to-br from-success/10 to-tech-blue/10 flex items-center justify-center">
-            <svg class="w-20 h-20 text-success/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+        <a href={`/${locale}/products/rtc`} class="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+          <div class="absolute inset-0 bg-gradient-to-br from-success/5 to-success/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="aspect-video flex items-center justify-center relative">
+            <div class="w-24 h-24 rounded-2xl bg-white/80 shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <svg class="w-12 h-12 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
           </div>
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-charcoal group-hover:text-crystal-orange transition-colors mb-2">
+          <div class="p-6 relative">
+            <h3 class="text-xl font-semibold text-gray-800 group-hover:text-success transition-colors mb-2">
               {t.product.rtc}
             </h3>
-            <p class="text-sm text-mid-gray mb-4">RTC Module</p>
-            <p class="text-sm text-dark-gray">3215 / 2012 / 1610 封装</p>
-            <span class="inline-flex items-center text-crystal-orange text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
-              {t.product.viewDetail}
+            <p class="text-sm text-gray-500 mb-3">RTC Module</p>
+            <p class="text-sm text-gray-400">3215 / 2012 / 1610 封装</p>
+            <div class="mt-4 flex items-center text-success font-medium text-sm group-hover:translate-x-2 transition-transform duration-300">
+              了解更多
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </span>
+            </div>
           </div>
         </a>
       </div>
@@ -195,11 +297,14 @@ const featuredProducts = [
   </section>
 
   <!-- Featured Products -->
-  <section class="py-16 bg-light-gray">
+  <section class="py-20 bg-gray-50">
     <Container>
       <div class="flex items-center justify-between mb-12">
-        <h2 class="text-3xl font-bold text-charcoal">精选产品</h2>
-        <a href={`/${'zh'}/products`} class="text-crystal-orange font-medium hover:underline flex items-center gap-1">
+        <div>
+          <h2 class="text-3xl font-bold text-gray-800">精选产品</h2>
+          <p class="text-gray-500 mt-2">行业领先的晶体解决方案</p>
+        </div>
+        <a href={`/${locale}/products`} class="hidden sm:inline-flex items-center gap-2 text-aurora-500 font-medium hover:text-aurora-600 transition-colors">
           查看全部
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -212,7 +317,7 @@ const featuredProducts = [
             model={product.model}
             frequency={product.frequency}
             tolerance={product.tolerance}
-            package={product.package}
+            packageType={product.packageType}
             loadCapacitance={product.loadCapacitance}
             esr={product.esr}
             stock={product.stock}
@@ -226,22 +331,30 @@ const featuredProducts = [
   </section>
 
   <!-- Cross Reference Search -->
-  <section class="py-16 bg-white">
-    <Container>
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl font-bold text-charcoal mb-4">日系对标 · 替代型号查询</h2>
-        <p class="text-mid-gray mb-8">快速查找 EPSON / NDK / KDS / 村田 替代型号</p>
-        <div class="flex gap-3">
+  <section class="py-20 bg-white relative overflow-hidden">
+    <!-- Background decoration -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-cosmic-500 to-cosmic-600 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-br from-aurora-400 to-aurora-500 rounded-full blur-3xl"></div>
+    </div>
+
+    <Container class="relative">
+      <div class="max-w-6xl mx-auto text-center">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">日系对标 · 替代型号查询</h2>
+        <p class="text-gray-500 mb-10">快速查找 EPSON / NDK / KDS / 村田 替代型号</p>
+        <div class="flex flex-col sm:flex-row gap-4 max-w-5xl mx-auto">
           <input
             type="search"
             placeholder="输入 EPSON / NDK / KDS / 村田 型号..."
-            class="flex-1 h-12 px-4 rounded-lg border border-light-gray focus:border-tech-blue focus:ring-1 focus:ring-tech-blue transition-colors"
+            class="flex-1 h-14 px-6 rounded-xl border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400 focus:border-cosmic-400 focus:ring-4 focus:ring-cosmic-400/10 shadow-sm transition-all duration-200"
           />
-          <Button variant="primary" size="lg">搜索</Button>
+          <Button variant="primary" size="lg" class="h-14 px-8 shadow-[0_4px_14px_rgba(249,115,22,0.3)]">
+            搜索
+          </Button>
         </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-4">
+        <div class="flex flex-wrap justify-center gap-2 mt-6">
           {['EPSON FA-238', 'NDK NX3225GA', 'KDS DSX211G', '村田 CRSS2012'].map((example) => (
-            <span class="text-xs text-mid-gray bg-light-gray px-2 py-1 rounded">{example}</span>
+            <span class="px-3 py-1.5 bg-gray-100 text-gray-500 text-xs rounded-full">{example}</span>
           ))}
         </div>
       </div>
@@ -249,30 +362,59 @@ const featuredProducts = [
   </section>
 
   <!-- Certifications -->
-  <section class="py-16 bg-brand-blue text-white">
-    <Container>
-      <h2 class="text-2xl font-bold text-center mb-8">资质证书</h2>
+  <section class="py-16 bg-gradient-to-br from-cosmic-800 to-cosmic-900 text-white relative overflow-hidden">
+    <!-- Decorative elements -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-1/4 w-64 h-64 bg-cosmic-500 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-48 h-48 bg-aurora-400 rounded-full blur-3xl"></div>
+    </div>
+
+    <Container class="relative">
+      <h2 class="text-2xl lg:text-3xl font-bold text-center mb-10">资质证书</h2>
       <div class="flex flex-wrap justify-center gap-4">
         {['ISO9001', 'ISO14001', 'RoHS', 'REACH', 'AEC-Q100', '无卤'].map((cert) => (
-          <span class="px-6 py-3 bg-white/10 rounded-lg font-medium">{cert}</span>
+          <span class="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl font-medium">{cert}</span>
         ))}
       </div>
     </Container>
   </section>
 
   <!-- CTA -->
-  <section class="py-20 bg-gradient-to-r from-crystal-orange to-sunset-orange text-white">
-    <Container class="text-center">
-      <h2 class="text-3xl lg:text-4xl font-bold mb-4">准备好开始您的项目了吗？</h2>
-      <p class="text-lg text-white/90 mb-8">联系我们的技术团队，获取专业选型支持</p>
+  <section class="py-24 bg-gradient-to-br from-aurora-400 via-aurora-500 to-aurora-600 text-white relative overflow-hidden">
+    <!-- Decorative -->
+    <div class="absolute inset-0">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <Container class="relative text-center">
+      <h2 class="text-3xl lg:text-5xl font-bold mb-6">准备好开始您的项目了吗？</h2>
+      <p class="text-xl text-white/90 mb-10 max-w-5xl mx-auto">联系我们的技术团队，获取专业选型支持和有竞争力的价格</p>
       <div class="flex flex-wrap justify-center gap-4">
-        <Button variant="secondary" size="lg" href={`/${'zh'}/contact`} class="bg-white text-crystal-orange hover:bg-light-gray">
+        <a
+          href={`/${locale}/contact`}
+          class="inline-flex items-center gap-3 px-8 py-4 bg-white text-aurora-600 rounded-xl font-bold text-lg shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:scale-105 transition-all duration-300"
+        >
           联系报价
-        </Button>
-        <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-crystal-orange">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          href={`/${locale}/products`}
+          class="inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-semibold text-lg hover:bg-white/20 hover:border-white/40 transition-all duration-300"
+        >
           下载选型手册
-        </Button>
+        </a>
       </div>
     </Container>
   </section>
 </BaseLayout>
+
+<style>
+  .gradient-text-light {
+    background: linear-gradient(135deg, #FFFFFF 0%, #BFDBFE 40%, #FFFFFF 60%, #93C5FD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>

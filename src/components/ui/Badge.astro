@@ -2,19 +2,21 @@
 interface Props {
   variant?: 'hot' | 'new' | 'default' | 'discontinued' | 'futures';
   class?: string;
+  pulse?: boolean;
 }
 
-const { variant = 'default', class: className = '' } = Astro.props;
+const { variant = 'default', class: className = '', pulse = false } = Astro.props;
 
 const variants = {
-  hot: 'bg-crystal-orange text-white',
-  new: 'bg-success text-white',
-  default: 'bg-light-gray text-dark-gray',
-  discontinued: 'bg-error text-white',
-  futures: 'bg-warning text-white',
+  hot: 'bg-gradient-to-br from-aurora-400 to-aurora-500 text-white shadow-[0_2px_8px_rgba(249,115,22,0.3)]',
+  new: 'bg-gradient-to-br from-success to-emerald-600 text-white shadow-[0_2px_8px_rgba(16,185,129,0.3)]',
+  default: 'bg-gray-100 text-gray-600 border border-gray-200',
+  discontinued: 'bg-gradient-to-br from-error to-red-700 text-white shadow-[0_2px_8px_rgba(239,68,68,0.3)]',
+  futures: 'bg-gradient-to-br from-warning to-amber-600 text-white shadow-[0_2px_8px_rgba(245,158,11,0.3)]',
 };
 
-const classes = `inline-flex items-center px-2 py-0.5 text-xs font-medium rounded ${variants[variant]} ${className}`;
+const pulseClass = pulse ? 'animate-pulse-glow' : '';
+const classes = `inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-lg ${variants[variant]} ${pulseClass} ${className}`;
 ---
 
 <span class={classes}>

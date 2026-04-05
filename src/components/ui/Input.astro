@@ -2,7 +2,7 @@
 interface Props {
   label?: string;
   name: string;
-  type?: 'text' | 'email' | 'tel' | 'number' | 'password';
+  type?: 'text' | 'email' | 'tel' | 'number' | 'password' | 'search';
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
@@ -20,11 +20,11 @@ const {
 } = Astro.props;
 ---
 
-<div class="space-y-1">
+<div class="space-y-1.5">
   {label && (
-    <label for={name} class="block text-sm font-medium text-charcoal">
+    <label for={name} class="block text-sm font-medium text-gray-700">
       {label}
-      {required && <span class="text-error"> *</span>}
+      {required && <span class="text-error ml-0.5">*</span>}
     </label>
   )}
   <input
@@ -34,6 +34,16 @@ const {
     placeholder={placeholder}
     required={required}
     disabled={disabled}
-    class={`w-full h-12 px-4 rounded-lg border border-light-gray text-charcoal placeholder:text-mid-gray focus:border-tech-blue focus:ring-1 focus:ring-tech-blue transition-colors disabled:bg-light-gray disabled:cursor-not-allowed ${className}`}
+    class={`
+      w-full h-12 px-4 rounded-xl
+      bg-white border border-gray-200
+      text-gray-800 placeholder:text-gray-400
+      shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]
+      focus:border-cosmic-400 focus:ring-4 focus:ring-cosmic-400/10
+      hover:border-gray-300
+      disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60
+      transition-all duration-200 ease-out-expo
+      ${className}
+    `}
   />
 </div>

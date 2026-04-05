@@ -10,26 +10,95 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section class="relative bg-gradient-to-br from-[#1E3A5F] to-[#0F172A] text-white overflow-hidden">
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.4%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+<section class="relative min-h-[600px] lg:min-h-[700px] text-white overflow-hidden">
+  <!-- Multi-layer gradient background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-cosmic-900 via-gray-900 to-cosmic-900"></div>
+
+  <!-- Animated grid pattern -->
+  <div class="absolute inset-0 animate-grid opacity-40"></div>
+
+  <!-- Radial gradient overlays -->
+  <div class="absolute inset-0">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-cosmic-500/20 via-transparent to-transparent"></div>
+    <div class="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-aurora-400/10 via-transparent to-transparent rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-gradient-to-br from-cosmic-500/15 via-transparent to-transparent rounded-full blur-3xl"></div>
   </div>
-  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-    <div class="max-w-6xl mx-auto text-center">
-      <h1 class="w-full text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-        {t.hero.title}
+
+  <!-- Floating orbs (decorative) -->
+  <div class="absolute top-1/4 left-[10%] w-2 h-2 bg-cosmic-300 rounded-full animate-float opacity-60"></div>
+  <div class="absolute top-[30%] right-[15%] w-3 h-3 bg-aurora-300 rounded-full animate-float opacity-40" style="animation-delay: 1s;"></div>
+  <div class="absolute bottom-[40%] left-[20%] w-2 h-2 bg-cosmic-400 rounded-full animate-float opacity-50" style="animation-delay: 2s;"></div>
+
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+        <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span>
+        <span class="text-sm text-cosmic-200">ISO9001 Certified Manufacturer</span>
+      </div>
+
+      <!-- Main heading with gradient text -->
+      <h1 class="w-full text-4xl lg:text-6xl font-bold mb-8 leading-tight">
+        <span class="gradient-text-light">{t.hero.title}</span>
       </h1>
-      <p class="text-xl text-white/80 mb-8 leading-relaxed">
+
+      <!-- Subtitle -->
+      <p class="text-xl lg:text-2xl text-cosmic-200 mb-12 leading-relaxed max-w-2xl mx-auto">
         {t.hero.subtitle}
       </p>
+
+      <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-4 justify-center">
-        <Button variant="primary" size="lg" href={`/${locale}/products`}>
+        <a
+          href={`/${locale}/products`}
+          class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-aurora-400 to-aurora-500 text-white rounded-xl font-semibold text-lg shadow-[0_4px_20px_rgba(249,115,22,0.4)] hover:shadow-[0_8px_30px_rgba(249,115,22,0.5)] hover:from-aurora-300 hover:to-aurora-400 transition-all duration-300 active:scale-[0.98]"
+        >
           {t.hero.cta}
-        </Button>
-        <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-[#1E3A5F]" href={`/${locale}/contact`}>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          href={`/${locale}/contact`}
+          class="inline-flex items-center gap-3 px-8 py-4 bg-white/10 border border-white/20 text-white rounded-xl font-semibold text-lg backdrop-blur-sm hover:bg-white/20 hover:border-white/30 transition-all duration-300"
+        >
           {t.hero.ctaSecondary}
-        </Button>
+        </a>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="mt-20 pt-8 border-t border-white/10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="text-center">
+            <div class="text-3xl lg:text-4xl font-bold text-white mb-1">30+</div>
+            <div class="text-sm text-cosmic-300">Years Experience</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl lg:text-4xl font-bold text-white mb-1">100M</div>
+            <div class="text-sm text-cosmic-300">Monthly Capacity</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl lg:text-4xl font-bold text-white mb-1">50+</div>
+            <div class="text-sm text-cosmic-300">Countries Served</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl lg:text-4xl font-bold text-white mb-1">6</div>
+            <div class="text-sm text-cosmic-300">Certifications</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Bottom fade -->
+  <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
 </section>
+
+<style>
+  .gradient-text-light {
+    background: linear-gradient(135deg, #FFFFFF 0%, #BFDBFE 40%, #FFFFFF 60%, #93C5FD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
