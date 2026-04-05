@@ -13,11 +13,11 @@ export function getLocaleFromUrl(url: URL): Locale {
   if (lang && locales.includes(lang as Locale)) {
     return lang as Locale;
   }
-  return 'zh';
+  return 'en'; // Default to English
 }
 
 export function useTranslations(locale: Locale) {
-  return translations[locale] ?? translations.zh;
+  return translations[locale] ?? translations.en;
 }
 
 export function t(locale: Locale, key: string): string {
