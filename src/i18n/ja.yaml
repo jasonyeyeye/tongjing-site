@@ -1,0 +1,29 @@
+nav:
+  home: ホーム
+  products: 製品
+  about: 会社概要
+  contact: お問い合わせ
+  news: 新着情報
+
+hero:
+  title: 精密水晶ソリューション
+  subtitle: 水晶振動子、発振器、RTCモジュールの専門メーカー
+  cta: 製品を見る
+
+product:
+  title: 製品情報
+  resonators: 水晶振動子
+  oscillators: 水晶発振器
+  rtc: RTCモジュール
+  viewDetail: 詳細を見る
+  parameters: 仕様
+
+footer:
+  address: 住所
+  email: メール
+  phone: 電話
+  copyright: © 2024 TongJing Electronics. All rights reserved.
+
+seo:
+  title: 同晶電子 - 水晶振動子メーカー
+  description: 合肥同晶電子は水晶振動子、発信器、RTCモジュールの専門メーカーです。

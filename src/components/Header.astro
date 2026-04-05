@@ -1,0 +1,25 @@
+---
+import { getLocaleFromUrl, useTranslations } from '../utils/i18n';
+import LangSwitch from './LangSwitch.astro';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+---
+
+<header class="border-b border-gray-200 bg-white sticky top-0 z-50">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <a href={`/${locale}`} class="text-xl font-bold text-primary-600">
+        同晶电子
+      </a>
+      
+      <div class="hidden md:flex items-center space-x-8">
+        <a href={`/${locale}`} class="text-gray-700 hover:text-primary-600">{t.nav.home}</a>
+        <a href={`/${locale}/products`} class="text-gray-700 hover:text-primary-600">{t.nav.products}</a>
+        <a href={`/${locale}/about`} class="text-gray-700 hover:text-primary-600">{t.nav.about}</a>
+        <a href={`/${locale}/contact`} class="text-gray-700 hover:text-primary-600">{t.nav.contact}</a>
+        <LangSwitch locale={locale} />
+      </div>
+    </div>
+  </nav>
+</header>

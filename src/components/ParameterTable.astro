@@ -1,0 +1,29 @@
+---
+interface Props {
+  parameters: Array<{
+    name: string;
+    value: string;
+  }>;
+}
+
+const { parameters } = Astro.props;
+---
+
+<div class="overflow-x-auto">
+  <table class="min-w-full divide-y divide-gray-200 text-sm">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-4 py-3 text-left font-medium text-gray-900">Parameter</th>
+        <th class="px-4 py-3 text-left font-medium text-gray-900">Value</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      {parameters.map((param) => (
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">{param.name}</td>
+          <td class="px-4 py-3 font-medium text-gray-900">{param.value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

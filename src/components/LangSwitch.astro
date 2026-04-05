@@ -1,0 +1,61 @@
+---
+import { locales, type Locale } from '../utils/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+// Remove current locale prefix from path
+const pathWithoutLocale = currentPath.replace(/^\/(zh|en|ja|de)/, '') || '/';
+
+const localeNames: Record<Locale, string> = {
+  zh: '中文',
+  en: 'EN',
+  ja: '日本語',
+  de: 'DE',
+};
+---
+
+<div class="relative inline-block">
+  <button
+    id="lang-switch"
+    class="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-700 hover:text-primary-600 border border-gray-300 rounded-md hover:border-primary-300 transition-colors"
+  >
+    {localeNames[locale]}
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  
+  <div
+    id="lang-dropdown"
+    class="hidden absolute right-0 mt-1 w-24 bg-white border border-gray-200 rounded-md shadow-lg z-50"
+  >
+    {locales.map((loc) => (
+      <a
+        href={`/${loc}${pathWithoutLocale}`}
+        class={`block px-4 py-2 text-sm hover:bg-gray-100 ${loc === locale ? 'text-primary-600 font-medium' : 'text-gray-700'}`}
+      >
+        {localeNames[loc]}
+      </a>
+    ))}
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById('lang-switch');
+  const dropdown = document.getElementById('lang-dropdown');
+  
+  btn?.addEventListener('click', () => {
+    dropdown?.classList.toggle('hidden');
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!btn?.contains(e.target as Node) && !dropdown?.contains(e.target as Node)) {
+      dropdown?.classList.add('hidden');
+    }
+  });
+</script>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { useTranslations } from '../../utils/i18n';
+
+const t = useTranslations('ja');
+---
+
+<BaseLayout title={t.seo.title} description={t.seo.description}>
+  <Hero locale="ja" />
+  
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">{t.product.title}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <ProductCard
+          title={t.product.resonators}
+          description="HC-49S/SMD 水晶振動子、周波数範囲 3.2MHz~100MHz"
+          href="/ja/products/resonators"
+        />
+        <ProductCard
+          title={t.product.oscillators}
+          description="精度 ±10ppm の水晶発振器"
+          href="/ja/products/oscillators"
+        />
+        <ProductCard
+          title={t.product.rtc}
+          description="水晶と補償回路を統合したRTCモジュール"
+          href="/ja/products/rtc"
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import { getLocaleFromUrl, useTranslations } from '../utils/i18n';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+---
+
+<footer class="bg-gray-900 text-white py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="col-span-1 md:col-span-2">
+        <h3 class="text-lg font-bold mb-4">同晶电子 TongJing</h3>
+        <p class="text-gray-400 text-sm">
+          合肥同晶电子有限公司<br>
+          专业生产石英晶体谐振器、振荡器和RTC模块
+        </p>
+      </div>
+      
+      <div>
+        <h4 class="font-semibold mb-4">{t.nav.products}</h4>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href={`/${locale}/products/resonators`}>{t.product.resonators}</a></li>
+          <li><a href={`/${locale}/products/oscillators`}>{t.product.oscillators}</a></li>
+          <li><a href={`/${locale}/products/rtc`}>{t.product.rtc}</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-semibold mb-4">{t.nav.contact}</h4>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li>{t.footer.phone}: +86 XXX-XXXX-XXXX</li>
+          <li>{t.footer.email}: info@tongjing.com</li>
+          <li>{t.footer.address}: 合肥市高新技术产业开发区</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
+      {t.footer.copyright}
+    </div>
+  </div>
+</footer>
