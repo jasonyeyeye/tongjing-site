@@ -33,11 +33,11 @@ const {
 } = Astro.props;
 
 const badgeLabels = {
-  hot: '热销',
-  new: '新品',
-  default: '常规',
-  discontinued: '停产',
-  futures: '期货',
+  hot: 'Hot',
+  new: 'New',
+  default: 'Standard',
+  discontinued: 'Discontinued',
+  futures: 'Future',
 };
 ---
 
@@ -72,17 +72,17 @@ const badgeLabels = {
     <!-- Core Parameters -->
     <div class="space-y-1 text-sm mb-4">
       <p class="text-dark-gray">
-        <span class="text-mid-gray">频率:</span> {frequency}
+        <span class="text-mid-gray">Freq:</span> {frequency}
       </p>
       <p class="text-dark-gray">
-        <span class="text-mid-gray">精度:</span> {tolerance}
+        <span class="text-mid-gray">Tolerance:</span> {tolerance}
       </p>
       <p class="text-dark-gray">
-        <span class="text-mid-gray">封装:</span> {pkg}
+        <span class="text-mid-gray">Package:</span> {pkg}
       </p>
       {loadCapacitance && (
         <p class="text-dark-gray">
-          <span class="text-mid-gray">负载:</span> {loadCapacitance}
+          <span class="text-mid-gray">Load:</span> {loadCapacitance}
         </p>
       )}
       {esr && (
@@ -100,7 +100,7 @@ const badgeLabels = {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
-            库存: {stock}
+            Stock: {stock}
           </span>
         </div>
         {priceRange && (
@@ -118,10 +118,10 @@ const badgeLabels = {
         Datasheet
       </Button>
       <Button variant="ghost" size="sm" href={href}>
-        详情
+        Details
       </Button>
       <Button variant="primary" size="sm">
-        询价
+        Inquiry
       </Button>
     </div>
   </div>
