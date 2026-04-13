@@ -65,7 +65,8 @@
       "title": "Offices",
       "shenzhen": "Shenzhen Office",
       "jiangsu": "Jiangsu Office"
-    }
+    },
+    "mapPlaceholder": "Map Location"
   },
   "news": {
     "title": "News",
@@ -91,6 +92,11 @@
     "email": "Email",
     "phone": "Phone",
     "copyright": "© 2024 TongJing Electronics. All rights reserved."
+  },
+  "filter": {
+    "brandComparison": "Brand Comparison",
+    "reset": "Reset",
+    "apply": "Apply Filters"
   },
   "seo": {
     "title": "TongJing Electronics - Crystal Resonator Manufacturer",

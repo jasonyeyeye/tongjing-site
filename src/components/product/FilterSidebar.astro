@@ -1,4 +1,6 @@
 ---
+import { getLocaleFromUrl, useTranslations } from '../../utils/i18n';
+
 interface Props {
   filters: Array<{
     name: string;
@@ -7,6 +9,8 @@ interface Props {
 }
 
 const { filters } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
 ---
 
 <div class="space-y-6">
@@ -36,9 +40,9 @@ const { filters } = Astro.props;
 
   <!-- Cross Reference Brands -->
   <div class="border-b border-light-gray pb-6">
-    <h4 class="font-medium text-charcoal mb-3">品牌对标</h4>
+    <h4 class="font-medium text-charcoal mb-3">{t.filter.brandComparison}</h4>
     <div class="grid grid-cols-2 gap-2">
-      {['EPSON', 'NDK', 'KDS', '村田'].map((brand) => (
+      {['EPSON', 'NDK', 'KDS', 'Murata'].map((brand) => (
         <button class="px-3 py-2 text-sm border border-light-gray rounded-lg hover:border-tech-blue hover:text-tech-blue transition-colors text-center">
           {brand}
         </button>
@@ -49,10 +53,10 @@ const { filters } = Astro.props;
   <!-- Actions -->
   <div class="flex gap-2">
     <button class="flex-1 px-4 py-2 text-sm border border-light-gray rounded-lg hover:bg-light-gray transition-colors">
-      重置
+      {t.filter.reset}
     </button>
     <button class="flex-1 px-4 py-2 text-sm bg-crystal-orange text-white rounded-lg hover:bg-sunset-orange transition-colors">
-      应用筛选
+      {t.filter.apply}
     </button>
   </div>
 </div>

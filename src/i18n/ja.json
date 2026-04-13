@@ -65,7 +65,8 @@
       "title": "拠点",
       "shenzhen": "深セン事務所",
       "jiangsu": "江蘇事務所"
-    }
+    },
+    "mapPlaceholder": "地図位置"
   },
   "news": {
     "title": "新着情報",
@@ -91,6 +92,11 @@
     "email": "メール",
     "phone": "電話",
     "copyright": "© 2024 TongJing Electronics. All rights reserved."
+  },
+  "filter": {
+    "brandComparison": "ブランド比較",
+    "reset": "リセット",
+    "apply": "絞り込み適用"
   },
   "seo": {
     "title": "同晶電子 - 水晶振動子メーカー",

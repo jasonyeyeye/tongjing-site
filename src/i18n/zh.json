@@ -65,7 +65,8 @@
       "title": "分支机构",
       "shenzhen": "深圳办",
       "jiangsu": "江苏办"
-    }
+    },
+    "mapPlaceholder": "地图位置"
   },
   "news": {
     "title": "资讯中心",
@@ -91,6 +92,11 @@
     "email": "邮箱",
     "phone": "电话",
     "copyright": "合肥同晶电子有限公司 版权所有"
+  },
+  "filter": {
+    "brandComparison": "品牌对标",
+    "reset": "重置",
+    "apply": "应用筛选"
   },
   "seo": {
     "title": "同晶电子 - 晶体谐振器生产厂家",

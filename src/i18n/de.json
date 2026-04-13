@@ -65,7 +65,8 @@
       "title": "Niederlassungen",
       "shenzhen": "Shenzhen Büro",
       "jiangsu": "Jiangsu Büro"
-    }
+    },
+    "mapPlaceholder": "Kartenstandort"
   },
   "news": {
     "title": "Neuigkeiten",
@@ -91,6 +92,11 @@
     "email": "E-Mail",
     "phone": "Telefon",
     "copyright": "© 2024 TongJing Electronics. Alle Rechte vorbehalten."
+  },
+  "filter": {
+    "brandComparison": "Markenvergleich",
+    "reset": "Zurücksetzen",
+    "apply": "Filter anwenden"
   },
   "seo": {
     "title": "TongJing Electronics - Quarzschwinger Hersteller",
