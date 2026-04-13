@@ -41,32 +41,32 @@ const organizationJsonLd = {
   },
   foundingLocation: {
     '@type': 'Place',
-    name: 'Hefei, Anhui, China',
+    name: 'Shenzhen, Guangdong, China',
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 31.8206,
-      longitude: 117.2272,
+      latitude: 22.5431,
+      longitude: 114.0579,
     },
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+86-551-xxxx-xxxx',
+    email: 'jason@chinanewchip.com',
     contactType: 'customer service',
     availableLanguage: ['English', 'Chinese'],
     areaServed: 'Worldwide',
   },
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Hefei High-tech Industrial Development Zone',
-    addressLocality: 'Hefei',
-    addressRegion: 'Anhui',
-    postalCode: '230088',
+    streetAddress: 'Shenzhen, Guangdong',
+    addressLocality: 'Shenzhen',
+    addressRegion: 'Guangdong',
+    postalCode: '518000',
     addressCountry: 'CN',
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 31.8206,
-    longitude: 117.2272,
+    latitude: 22.5431,
+    longitude: 114.0579,
   },
   areaServed: {
     '@type': 'Place',
@@ -93,21 +93,21 @@ const localBusinessJsonLd = {
   '@type': ['LocalBusiness', 'ElectronicsStore'],
   '@id': `${siteUrl}/#localbusiness`,
   name: siteName,
-  description: 'Electronic components and chip brand distributor based in Hefei, China. Specializing in quartz crystal resonators, oscillators, RTC modules, and promoting Chinese electronics brands globally.',
+  description: 'Electronic components and chip brand platform based in Shenzhen, China. Specializing in quartz crystal resonators, oscillators, RTC modules, and promoting Chinese electronics brands globally.',
   url: siteUrl,
-  telephone: '+86-551-xxxx-xxxx',
+  email: 'jason@chinanewchip.com',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Hefei High-tech Industrial Development Zone',
-    addressLocality: 'Hefei',
-    addressRegion: 'Anhui',
-    postalCode: '230088',
+    streetAddress: 'Shenzhen',
+    addressLocality: 'Shenzhen',
+    addressRegion: 'Guangdong',
+    postalCode: '518000',
     addressCountry: 'CN',
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 31.8206,
-    longitude: 117.2272,
+    latitude: 22.5431,
+    longitude: 114.0579,
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
@@ -198,10 +198,10 @@ const getProductJsonLd = (product: {
 <meta name="keywords" content="China electronics brands, Chinese chip manufacturers, electronic components, semiconductor chips, quartz crystal resonators, crystal oscillators, RTC modules, Made in China electronics, China semiconductor, electronic components supplier" />
 <meta name="author" content="China NewChip" />
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-<meta name="geo.region" content="CN-34" />
-<meta name="geo.placename" content="Hefei, Anhui" />
-<meta name="geo.position" content="31.8206;117.2272" />
-<meta name="ICBM" content="31.8206, 117.2272" />
+<meta name="geo.region" content="CN-44" />
+<meta name="geo.placename" content="Shenzhen, Guangdong" />
+<meta name="geo.position" content="22.5431;114.0579" />
+<meta name="ICBM" content="22.5431, 114.0579" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={currentUrl} />
@@ -250,12 +250,12 @@ const getProductJsonLd = (product: {
 <script type="application/ld+json" set:html={JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'GeoCoordinates',
-  latitude: 31.8206,
-  longitude: 117.2272,
+  latitude: 22.5431,
+  longitude: 114.0579,
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Hefei',
-    addressRegion: 'Anhui',
+    addressLocality: 'Shenzhen',
+    addressRegion: 'Guangdong',
     addressCountry: 'CN',
   },
 })} />
