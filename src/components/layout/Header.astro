@@ -27,7 +27,9 @@ const currentBrand = brands[0];
           <div class="relative">
             <div class="absolute inset-0 bg-gradient-to-br from-cosmic-400 to-cosmic-600 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
             <div class="relative w-10 h-10 bg-gradient-to-br from-cosmic-500 to-cosmic-700 rounded-xl flex items-center justify-center shadow-lg" style={`background: linear-gradient(135deg, ${currentBrand.primaryColor}, ${currentBrand.primaryColor}dd)`}>
-              <span class="text-white font-bold text-lg">{currentBrand.id.slice(0, 2).toUpperCase()}</span>
+              <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 9l10 5 10-5L12 2zm0 18l-10-5 10-5 10 5-10 5zm0-8L2 14l10 5 10-5-10-5z"/>
+              </svg>
             </div>
           </div>
           <span class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">China NewChip</span>
@@ -83,7 +85,9 @@ const currentBrand = brands[0];
     <div class="flex justify-between items-center h-16 px-4">
       <a href="/" class="flex items-center gap-2">
         <div class="w-9 h-9 bg-gradient-to-br from-cosmic-500 to-cosmic-700 rounded-lg flex items-center justify-center shadow-md" style={`background: linear-gradient(135deg, ${currentBrand.primaryColor}, ${currentBrand.primaryColor}dd)`}>
-          <span class="text-white font-bold text-sm">{currentBrand.id.slice(0, 2).toUpperCase()}</span>
+          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 9l10 5 10-5L12 2zm0 18l-10-5 10-5 10 5-10 5zm0-8L2 14l10 5 10-5-10-5z"/>
+          </svg>
         </div>
         <span class="font-bold text-gray-800">China NewChip</span>
       </a>
