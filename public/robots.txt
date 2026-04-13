@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tongjing.example.com/sitemap-index.xml
+# Sitemap
+Sitemap: https://chinanewchip.com/sitemap-index.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
