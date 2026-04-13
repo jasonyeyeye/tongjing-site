@@ -9,7 +9,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "worker:dev": "wrangler dev --config workers/contact-form/wrangler.toml",
+    "worker:deploy": "wrangler deploy --config workers/contact-form/wrangler.toml",
+    "worker:tail": "wrangler tail --config workers/contact-form/wrangler.toml"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.1.7",
@@ -18,5 +21,8 @@
     "astro": "^6.1.3",
     "pagefind": "^1.4.0",
     "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
   }
 }
