@@ -91,6 +91,7 @@ function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discont
               stock={product.stock}
               priceRange={product.priceRange}
               badge={getBadgeForProduct(product.badge)}
+              image={product.package.includes('3225') ? '/images/product-resonator-3225_001.jpg' : product.package.includes('2520') ? '/images/product-resonator-2520_001.jpg' : '/images/product-resonator-2016_001.jpg'}
               href={`/products/${product.id}`}
             />
           ))}
