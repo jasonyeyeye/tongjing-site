@@ -1,7 +1,7 @@
 ---
 import Badge from '../ui/Badge.astro';
 import Button from '../ui/Button.astro';
-import { getLocaleFromUrl, useTranslations } from '../../utils/i18n';
+import { useTranslations } from '../../utils/i18n';
 
 interface Props {
   model: string;
@@ -33,27 +33,24 @@ const {
   href,
 } = Astro.props;
 
-const locale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(locale);
-
 const badgeLabels: Record<string, string> = {
-  hot: locale === 'zh' ? '热销' : locale === 'ja' ? '热销' : locale === 'de' ? 'Heiß' : 'Hot',
-  new: locale === 'zh' ? '新品' : locale === 'ja' ? '新型' : locale === 'de' ? 'Neu' : 'New',
-  default: locale === 'zh' ? '常规' : locale === 'ja' ? '通常' : locale === 'de' ? 'Standard' : 'Standard',
-  discontinued: locale === 'zh' ? '停产' : locale === 'ja' ? '生産中止' : locale === 'de' ? 'Eingestellt' : 'Discontinued',
-  futures: locale === 'zh' ? '期货' : locale === 'ja' ? '先物' : locale === 'de' ? 'Zukunft' : 'Future',
+  hot: 'Hot',
+  new: 'New',
+  default: 'Standard',
+  discontinued: 'Discontinued',
+  futures: 'Future',
 };
 
 const labels = {
-  freq: locale === 'zh' ? '频率' : locale === 'ja' ? '周波数' : locale === 'de' ? 'Frequenz' : 'Freq',
-  tolerance: locale === 'zh' ? '精度' : locale === 'ja' ? '許容差' : locale === 'de' ? 'Toleranz' : 'Tolerance',
-  package: locale === 'zh' ? '封装' : locale === 'ja' ? 'パッケージ' : locale === 'de' ? 'Gehäuse' : 'Package',
-  load: locale === 'zh' ? '负载电容' : locale === 'ja' ? '負荷容量' : locale === 'de' ? 'Last' : 'Load',
-  esr: locale === 'zh' ? '等效串联电阻' : locale === 'ja' ? '等価直列抵抗' : locale === 'de' ? 'ESR' : 'ESR',
-  stock: locale === 'zh' ? '库存' : locale === 'ja' ? '在庫' : locale === 'de' ? 'Bestand' : 'Stock',
-  datasheet: locale === 'zh' ? '数据手册' : locale === 'ja' ? 'データシート' : locale === 'de' ? 'Datenblatt' : 'Datasheet',
-  details: locale === 'zh' ? '详情' : locale === 'ja' ? '詳細' : locale === 'de' ? 'Details' : 'Details',
-  inquiry: locale === 'zh' ? '询价' : locale === 'ja' ? 'Inquiry' : locale === 'de' ? 'Anfrage' : 'Inquiry',
+  freq: 'Freq',
+  tolerance: 'Tolerance',
+  package: 'Package',
+  load: 'Load',
+  esr: 'ESR',
+  stock: 'Stock',
+  datasheet: 'Datasheet',
+  details: 'Details',
+  inquiry: 'Inquiry',
 };
 ---
 
@@ -131,10 +128,10 @@ const labels = {
 
     <!-- Stock & Price -->
     {stock && (
-      <div class="bg-gradient-to-r from-success/5 to-success/10 border border-success/20 rounded-xl p-3 mb-5">
+      <div class="bg-gradient-to-r from-green-50/50 to-green-100/50 border border-green-200/50 rounded-xl p-3 mb-5">
         <div class="flex items-center justify-between text-sm">
-          <span class="flex items-center gap-2 text-success">
-            <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span>
+          <span class="flex items-center gap-2 text-green-600">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
             {labels.stock}: {stock}
           </span>
         </div>

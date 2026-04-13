@@ -1,8 +1,6 @@
 ---
-import { locales } from '../utils/i18n';
-
-// Google Analytics Measurement ID (格式: G-XXXXXXXXXX)
-// 在 Cloudflare Pages 环境变量中设置 GA_MEASUREMENT_ID
+// Google Analytics Measurement ID (format: G-XXXXXXXXXX)
+// Set in Cloudflare Pages environment variable GA_MEASUREMENT_ID
 const gaMeasurementId = import.meta.env.GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
 
 interface Props {
@@ -10,39 +8,19 @@ interface Props {
   description: string;
   image?: string;
   canonical?: string;
-  locale?: string;
   type?: 'website' | 'product';
 }
 
-const { title, description, image, canonical, locale = 'en', type = 'website' } = Astro.props;
+const { title, description, image, canonical, type = 'website' } = Astro.props;
 const siteUrl = 'https://chinanewchip.com';
 const defaultImage = `${siteUrl}/og-image.png`;
 const currentUrl = canonical ?? Astro.url.href;
-
-const siteNames: Record<string, string> = {
-  en: 'China NewChip',
-  zh: '中国新芯片',
-  ja: '中国新チップ',
-  de: 'China NewChip',
-};
-
-// Generate hreflang URLs
-const getHreflangUrl = (loc: string) => {
-  // Extract pathname from currentUrl
-  const url = new URL(currentUrl);
-  const pathname = url.pathname;
-  // Remove current locale prefix if present
-  const pathWithoutLocale = pathname.replace(/^\/(zh|en|ja|de)/, '') || '/';
-  // Return URL with new locale prefix
-  const newPath = loc === 'en' ? pathWithoutLocale : `/${loc}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`;
-  return `${url.origin}${newPath}`;
-};
 
 // JSON-LD Structured Data
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': type === 'product' ? 'Product' : 'Organization',
-  name: siteNames[locale] ?? siteNames.en,
+  name: 'China NewChip',
   description,
   url: currentUrl,
   ...(type === 'product' ? {
@@ -59,7 +37,7 @@ const jsonLd = {
       '@type': 'ContactPoint',
       telephone: '+86-551-xxxx-xxxx',
       contactType: 'customer service',
-      availableLanguage: ['en', 'zh', 'ja', 'de'],
+      availableLanguage: 'en',
     },
   }),
 };
@@ -70,20 +48,14 @@ const jsonLd = {
 <meta name="description" content={description} />
 <link rel="canonical" href={currentUrl} />
 
-<!-- Hreflang for multi-language SEO -->
-{locales.map((loc) => (
-  <link rel="alternate" hreflang={loc} href={getHreflangUrl(loc)} />
-))}
-<link rel="alternate" hreflang="x-default" href={getHreflangUrl('en')} />
-
 <!-- Open Graph -->
 <meta property="og:type" content={type === 'product' ? 'product' : 'website'} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={image ?? defaultImage} />
 <meta property="og:url" content={currentUrl} />
-<meta property="og:site_name" content={siteNames[locale] ?? siteNames.en} />
-<meta property="og:locale" content={locale === 'zh' ? 'zh_CN' : locale === 'ja' ? 'ja_JP' : locale === 'de' ? 'de_DE' : 'en_US'} />
+<meta property="og:site_name" content="China NewChip" />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />

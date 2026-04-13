@@ -2,25 +2,21 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/layout/Container.astro';
 import { brands } from '../../data/brands';
-import { getLocaleFromUrl, useTranslations } from '../../utils/i18n';
+import { useTranslations } from '../../utils/i18n';
 
-const locale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(locale);
+const t = useTranslations();
 ---
 
 <BaseLayout
-  title={`${t.nav.brands || 'Brands'} - ${t.seo.title}`}
+  title={`${t.nav.brands} - ${t.seo.title}`}
   description={t.seo.description}
 >
   <!-- Hero -->
   <section class="bg-gradient-to-r from-cosmic-600 to-cosmic-800 text-white py-16">
     <Container>
-      <h1 class="text-4xl font-bold mb-4">{t.nav.brands || 'Our Brands'}</h1>
+      <h1 class="text-4xl font-bold mb-4">{t.nav.brands}</h1>
       <p class="text-white/80 text-lg max-w-2xl">
-        {locale === 'zh' ? '专业晶振制造商，旗下多个品牌满足不同市场需求' :
-         locale === 'ja' ? '専門水晶振動子メーカー、異なる市場ニーズに対応する複数のブランド' :
-         locale === 'de' ? 'Professionelle Kristalloszillator-Hersteller mit mehreren Marken für unterschiedliche Marktanforderungen' :
-         'Professional crystal oscillator manufacturers with multiple brands for different market needs'}
+        Professional crystal oscillator manufacturers with multiple brands for different market needs
       </p>
     </Container>
   </section>
@@ -41,32 +37,27 @@ const t = useTranslations(locale);
             >
               <span class="text-white font-bold text-2xl">{brand.id.slice(0, 2).toUpperCase()}</span>
             </div>
-            <span
-              class="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-xs font-medium rounded-full"
-            >
-              {locale === 'zh' ? '已上线' :
-               locale === 'ja' ? '公開中' :
-               locale === 'de' ? 'Live' :
-               'Active'}
+            <span class="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-xs font-medium rounded-full">
+              Active
             </span>
           </div>
 
           <!-- Brand Info -->
           <div class="p-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-2">
-              {brand.name[locale] || brand.name.en}
+              {brand.name.en}
             </h2>
             <p class="text-cosmic-600 font-medium mb-3">
-              {brand.tagline[locale] || brand.tagline.en}
+              {brand.tagline.en}
             </p>
             <p class="text-gray-600 text-sm mb-6 line-clamp-3">
-              {brand.description[locale] || brand.description.en}
+              {brand.description.en}
             </p>
 
             <!-- Brand Actions -->
             <div class="flex gap-3">
               <a
-                href={`/${locale}/${brand.slug}/products`}
+                href="/products"
                 class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-cosmic-600 text-white rounded-xl font-medium text-sm hover:bg-cosmic-700 transition-colors"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,16 +90,10 @@ const t = useTranslations(locale);
           </svg>
         </div>
         <h3 class="text-xl font-bold text-gray-400 mb-2">
-          {locale === 'zh' ? '更多品牌即将推出' :
-           locale === 'ja' ? '今後のブランド' :
-           locale === 'de' ? 'Weitere Marken folgen' :
-           'More Brands Coming Soon'}
+          More Brands Coming Soon
         </h3>
         <p class="text-gray-400 text-sm">
-          {locale === 'zh' ? '我们正在拓展品牌矩阵，敬请期待' :
-           locale === 'ja' ? 'ブランド расширя阵容，敬请ご期待' :
-           locale === 'de' ? 'Wir erweitern unser Markenportfolio, stay tuned' :
-           'We are expanding our brand portfolio, stay tuned'}
+          We are expanding our brand portfolio, stay tuned
         </p>
       </div>
     </div>
@@ -121,13 +106,10 @@ const t = useTranslations(locale);
         {t.filter.brandComparison}
       </h2>
       <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
-        {locale === 'zh' ? '比较不同品牌的产品规格，找到最适合您应用的晶振解决方案' :
-         locale === 'ja' ? '異なるブランドの製品仕様を比較し、アプリケーションに最適な水晶振動子ソリューションを見つける' :
-         locale === 'de' ? 'Vergleichen Sie die Produktspezifikationen verschiedener Marken und finden Sie die beste Kristalloszillator-Lösung' :
-         'Compare product specifications across brands to find the best crystal oscillator solution for your application'}
+        Compare product specifications across brands to find the best crystal oscillator solution for your application
       </p>
       <a
-        href={`/${locale}/products`}
+        href="/products"
         class="inline-flex items-center gap-2 px-6 py-3 bg-cosmic-600 text-white rounded-xl font-medium hover:bg-cosmic-700 transition-colors"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

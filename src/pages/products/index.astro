@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import ProductCard from '../../components/product/ProductCard.astro';
+import FilterSidebar from '../../components/product/FilterSidebar.astro';
+import Button from '../../components/ui/Button.astro';
+import { useTranslations } from '../../utils/i18n';
+import { getAllProducts } from '../../data/products';
+
+const t = useTranslations();
+const products = getAllProducts();
+
+const filters = [
+  {
+    name: 'Category',
+    options: [
+      { value: 'resonators', label: 'Resonators', count: 4 },
+      { value: 'oscillators', label: 'Oscillators', count: 2 },
+      { value: 'rtc', label: 'RTC Modules', count: 0 },
+    ],
+  },
+  {
+    name: 'Package',
+    options: [
+      { value: '3225', label: '3225', count: 3 },
+      { value: '2520', label: '2520', count: 2 },
+      { value: '2016', label: '2016', count: 1 },
+      { value: '1610', label: '1610', count: 1 },
+    ],
+  },
+  {
+    name: 'Frequency Range',
+    options: [
+      { value: '8-16mhz', label: '8-16MHz', count: 2 },
+      { value: '16-25mhz', label: '16-25MHz', count: 2 },
+      { value: '25-50mhz', label: '25-50MHz', count: 2 },
+    ],
+  },
+];
+
+function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discontinued' | 'futures' {
+  return badge as any;
+}
+---
+
+<BaseLayout title={`${t.product.title} - ${t.seo.title}`} description={t.seo.description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-cosmic-600 to-cosmic-800 text-white py-12">
+    <Container>
+      <h1 class="text-3xl font-bold mb-2">{t.product.title}</h1>
+      <p class="text-white/80">{products.length} products</p>
+    </Container>
+  </section>
+
+  <Container class="py-12">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Filters Sidebar -->
+      <aside class="lg:w-64 shrink-0">
+        <div class="sticky top-24 bg-white rounded-xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-4">{t.product.filter}</h3>
+          <FilterSidebar filters={filters} />
+        </div>
+      </aside>
+
+      <!-- Products Grid -->
+      <div class="flex-1">
+        <!-- Sort & View Controls -->
+        <div class="flex items-center justify-between mb-6">
+          <p class="text-sm text-gray-500">{products.length} products</p>
+          <div class="flex items-center gap-4">
+            <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
+              <option>Default</option>
+              <option>Stock First</option>
+              <option>Price Low to High</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <ProductCard
+              model={product.model}
+              frequency={product.frequency}
+              tolerance={product.tolerance}
+              packageType={product.package}
+              stock={product.stock}
+              priceRange={product.priceRange}
+              badge={getBadgeForProduct(product.badge)}
+              href={`/products/${product.id}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+
+  <!-- CTA -->
+  <section class="py-12 bg-gray-50">
+    <Container class="text-center">
+      <p class="text-gray-500 mb-4">Need help? Contact our technical experts</p>
+      <Button variant="primary" href="/contact">Contact Us</Button>
+    </Container>
+  </section>
+</BaseLayout>

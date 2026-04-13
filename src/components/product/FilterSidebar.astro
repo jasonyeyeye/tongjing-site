@@ -1,5 +1,5 @@
 ---
-import { getLocaleFromUrl, useTranslations } from '../../utils/i18n';
+import { useTranslations } from '../../utils/i18n';
 
 interface Props {
   filters: Array<{
@@ -9,14 +9,13 @@ interface Props {
 }
 
 const { filters } = Astro.props;
-const locale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(locale);
+const t = useTranslations();
 ---
 
 <div class="space-y-6">
-  {filters.map((filter, filterIndex) => (
-    <div class="border-b border-light-gray pb-6">
-      <h4 class="font-medium text-charcoal mb-3">{filter.name}</h4>
+  {filters.map((filter) => (
+    <div class="border-b border-gray-200 pb-6">
+      <h4 class="font-medium text-gray-800 mb-3">{filter.name}</h4>
       <div class="space-y-2">
         {filter.options.map((option) => (
           <label class="flex items-center gap-2 cursor-pointer group">
@@ -24,13 +23,13 @@ const t = useTranslations(locale);
               type="checkbox"
               name={filter.name}
               value={option.value}
-              class="w-4 h-4 rounded border-mid-gray text-tech-blue focus:ring-tech-blue"
+              class="w-4 h-4 rounded border-gray-300 text-cosmic-500 focus:ring-cosmic-500"
             />
-            <span class="text-sm text-dark-gray group-hover:text-charcoal transition-colors">
+            <span class="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
               {option.label}
             </span>
             {option.count && (
-              <span class="text-xs text-mid-gray ml-auto">({option.count})</span>
+              <span class="text-xs text-gray-400 ml-auto">({option.count})</span>
             )}
           </label>
         ))}
@@ -39,11 +38,11 @@ const t = useTranslations(locale);
   ))}
 
   <!-- Cross Reference Brands -->
-  <div class="border-b border-light-gray pb-6">
-    <h4 class="font-medium text-charcoal mb-3">{t.filter.brandComparison}</h4>
+  <div class="border-b border-gray-200 pb-6">
+    <h4 class="font-medium text-gray-800 mb-3">{t.filter.brandComparison}</h4>
     <div class="grid grid-cols-2 gap-2">
       {['EPSON', 'NDK', 'KDS', 'Murata'].map((brand) => (
-        <button class="px-3 py-2 text-sm border border-light-gray rounded-lg hover:border-tech-blue hover:text-tech-blue transition-colors text-center">
+        <button class="px-3 py-2 text-sm border border-gray-200 rounded-lg hover:border-cosmic-400 hover:text-cosmic-600 transition-colors text-center">
           {brand}
         </button>
       ))}
@@ -52,10 +51,10 @@ const t = useTranslations(locale);
 
   <!-- Actions -->
   <div class="flex gap-2">
-    <button class="flex-1 px-4 py-2 text-sm border border-light-gray rounded-lg hover:bg-light-gray transition-colors">
+    <button class="flex-1 px-4 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
       {t.filter.reset}
     </button>
-    <button class="flex-1 px-4 py-2 text-sm bg-crystal-orange text-white rounded-lg hover:bg-sunset-orange transition-colors">
+    <button class="flex-1 px-4 py-2 text-sm bg-aurora-500 text-white rounded-lg hover:bg-aurora-600 transition-colors">
       {t.filter.apply}
     </button>
   </div>

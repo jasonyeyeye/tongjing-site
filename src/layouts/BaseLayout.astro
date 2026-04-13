@@ -3,7 +3,6 @@ import SEO from './SEO.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import '../styles/global.css';
-import { getLocaleFromUrl } from '../utils/i18n';
 
 interface Props {
   title: string;
@@ -12,13 +11,12 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
-const locale = getLocaleFromUrl(Astro.url);
 ---
 
 <!DOCTYPE html>
-<html lang={locale} class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
   <head>
-    <SEO title={title} description={description} image={image} locale={locale} />
+    <SEO title={title} description={description} image={image} />
   </head>
   <body class="flex flex-col min-h-screen bg-white text-charcoal">
     <Header />

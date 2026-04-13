@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import Button from '../components/ui/Button.astro';
+import { useTranslations } from '../utils/i18n';
+
+const t = useTranslations();
+
+const timeline = [
+  { year: '2005', event: 'Company founded, started crystal resonator R&D' },
+  { year: '2010', event: 'First automated production line launched, monthly capacity exceeded 10M units' },
+  { year: '2015', event: 'ISO9001 and ISO14001 certifications achieved' },
+  { year: '2018', event: 'Launched SMD2016 and SMD1610 small-size product lines' },
+  { year: '2020', event: 'RTC module mass production, entered automotive electronics market' },
+  { year: '2023', event: 'AEC-Q100 certified, capacity exceeded 100M units/month' },
+];
+
+const certifications = ['ISO9001', 'ISO14001', 'RoHS', 'REACH', 'AEC-Q100', 'Halogen Free'];
+---
+
+<BaseLayout title={`${t.about.title} - ${t.seo.title}`} description={t.seo.description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-cosmic-600 to-cosmic-800 text-white py-20">
+    <Container>
+      <h1 class="text-4xl font-bold mb-4">{t.about.title}</h1>
+      <p class="text-xl text-white/80">{t.about.subtitle}</p>
+    </Container>
+  </section>
+
+  <!-- Intro -->
+  <section class="py-16">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Company Profile</h2>
+          <p class="text-gray-600 leading-relaxed mb-6">
+            {t.about.intro}
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-6">
+            The company has its own R&D center, equipped with advanced production and testing equipment. Products are widely used in communication equipment, consumer electronics, automotive electronics, industrial control, medical devices and other fields. Products are exported to Japan, South Korea, Europe and the United States and other international markets.
+          </p>
+        </div>
+        <div class="bg-gray-100 rounded-xl aspect-video flex items-center justify-center">
+          <svg class="w-24 h-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Strengths -->
+  <section class="py-16 bg-gray-50">
+    <Container>
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Core Advantages</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-white rounded-xl p-6 text-center">
+          <div class="text-5xl mb-4">🏭</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">{t.about.strengths.automation.title}</h3>
+          <p class="text-sm text-gray-500">{t.about.strengths.automation.desc}</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 text-center">
+          <div class="text-5xl mb-4">⚡</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">{t.about.strengths.quality.title}</h3>
+          <p class="text-sm text-gray-500">{t.about.strengths.quality.desc}</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 text-center">
+          <div class="text-5xl mb-4">🎯</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">{t.about.strengths.direct.title}</h3>
+          <p class="text-sm text-gray-500">{t.about.strengths.direct.desc}</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 text-center">
+          <div class="text-5xl mb-4">🔬</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">{t.about.strengths.capacity.title}</h3>
+          <p class="text-sm text-gray-500">{t.about.strengths.capacity.desc}</p>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Timeline -->
+  <section class="py-16">
+    <Container>
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Development Timeline</h2>
+      <div class="max-w-4xl mx-auto">
+        {timeline.map((item) => (
+          <div class="flex gap-4 mb-8">
+            <div class="shrink-0 w-20 text-right">
+              <span class="text-lg font-bold text-aurora-500">{item.year}</span>
+            </div>
+            <div class="relative pl-8 border-l-2 border-gray-200">
+              <div class="absolute left-0 top-1 w-3 h-3 bg-aurora-500 rounded-full -translate-x-[7px]"></div>
+              <p class="text-gray-600">{item.event}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Certifications -->
+  <section class="py-16 bg-gradient-to-br from-cosmic-800 to-cosmic-900 text-white">
+    <Container>
+      <h2 class="text-3xl font-bold text-center mb-8">{t.about.certifications.title}</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {certifications.map((cert) => (
+          <span class="px-6 py-3 bg-white/10 rounded-lg font-medium">{cert}</span>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16">
+    <Container class="text-center">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Learn More</h2>
+      <p class="text-gray-500 mb-6">Contact us to learn more about our products</p>
+      <div class="flex justify-center gap-4">
+        <Button variant="primary" href="/products">{t.nav.products}</Button>
+        <Button variant="outline" href="/contact">{t.nav.contact}</Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

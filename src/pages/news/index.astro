@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import Button from '../../components/ui/Button.astro';
+import { useTranslations } from '../../utils/i18n';
+
+const t = useTranslations();
+
+const categories = [
+  { key: 'all', label: t.news.categories.all },
+  { key: 'tech', label: t.news.categories.tech },
+  { key: 'industry', label: t.news.categories.industry },
+  { key: 'company', label: t.news.categories.company },
+];
+
+const articles = [
+  {
+    title: 'Working Principle and Applications of Crystal Resonators',
+    category: 'tech',
+    date: '2026-03-15',
+    excerpt: 'Crystal resonators are precision electronic components that work based on the piezoelectric effect of quartz crystal...',
+    image: null,
+  },
+  {
+    title: '2026 Crystal Oscillator Industry Development Trend Analysis',
+    category: 'industry',
+    date: '2026-03-10',
+    excerpt: 'With the rapid development of 5G communication, automotive electronics, and IoT, crystal resonator demand continues to grow...',
+    image: null,
+  },
+  {
+    title: 'TongJing Electronics Achieves AEC-Q100 Certification',
+    category: 'company',
+    date: '2026-02-28',
+    excerpt: 'Congratulations to our RTC module product line for successfully passing AEC-Q100 automotive certification...',
+    image: null,
+  },
+  {
+    title: 'How to Choose the Right Crystal Resonator Package',
+    category: 'tech',
+    date: '2026-02-20',
+    excerpt: 'Crystal resonator package selection requires considering factors such as size, frequency range, and accuracy requirements...',
+    image: null,
+  },
+];
+---
+
+<BaseLayout title={`${t.news.title} - ${t.seo.title}`} description={t.seo.description}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-cosmic-600 to-cosmic-800 text-white py-12">
+    <Container>
+      <h1 class="text-3xl font-bold mb-2">{t.news.title}</h1>
+      <p class="text-white/80">Technical articles, industry news, company updates</p>
+    </Container>
+  </section>
+
+  <!-- Categories -->
+  <section class="py-6 border-b border-gray-200">
+    <Container>
+      <div class="flex flex-wrap gap-2">
+        {categories.map((cat) => (
+          <button class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            cat.key === 'all' ? 'bg-aurora-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Articles -->
+  <section class="py-12">
+    <Container>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {articles.map((article) => (
+          <article class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="aspect-video bg-gray-100 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <span class={`px-2 py-0.5 text-xs rounded ${
+                  article.category === 'tech' ? 'bg-cosmic-100 text-cosmic-600' :
+                  article.category === 'industry' ? 'bg-aurora-100 text-aurora-600' :
+                  'bg-green-100 text-green-600'
+                }`}>
+                  {article.category === 'tech' ? 'Technical' : article.category === 'industry' ? 'Industry' : 'Company'}
+                </span>
+                <span class="text-xs text-gray-500">{article.date}</span>
+              </div>
+              <h2 class="text-lg font-semibold text-gray-800 mb-2 hover:text-cosmic-600 transition-colors cursor-pointer">
+                {article.title}
+              </h2>
+              <p class="text-sm text-gray-500 line-clamp-2">{article.excerpt}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center gap-2 mt-12">
+        <Button variant="outline" size="sm" disabled>Previous</Button>
+        <Button variant="primary" size="sm">1</Button>
+        <Button variant="outline" size="sm">2</Button>
+        <Button variant="outline" size="sm">3</Button>
+        <Button variant="outline" size="sm">Next</Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

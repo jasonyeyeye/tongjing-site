@@ -1,31 +1,10 @@
 ---
-import { getLocaleFromUrl, useTranslations } from '../../utils/i18n';
+import { useTranslations } from '../../utils/i18n';
 
-const locale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(locale);
-
-const navItems = [
-  { key: 'products', href: `/${locale}/products` },
-  { key: 'tools', href: `/${locale}/tools` },
-  { key: 'news', href: `/${locale}/news` },
-  { key: 'about', href: `/${locale}/about` },
-  { key: 'contact', href: `/${locale}/contact` },
-];
-
-const footerLabels = {
-  brand: locale === 'zh' ? '同晶电子' : locale === 'ja' ? '同晶電子' : locale === 'de' ? 'TongJing Elektronik' : 'TongJing Electronics',
-  tagline: locale === 'zh' ? '晶体解决方案供应商' : locale === 'ja' ? '水晶解決策プロバイダー' : locale === 'de' ? 'Kristalllösungs-Anbieter' : 'Crystal Solutions Provider',
-  companyName: locale === 'zh' ? '合肥同晶电子有限公司' : locale === 'ja' ? '合肥同晶電子有限公司' : locale === 'de' ? 'Hefei TongJing Electronics GmbH' : 'Hefei TongJing Electronics Co., Ltd.',
-  description: locale === 'zh' ? '专业晶振、振荡器和RTC模块制造商' : locale === 'ja' ? '水晶振動子・発振器・RTCモジュールの専門メーカー' : locale === 'de' ? 'Professioneller Hersteller von Kristallschwingern, Oszillatoren und RTC-Modulen' : 'Professional manufacturer of crystal resonators, oscillators and RTC modules',
-  highlights: locale === 'zh' ? '研发 · 自动化生产 · 全球直销' : locale === 'ja' ? '研究開発 · 自動化生産 · 世界直接販売' : locale === 'de' ? 'F&E · Automatisierte Produktion · Globale Direktvertrieb' : 'R&D · Automated Production · Global Direct Sales',
-  companyTitle: locale === 'zh' ? '关于我们' : locale === 'ja' ? '会社情報' : locale === 'de' ? 'Unternehmen' : 'Company',
-  certifications: locale === 'zh' ? '资质认证' : locale === 'ja' ? '認証' : locale === 'de' ? 'Zertifizierungen' : 'Certifications',
-  copyright: locale === 'zh' ? '© 2026 同晶电子 保留所有权利' : locale === 'ja' ? '© 2026 同晶電子 無断複写禁止' : locale === 'de' ? '© 2026 TongJing Electronics. Alle Rechte vorbehalten.' : '© 2026 TongJing Electronics. All rights reserved.',
-};
+const t = useTranslations();
 ---
 
 <footer class="relative bg-gradient-to-b from-gray-900 to-cosmic-900 text-white">
-  <!-- Gradient top border -->
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cosmic-500/50 to-transparent"></div>
   <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-aurora-400/30 to-transparent mt-px"></div>
 
@@ -41,14 +20,14 @@ const footerLabels = {
             </div>
           </div>
           <div>
-            <span class="text-xl font-bold">{footerLabels.brand}</span>
-            <p class="text-xs text-cosmic-300 mt-0.5">{footerLabels.tagline}</p>
+            <span class="text-xl font-bold">China NewChip</span>
+            <p class="text-xs text-cosmic-300 mt-0.5">Crystal Solutions Provider</p>
           </div>
         </div>
         <p class="text-gray-400 text-sm leading-relaxed mb-6 w-full">
-          {footerLabels.companyName}<br>
-          {footerLabels.description}<br>
-          <span class="text-cosmic-300">{footerLabels.highlights}</span>
+          Hefei TongJing Electronics Co., Ltd.<br>
+          Professional manufacturer of crystal resonators, oscillators and RTC modules<br>
+          <span class="text-cosmic-300">R&D · Automated Production · Global Direct Sales</span>
         </p>
         <div class="flex items-center gap-3 text-gray-400 text-sm">
           <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-800/50 rounded-lg border border-gray-700/50">
@@ -65,25 +44,25 @@ const footerLabels = {
         <h4 class="font-semibold mb-5 text-white">{t.nav.products}</h4>
         <ul class="space-y-3">
           <li>
-            <a href={`/${locale}/products/resonators`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+            <a href="/products" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
               {t.product.resonators}
             </a>
           </li>
           <li>
-            <a href={`/${locale}/products/oscillators`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+            <a href="/products" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
               {t.product.oscillators}
             </a>
           </li>
           <li>
-            <a href={`/${locale}/products/rtc`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+            <a href="/products" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
               {t.product.rtc}
             </a>
           </li>
           <li>
-            <a href={`/${locale}/tools`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+            <a href="/tools" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
               {t.nav.tools}
             </a>
@@ -93,22 +72,22 @@ const footerLabels = {
 
       <!-- Company -->
       <div>
-        <h4 class="font-semibold mb-5 text-white">{footerLabels.companyTitle}</h4>
+        <h4 class="font-semibold mb-5 text-white">Company</h4>
         <ul class="space-y-3">
           <li>
-            <a href={`/${locale}/about`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+            <a href="/about" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
               {t.nav.about}
             </a>
           </li>
           <li>
-            <a href={`/${locale}/news`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+            <a href="/news" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
               {t.nav.news}
             </a>
           </li>
           <li>
-            <a href={`/${locale}/contact`} class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
+            <a href="/contact" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
               {t.nav.contact}
             </a>
@@ -121,18 +100,18 @@ const footerLabels = {
     <div class="mt-16 pt-8 border-t border-gray-800/50">
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div class="flex flex-wrap items-center gap-4">
-          <span class="text-sm text-gray-500">{footerLabels.certifications}:</span>
+          <span class="text-sm text-gray-500">Certifications:</span>
           <div class="flex items-center gap-2">
             <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">ISO9001</span>
             <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">ISO14001</span>
             <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">RoHS</span>
             <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">REACH</span>
             <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">AEC-Q100</span>
-            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">无卤</span>
+            <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">Halogen Free</span>
           </div>
         </div>
         <p class="text-sm text-gray-500">
-          {footerLabels.copyright}
+          {t.footer.copyright}
         </p>
       </div>
     </div>

@@ -1,12 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
 import Container from '../components/layout/Container.astro';
 import ProductCard from '../components/product/ProductCard.astro';
 import Button from '../components/ui/Button.astro';
 import { useTranslations } from '../utils/i18n';
 
-const t = useTranslations('en');
+const t = useTranslations();
 
 interface FeaturedProduct {
   model: string;
@@ -86,28 +85,41 @@ const features: Feature[] = [
 ---
 
 <BaseLayout title={t.seo.title} description={t.seo.description}>
-  <Hero locale="en" />
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-cosmic-600 to-cosmic-800 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.4%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    <Container class="relative py-20 lg:py-32">
+      <div class="max-w-6xl">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+          {t.hero.title}
+        </h1>
+        <p class="text-xl text-white/80 mb-8 leading-relaxed">
+          {t.hero.subtitle}
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <Button variant="primary" size="lg" href="/products">
+            {t.hero.cta}
+          </Button>
+          <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-cosmic-600" href="/contact">
+            {t.hero.ctaSecondary}
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
 
   <!-- Why Choose Us -->
   <section class="py-20 bg-gray-50">
     <Container>
-      <div class="text-center mb-16">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Core Advantages</h2>
-        <p class="text-gray-500 max-w-5xl mx-auto">Industry-leading technology and manufacturing excellence</p>
-      </div>
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Core Advantages</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {features.map((feature, index) => (
-          <div class={`group relative bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 animate-fade-in-up stagger-${index + 1}`}>
-            <!-- Top border gradient -->
-            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cosmic-500 to-aurora-400 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-            <!-- Icon container -->
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cosmic-100 to-cosmic-50 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-              <span class="text-3xl">{feature.icon}</span>
-            </div>
-
+        {features.map((feature) => (
+          <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="text-4xl mb-4">{feature.icon}</div>
             <h3 class="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h3>
-            <p class="text-sm text-gray-500 leading-relaxed">{feature.desc}</p>
+            <p class="text-sm text-gray-500">{feature.desc}</p>
           </div>
         ))}
       </div>
@@ -117,80 +129,68 @@ const features: Feature[] = [
   <!-- Product Categories -->
   <section class="py-20">
     <Container>
-      <div class="text-center mb-16">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">{t.product.title}</h2>
-        <p class="text-gray-500 max-w-5xl mx-auto">Comprehensive crystal solutions for every application</p>
-      </div>
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">{t.product.title}</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <a href="/products/resonators" class="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
-          <div class="absolute inset-0 bg-gradient-to-br from-cosmic-500/5 to-cosmic-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div class="aspect-video flex items-center justify-center relative">
-            <div class="w-24 h-24 rounded-2xl bg-white/80 shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-              <svg class="w-12 h-12 text-cosmic-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-              </svg>
-            </div>
+        <a href="/products" class="group bg-gray-50 rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-cosmic-500/10 to-cosmic-600/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-cosmic-500/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
           </div>
-          <div class="p-6 relative">
+          <div class="p-6">
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-cosmic-600 transition-colors mb-2">
               {t.product.resonators}
             </h3>
-            <p class="text-sm text-gray-500 mb-3">Crystal Resonator</p>
+            <p class="text-sm text-gray-500 mb-4">Crystal Resonator</p>
             <p class="text-sm text-gray-400">3225 / 2520 / 2016 Package</p>
-            <div class="mt-4 flex items-center text-cosmic-500 font-medium text-sm group-hover:translate-x-2 transition-transform duration-300">
-              Learn more
+            <span class="inline-flex items-center text-cosmic-500 text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
+              {t.product.viewDetail}
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </div>
+            </span>
           </div>
         </a>
 
-        <a href="/products/oscillators" class="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
-          <div class="absolute inset-0 bg-gradient-to-br from-aurora-400/5 to-aurora-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div class="aspect-video flex items-center justify-center relative">
-            <div class="w-24 h-24 rounded-2xl bg-white/80 shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-              <svg class="w-12 h-12 text-aurora-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
+        <a href="/products" class="group bg-gray-50 rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-aurora-400/10 to-aurora-500/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-aurora-500/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
           </div>
-          <div class="p-6 relative">
+          <div class="p-6">
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-aurora-500 transition-colors mb-2">
               {t.product.oscillators}
             </h3>
-            <p class="text-sm text-gray-500 mb-3">Crystal Oscillator</p>
+            <p class="text-sm text-gray-500 mb-4">Crystal Oscillator</p>
             <p class="text-sm text-gray-400">Precision up to ±10ppm</p>
-            <div class="mt-4 flex items-center text-aurora-500 font-medium text-sm group-hover:translate-x-2 transition-transform duration-300">
-              Learn more
+            <span class="inline-flex items-center text-aurora-500 text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
+              {t.product.viewDetail}
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </div>
+            </span>
           </div>
         </a>
 
-        <a href="/products/rtc" class="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
-          <div class="absolute inset-0 bg-gradient-to-br from-success/5 to-success/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div class="aspect-video flex items-center justify-center relative">
-            <div class="w-24 h-24 rounded-2xl bg-white/80 shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-              <svg class="w-12 h-12 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
+        <a href="/products" class="group bg-gray-50 rounded-xl overflow-hidden hover:shadow-xl transition-all">
+          <div class="aspect-video bg-gradient-to-br from-success/10 to-tech-blue/10 flex items-center justify-center">
+            <svg class="w-20 h-20 text-success/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
           </div>
-          <div class="p-6 relative">
+          <div class="p-6">
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-success transition-colors mb-2">
               {t.product.rtc}
             </h3>
-            <p class="text-sm text-gray-500 mb-3">RTC Module</p>
+            <p class="text-sm text-gray-500 mb-4">RTC Module</p>
             <p class="text-sm text-gray-400">3215 / 2012 / 1610 Package</p>
-            <div class="mt-4 flex items-center text-success font-medium text-sm group-hover:translate-x-2 transition-transform duration-300">
-              Learn more
+            <span class="inline-flex items-center text-success text-sm font-medium mt-4 group-hover:translate-x-2 transition-transform">
+              {t.product.viewDetail}
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
-            </div>
+            </span>
           </div>
         </a>
       </div>
@@ -201,11 +201,8 @@ const features: Feature[] = [
   <section class="py-20 bg-gray-50">
     <Container>
       <div class="flex items-center justify-between mb-12">
-        <div>
-          <h2 class="text-3xl font-bold text-gray-800">Featured Products</h2>
-          <p class="text-gray-500 mt-2">Industry-leading crystal solutions</p>
-        </div>
-        <a href="/products" class="hidden sm:inline-flex items-center gap-2 text-aurora-500 font-medium hover:text-aurora-600 transition-colors">
+        <h2 class="text-3xl font-bold text-gray-800">Featured Products</h2>
+        <a href="/products" class="text-aurora-500 font-medium hover:underline flex items-center gap-1">
           View All
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -232,30 +229,22 @@ const features: Feature[] = [
   </section>
 
   <!-- Cross Reference Search -->
-  <section class="py-20 bg-white relative overflow-hidden">
-    <!-- Background decoration -->
-    <div class="absolute inset-0 opacity-5">
-      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-cosmic-500 to-cosmic-600 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-br from-aurora-400 to-aurora-500 rounded-full blur-3xl"></div>
-    </div>
-
-    <Container class="relative">
-      <div class="max-w-6xl mx-auto text-center">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Cross Reference Search</h2>
-        <p class="text-gray-500 mb-10">Quick search for EPSON / NDK / KDS / Murata alternatives</p>
-        <div class="flex flex-col sm:flex-row gap-4 max-w-5xl mx-auto">
+  <section class="py-20 bg-white">
+    <Container>
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Cross Reference · Alternative Part Search</h2>
+        <p class="text-gray-500 mb-8">Quick search for EPSON / NDK / KDS / Murata alternatives</p>
+        <div class="flex gap-3">
           <input
             type="search"
             placeholder="Enter EPSON / NDK / KDS / Murata part number..."
-            class="flex-1 h-14 px-6 rounded-xl border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400 focus:border-cosmic-400 focus:ring-4 focus:ring-cosmic-400/10 shadow-sm transition-all duration-200"
+            class="flex-1 h-12 px-4 rounded-lg border border-gray-200 focus:border-cosmic-400 focus:ring-1 focus:ring-cosmic-400/10 transition-colors"
           />
-          <Button variant="primary" size="lg" class="h-14 px-8 shadow-[0_4px_14px_rgba(249,115,22,0.3)]">
-            Search
-          </Button>
+          <Button variant="primary" size="lg">Search</Button>
         </div>
-        <div class="flex flex-wrap justify-center gap-2 mt-6">
+        <div class="flex flex-wrap justify-center gap-2 mt-4">
           {['EPSON FA-238', 'NDK NX3225GA', 'KDS DSX211G', 'Murata CRSS2012'].map((example) => (
-            <span class="px-3 py-1.5 bg-gray-100 text-gray-500 text-xs rounded-full">{example}</span>
+            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{example}</span>
           ))}
         </div>
       </div>
@@ -263,49 +252,29 @@ const features: Feature[] = [
   </section>
 
   <!-- Certifications -->
-  <section class="py-16 bg-gradient-to-br from-cosmic-800 to-cosmic-900 text-white relative overflow-hidden">
-    <!-- Decorative elements -->
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute top-0 left-1/4 w-64 h-64 bg-cosmic-500 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-0 right-1/4 w-48 h-48 bg-aurora-400 rounded-full blur-3xl"></div>
-    </div>
-
-    <Container class="relative">
-      <h2 class="text-2xl lg:text-3xl font-bold text-center mb-10">Certifications</h2>
+  <section class="py-16 bg-gradient-to-br from-cosmic-800 to-cosmic-900 text-white">
+    <Container>
+      <h2 class="text-2xl font-bold text-center mb-8">Certifications</h2>
       <div class="flex flex-wrap justify-center gap-4">
         {['ISO9001', 'ISO14001', 'RoHS', 'REACH', 'AEC-Q100', 'Halogen Free'].map((cert) => (
-          <span class="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl font-medium">{cert}</span>
+          <span class="px-6 py-3 bg-white/10 rounded-lg font-medium">{cert}</span>
         ))}
       </div>
     </Container>
   </section>
 
   <!-- CTA -->
-  <section class="py-24 bg-gradient-to-br from-aurora-400 via-aurora-500 to-aurora-600 text-white relative overflow-hidden">
-    <!-- Decorative -->
-    <div class="absolute inset-0">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl"></div>
-    </div>
-
-    <Container class="relative text-center">
-      <h2 class="text-3xl lg:text-5xl font-bold mb-6">Ready to Start Your Project?</h2>
-      <p class="text-xl text-white/90 mb-10 max-w-5xl mx-auto">Contact our technical team for professional selection support and competitive pricing</p>
+  <section class="py-20 bg-gradient-to-br from-aurora-400 via-aurora-500 to-aurora-600 text-white">
+    <Container class="text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold mb-4">Ready to Start Your Project?</h2>
+      <p class="text-lg text-white/90 mb-8">Contact our technical team for professional selection support</p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a
-          href="/contact"
-          class="inline-flex items-center gap-3 px-8 py-4 bg-white text-aurora-600 rounded-xl font-bold text-lg shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:scale-105 transition-all duration-300"
-        >
+        <Button variant="secondary" size="lg" href="/contact" class="bg-white text-aurora-600 hover:bg-gray-100">
           Get Quote
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-        <a
-          href="/products"
-          class="inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-semibold text-lg hover:bg-white/20 hover:border-white/40 transition-all duration-300"
-        >
+        </Button>
+        <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-aurora-600">
           Download Catalog
-        </a>
+        </Button>
       </div>
     </Container>
   </section>

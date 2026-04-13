@@ -1,44 +1,110 @@
-import en from '../i18n/en.json';
-import zh from '../i18n/zh.json';
-import ja from '../i18n/ja.json';
-import de from '../i18n/de.json';
+export const locale = 'en';
 
-export const locales = ['zh', 'en', 'ja', 'de'] as const;
-export type Locale = (typeof locales)[number];
-
-type TranslationSchema = typeof en;
-type NestedKeyOf<T> = T extends object
-  ? { [K in keyof T]: K extends string
-      ? T[K] extends object
-        ? `${K}.${NestedKeyOf<T[K]>}` | K
-        : K
-      : never
-    }[keyof T]
-  : never;
-
-const translations: Record<Locale, TranslationSchema> = { en, zh, ja, de };
-
-export function getLocaleFromUrl(url: URL): Locale {
-  const [, lang] = url.pathname.split('/');
-  if (lang && locales.includes(lang as Locale)) {
-    return lang as Locale;
-  }
-  return 'en';
-}
-
-export function useTranslations<Loc extends Locale>(locale: Loc): TranslationSchema {
-  return translations[locale] as TranslationSchema;
-}
-
-export function t(locale: Locale, key: string): string {
-  const keys = key.split('.');
-  let value: unknown = translations[locale];
-  for (const k of keys) {
-    if (value && typeof value === 'object' && k in value) {
-      value = (value as Record<string, unknown>)[k];
-    } else {
-      return key;
-    }
-  }
-  return typeof value === 'string' ? value : key;
+export function useTranslations() {
+  return {
+    nav: {
+      home: 'Home',
+      brands: 'Brands',
+      products: 'Products',
+      tools: 'Selection Tools',
+      about: 'About Us',
+      contact: 'Contact',
+      news: 'News',
+    },
+    hero: {
+      title: '30 Years of Crystal Expertise, Japanese Quality',
+      subtitle: 'TongJing Electronics — R&D, Automated Production, Global Direct Sales',
+      cta: 'View Products',
+      ctaSecondary: 'Contact Us',
+    },
+    product: {
+      title: 'Products',
+      resonators: 'Crystal Resonators',
+      oscillators: 'Crystal Oscillators',
+      rtc: 'RTC Modules',
+      viewDetail: 'View Details',
+      parameters: 'Parameters',
+      filter: 'Filter',
+      sort: 'Sort',
+      stock: 'Stock',
+      price: 'Price',
+      search: 'Search products',
+      resultCount: '{count} products found',
+    },
+    about: {
+      title: 'About Us',
+      subtitle: 'Professional Crystal Oscillator Manufacturer, Japanese Quality Heritage',
+      intro: 'Hefei TongJing Electronics Co., Ltd. was established in 2005, specializing in R&D, production and sales of quartz crystal resonators, oscillators and RTC modules.',
+      strengths: {
+        automation: {
+          title: 'Leading Automation',
+          desc: "China's first In-Line automated production line",
+        },
+        quality: {
+          title: 'Japanese Quality',
+          desc: '25+ years experienced technical team',
+        },
+        direct: {
+          title: 'Direct from Manufacturer',
+          desc: 'No distributors, better pricing',
+        },
+        capacity: {
+          title: 'Abundant Capacity',
+          desc: '100M units/month, guaranteed delivery',
+        },
+      },
+      certifications: {
+        title: 'Certifications',
+        items: ['ISO9001', 'ISO14001', 'RoHS', 'REACH', 'AEC-Q100', 'Halogen Free'],
+      },
+    },
+    contact: {
+      title: 'Contact Us',
+      subtitle: 'Get Professional Technical Support',
+      phone: 'Phone',
+      email: 'Email',
+      address: 'Address',
+      hours: 'Business Hours',
+      offices: {
+        title: 'Offices',
+        shenzhen: 'Shenzhen Office',
+        jiangsu: 'Jiangsu Office',
+      },
+      mapPlaceholder: 'Map Location',
+    },
+    news: {
+      title: 'News',
+      categories: {
+        all: 'All',
+        tech: 'Technical Articles',
+        industry: 'Industry News',
+        company: 'Company News',
+      },
+    },
+    inquiry: {
+      title: 'Send Inquiry',
+      name: 'Name',
+      company: 'Company',
+      email: 'Email',
+      phone: 'Phone',
+      products: 'Products',
+      message: 'Message',
+      submit: 'Submit Inquiry',
+    },
+    footer: {
+      address: 'Address',
+      email: 'Email',
+      phone: 'Phone',
+      copyright: '© 2026 TongJing Electronics. All rights reserved.',
+    },
+    filter: {
+      brandComparison: 'Brand Comparison',
+      reset: 'Reset',
+      apply: 'Apply Filters',
+    },
+    seo: {
+      title: 'China NewChip - Crystal Resonator & Oscillator Manufacturer',
+      description: 'Professional manufacturer of quartz crystal resonators, oscillators and RTC modules. High quality, global direct sales.',
+    },
+  };
 }
