@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Home",
+    "brands": "Brands",
     "products": "Products",
     "tools": "Selection Tools",
     "about": "About Us",
@@ -97,6 +98,13 @@
     "brandComparison": "Brand Comparison",
     "reset": "Reset",
     "apply": "Apply Filters"
+  },
+  "brands": {
+    "tongjing": {
+      "name": "TongJing",
+      "tagline": "Japanese Quality Heritage",
+      "description": "Professional crystal resonator manufacturer with 30 years of expertise, inheriting Japanese quality standards."
+    }
   },
   "seo": {
     "title": "China NewChip - Crystal Resonator & Oscillator Manufacturer",

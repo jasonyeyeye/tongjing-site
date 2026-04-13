@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Container from '../../../../components/layout/Container.astro';
+import ProductCard from '../../../../components/product/ProductCard.astro';
+import FilterSidebar from '../../../../components/product/FilterSidebar.astro';
+import Button from '../../../../components/ui/Button.astro';
+import { useTranslations } from '../../../../utils/i18n';
+import { getProductsByBrand } from '../../../../data/products';
+import { getBrandBySlug } from '../../../../data/brands';
+
+const locale = 'ja';
+const t = useTranslations(locale);
+const brand = getBrandBySlug('tongjing');
+const products = getProductsByBrand('tongjing');
+
+const filters = [
+  {
+    name: t.product.resonators,
+    options: [
+      { value: 'resonators', label: '3225', count: 3 },
+      { value: 'oscillators', label: '2520', count: 2 },
+    ],
+  },
+];
+
+function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discontinued' | 'futures' {
+  return badge as any;
+}
+---
+
+<BaseLayout title={`${brand?.name[locale] || 'TongJing'} ${t.product.title} - ${t.seo.title}`} description={t.seo.description}>
+  <!-- Hero -->
+  <section class="text-white py-12" style={`background: linear-gradient(135deg, ${brand?.primaryColor}, ${brand?.primaryColor}cc)`}>
+    <Container>
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center">
+          <span class="text-white font-bold text-2xl">{brand?.id.slice(0, 2).toUpperCase()}</span>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold mb-1">{brand?.name[locale] || brand?.name.en} {t.product.title}</h1>
+          <p class="text-white/80">{brand?.tagline[locale] || brand?.tagline.en}</p>
+        </div>
+      </div>
+      <p class="text-white/70">{products.length} 製品</p>
+    </Container>
+  </section>
+
+  <Container class="py-12">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Filters Sidebar -->
+      <aside class="lg:w-64 shrink-0">
+        <div class="sticky top-24 bg-white rounded-xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-4">{t.product.filter}</h3>
+          <FilterSidebar filters={filters} />
+        </div>
+      </aside>
+
+      <!-- Products Grid -->
+      <div class="flex-1">
+        <!-- Sort & View Controls -->
+        <div class="flex items-center justify-between mb-6">
+          <p class="text-sm text-gray-500">{products.length} 製品</p>
+          <div class="flex items-center gap-4">
+            <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
+              <option>デフォルト</option>
+              <option>在庫優先</option>
+              <option>価格順</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <ProductCard
+              model={product.model}
+              frequency={product.frequency}
+              tolerance={product.tolerance}
+              package={product.package}
+              stock={product.stock}
+              priceRange={product.priceRange}
+              badge={getBadgeForProduct(product.badge)}
+              href={`/${locale}/products/${product.id}`}
+            />
+          ))}
+        </div>
+
+        <!-- Pagination (simplified for now) -->
+        {products.length > 6 && (
+          <div class="flex justify-center gap-2 mt-12">
+            <Button variant="outline" size="sm" disabled>前へ</Button>
+            <Button variant="primary" size="sm">1</Button>
+            <Button variant="outline" size="sm">次へ</Button>
+          </div>
+        )}
+      </div>
+    </div>
+  </Container>
+
+  <!-- CTA -->
+  <section class="py-12 bg-gray-50">
+    <Container class="text-center">
+      <p class="text-gray-500 mb-4">お困りですか？技術者に連絡</p>
+      <Button variant="primary" href={`/${locale}/contact`}>{t.nav.contact}</Button>
+    </Container>
+  </section>
+</BaseLayout>

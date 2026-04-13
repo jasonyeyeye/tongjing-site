@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "首页",
+    "brands": "品牌中心",
     "products": "产品中心",
     "tools": "选型工具",
     "about": "关于我们",
@@ -97,6 +98,13 @@
     "brandComparison": "品牌对标",
     "reset": "重置",
     "apply": "应用筛选"
+  },
+  "brands": {
+    "tongjing": {
+      "name": "同晶",
+      "tagline": "日系品质基因",
+      "description": "专注晶振30年，传承日系品质理念的国家高新技术企业。"
+    }
   },
   "seo": {
     "title": "中国新芯片 - 晶体谐振器生产厂家",

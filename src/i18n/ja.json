@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "ホーム",
+    "brands": "ブランド",
     "products": "製品",
     "tools": "選定ツール",
     "about": "会社概要",
@@ -97,6 +98,13 @@
     "brandComparison": "ブランド比較",
     "reset": "リセット",
     "apply": "絞り込み適用"
+  },
+  "brands": {
+    "tongjing": {
+      "name": "同晶",
+      "tagline": "日系品質を受け継ぐ",
+      "description": "水晶振動子30年の実績を受け継ぐ、日系品質の専門メーカー。"
+    }
   },
   "seo": {
     "title": "中国新チップ - 水晶振動子メーカー",

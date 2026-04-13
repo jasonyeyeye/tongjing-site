@@ -1,13 +1,20 @@
 ---
 import { getLocaleFromUrl, useTranslations } from '../../utils/i18n';
 import LanguageSwitcher from '../common/LanguageSwitcher.astro';
+import { brands, type Brand } from '../../data/brands';
 
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 
+// Get current brand from URL or default to first brand
+const currentPath = Astro.url.pathname;
+const brandFromUrl = currentPath.split('/')[1];
+const currentBrand = brands.find(b => b.slug === brandFromUrl) || brands[0];
+
 const navItems = [
   { key: 'home', href: `/${locale}` },
-  { key: 'products', href: `/${locale}/products` },
+  { key: 'brands', href: `/${locale}/brands` },
+  { key: 'products', href: `/${locale}/${currentBrand.slug}/products` },
   { key: 'tools', href: `/${locale}/tools` },
   { key: 'news', href: `/${locale}/news` },
   { key: 'about', href: `/${locale}/about` },
@@ -24,12 +31,45 @@ const navItems = [
         <a href={`/${locale}`} class="flex items-center gap-3 group">
           <div class="relative">
             <div class="absolute inset-0 bg-gradient-to-br from-cosmic-400 to-cosmic-600 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
-            <div class="relative w-10 h-10 bg-gradient-to-br from-cosmic-500 to-cosmic-700 rounded-xl flex items-center justify-center shadow-lg">
-              <span class="text-white font-bold text-lg">TJ</span>
+            <div class="relative w-10 h-10 bg-gradient-to-br from-cosmic-500 to-cosmic-700 rounded-xl flex items-center justify-center shadow-lg" style={`background: linear-gradient(135deg, ${currentBrand.primaryColor}, ${currentBrand.primaryColor}dd)`}>
+              <span class="text-white font-bold text-lg">{currentBrand.id.slice(0, 2).toUpperCase()}</span>
             </div>
           </div>
-          <span class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">TongJing</span>
+          <span class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">{currentBrand.name[locale] || currentBrand.name.en}</span>
         </a>
+
+        <!-- Brand Switcher -->
+        <div class="relative">
+          <button
+            id="brand-switch"
+            class="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-600 hover:text-cosmic-600 border border-gray-200 rounded-lg hover:border-cosmic-300 transition-colors ml-2"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+          >
+            <span class="w-2 h-2 rounded-full" style={`background-color: ${currentBrand.primaryColor}`}></span>
+            <span>{currentBrand.name[locale] || currentBrand.name.en}</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <ul
+            id="brand-dropdown"
+            class="hidden absolute left-0 mt-1 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+            role="listbox"
+          >
+            {brands.map((brand) => (
+              <li role="option" aria-selected={brand.id === currentBrand.id}>
+                <a
+                  href={`/${locale}/${brand.slug}/products`}
+                  class={`flex items-center gap-2 px-4 py-2 text-sm first:rounded-t-lg last:rounded-b-lg hover:bg-gray-50 ${brand.id === currentBrand.id ? 'text-cosmic-600 font-medium' : 'text-gray-700'}`}
+                >
+                  <span class="w-2 h-2 rounded-full" style={`background-color: ${brand.primaryColor}`}></span>
+                  <span>{brand.name[locale] || brand.name.en}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <!-- Desktop Navigation with underline animation -->
         <nav class="flex items-center gap-1" aria-label="Main navigation">
@@ -82,8 +122,8 @@ const navItems = [
   <div class="md:hidden">
     <div class="flex justify-between items-center h-16 px-4">
       <a href={`/${locale}`} class="flex items-center gap-2">
-        <div class="w-9 h-9 bg-gradient-to-br from-cosmic-500 to-cosmic-700 rounded-lg flex items-center justify-center shadow-md">
-          <span class="text-white font-bold text-sm">TJ</span>
+        <div class="w-9 h-9 bg-gradient-to-br from-cosmic-500 to-cosmic-700 rounded-lg flex items-center justify-center shadow-md" style={`background: linear-gradient(135deg, ${currentBrand.primaryColor}, ${currentBrand.primaryColor}dd)`}>
+          <span class="text-white font-bold text-sm">{currentBrand.id.slice(0, 2).toUpperCase()}</span>
         </div>
       </a>
       <div class="flex items-center gap-2">
@@ -164,6 +204,7 @@ const navItems = [
 </style>
 
 <script>
+  // Mobile menu
   const menuBtn = document.getElementById('mobile-menu-btn');
   const menuClose = document.getElementById('mobile-menu-close');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -184,4 +225,21 @@ const navItems = [
   menuBtn?.addEventListener('click', openMenu);
   menuClose?.addEventListener('click', closeMenu);
   overlay?.addEventListener('click', closeMenu);
+
+  // Brand dropdown
+  const brandBtn = document.getElementById('brand-switch');
+  const brandDropdown = document.getElementById('brand-dropdown');
+
+  brandBtn?.addEventListener('click', () => {
+    const isHidden = brandDropdown?.classList.contains('hidden');
+    brandDropdown?.classList.toggle('hidden');
+    brandBtn?.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!brandBtn?.contains(e.target as Node) && !brandDropdown?.contains(e.target as Node)) {
+      brandDropdown?.classList.add('hidden');
+      brandBtn?.setAttribute('aria-expanded', 'false');
+    }
+  });
 </script>

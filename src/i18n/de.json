@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Startseite",
+    "brands": "Marken",
     "products": "Produkte",
     "tools": "Auswahlwerkzeuge",
     "about": "Über uns",
@@ -97,6 +98,13 @@
     "brandComparison": "Markenvergleich",
     "reset": "Zurücksetzen",
     "apply": "Filter anwenden"
+  },
+  "brands": {
+    "tongjing": {
+      "name": "TongJing",
+      "tagline": "Japanische Qualitätstradition",
+      "description": "Professioneller Kristalloszillator-Hersteller mit 30 Jahren Erfahrung und japanischer Qualitätstradition."
+    }
   },
   "seo": {
     "title": "China NewChip - Quarzschwinger Hersteller",
