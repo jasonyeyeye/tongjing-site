@@ -68,13 +68,18 @@ const currentBrand = brands[0];
         <div class="relative">
           <input
             type="search"
+            id="header-search"
             placeholder={t.product.search}
             aria-label={t.product.search}
+            autocomplete="off"
             class="w-full h-11 pl-11 pr-4 rounded-xl border border-gray-200 bg-white/80 text-gray-800 placeholder:text-gray-400 focus:border-cosmic-400 focus:ring-4 focus:ring-cosmic-400/10 hover:border-gray-300 transition-all duration-200"
           />
           <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+          <!-- Search Results Dropdown -->
+          <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-gray-200 shadow-xl z-50 max-h-96 overflow-y-auto">
+          </div>
         </div>
       </div>
     </div>
@@ -102,6 +107,16 @@ const currentBrand = brands[0];
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
+    </div>
+
+    <!-- Mobile Search -->
+    <div class="px-4 pb-3">
+      <input
+        type="search"
+        id="mobile-search"
+        placeholder={t.product.search}
+        class="w-full h-10 pl-10 pr-4 rounded-lg border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400"
+      />
     </div>
 
     <!-- Mobile Menu Drawer -->
@@ -162,9 +177,127 @@ const currentBrand = brands[0];
   .nav-link:hover {
     color: var(--color-cosmic-600);
   }
+
+  .search-result-item:hover {
+    background-color: #f9fafb;
+  }
 </style>
 
 <script>
+  // Product data for search (embedded for client-side search)
+  const products = [
+    { id: 'tongjing-tj3225k', model: 'TJ3225K-26.000M', frequency: '26MHz', package: 'SMD3225', tolerance: '±10ppm', category: 'resonator' },
+    { id: 'tongjing-tj2520k', model: 'TJ2520K-24.000M', frequency: '24MHz', package: 'SMD2520', tolerance: '±20ppm', category: 'resonator' },
+    { id: 'tongjing-tj2016k', model: 'TJ2016K-16.000M', frequency: '16MHz', package: 'SMD2016', tolerance: '±10ppm', category: 'resonator' },
+    { id: 'tongjing-tj3225o', model: 'TJ3225O-25.000M', frequency: '25MHz', package: 'SMD3225', tolerance: '±50ppm', category: 'oscillator' },
+    { id: 'tongjing-tj1610k', model: 'TJ1610K-12.000M', frequency: '12MHz', package: 'SMD1610', tolerance: '±20ppm', category: 'resonator' },
+    { id: 'tongjing-tj2520o', model: 'TJ2520O-40.000M', frequency: '40MHz', package: 'SMD2520', tolerance: '±30ppm', category: 'oscillator' },
+  ];
+
+  const categories = [
+    { key: 'resonators', label: 'Crystal Resonators', href: '/products' },
+    { key: 'oscillators', label: 'Crystal Oscillators', href: '/products' },
+    { key: 'rtc', label: 'RTC Modules', href: '/products' },
+  ];
+
+  function searchProducts(query: string) {
+    if (!query || query.length < 2) return [];
+
+    const q = query.toLowerCase().trim();
+    const results: Array<{type: string, title: string, subtitle: string, href: string}> = [];
+
+    // Search products
+    products.forEach((product) => {
+      const model = product.model.toLowerCase();
+      const frequency = product.frequency.toLowerCase();
+      const pkg = product.package.toLowerCase();
+      const cat = product.category.toLowerCase();
+
+      if (model.includes(q) || model.replace(/-/g, '').includes(q.replace(/-/g, '')) ||
+          frequency.includes(q) || pkg.toLowerCase().includes(q) || q.includes(frequency) ||
+          cat.includes(q)) {
+        results.push({
+          type: 'product',
+          title: product.model,
+          subtitle: `${product.frequency} · ${product.package} · ${product.tolerance}`,
+          href: `/products/${product.id}`,
+        });
+      }
+    });
+
+    // Search categories
+    categories.forEach(cat => {
+      if (cat.label.toLowerCase().includes(q) || cat.key.includes(q)) {
+        results.push({
+          type: 'category',
+          title: cat.label,
+          subtitle: 'Product Category',
+          href: cat.href,
+        });
+      }
+    });
+
+    return results.slice(0, 8);
+  }
+
+  function renderSearchResults(results: Array<{type: string, title: string, subtitle: string, href: string}>, query: string) {
+    const container = document.getElementById('search-results');
+    if (!container) return;
+
+    if (results.length === 0) {
+      container.classList.add('hidden');
+      return;
+    }
+
+    let html = '';
+    results.forEach((result) => {
+      const icon = result.type === 'product'
+        ? '<svg class="w-5 h-5 text-cosmic-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>'
+        : '<svg class="w-5 h-5 text-aurora-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>';
+
+      html += `
+        <a href="${result.href}" class="search-result-item flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0">
+          ${icon}
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-gray-800 truncate">${result.title}</p>
+            <p class="text-sm text-gray-500 truncate">${result.subtitle}</p>
+          </div>
+          <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      `;
+    });
+
+    container.innerHTML = html;
+    container.classList.remove('hidden');
+  }
+
+  // Desktop search
+  const searchInput = document.getElementById('header-search') as HTMLInputElement;
+  const searchResults = document.getElementById('search-results');
+
+  let searchTimeout: ReturnType<typeof setTimeout>;
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value;
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      const results = searchProducts(query);
+      renderSearchResults(results, query);
+    }, 150);
+  });
+
+  searchInput?.addEventListener('blur', () => {
+    setTimeout(() => searchResults?.classList.add('hidden'), 200);
+  });
+
+  searchInput?.addEventListener('focus', () => {
+    if (searchInput.value.length >= 2) {
+      searchResults?.classList.remove('hidden');
+    }
+  });
+
+  // Mobile menu
   const menuBtn = document.getElementById('mobile-menu-btn');
   const menuClose = document.getElementById('mobile-menu-close');
   const mobileMenu = document.getElementById('mobile-menu');

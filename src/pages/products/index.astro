@@ -2,38 +2,49 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/layout/Container.astro';
 import ProductCard from '../../components/product/ProductCard.astro';
-import FilterSidebar from '../../components/product/FilterSidebar.astro';
 import Button from '../../components/ui/Button.astro';
 import { useTranslations } from '../../utils/i18n';
-import { getAllProducts } from '../../data/products';
+import { getAllProducts, type Product } from '../../data/products';
 
 const t = useTranslations();
-const products = getAllProducts();
+const allProducts = getAllProducts();
 
 const filters = [
   {
     name: 'Category',
+    key: 'category',
     options: [
-      { value: 'resonators', label: 'Resonators', count: 4 },
-      { value: 'oscillators', label: 'Oscillators', count: 2 },
-      { value: 'rtc', label: 'RTC Modules', count: 0 },
+      { value: 'resonator', label: 'Resonators', count: allProducts.filter(p => p.category === 'resonator').length },
+      { value: 'oscillator', label: 'Oscillators', count: allProducts.filter(p => p.category === 'oscillator').length },
+      { value: 'rtc', label: 'RTC Modules', count: allProducts.filter(p => p.category === 'rtc').length },
     ],
   },
   {
     name: 'Package',
+    key: 'package',
     options: [
-      { value: '3225', label: '3225', count: 3 },
-      { value: '2520', label: '2520', count: 2 },
-      { value: '2016', label: '2016', count: 1 },
-      { value: '1610', label: '1610', count: 1 },
+      { value: '3225', label: '3225', count: allProducts.filter(p => p.package.includes('3225')).length },
+      { value: '2520', label: '2520', count: allProducts.filter(p => p.package.includes('2520')).length },
+      { value: '2016', label: '2016', count: allProducts.filter(p => p.package.includes('2016')).length },
+      { value: '1610', label: '1610', count: allProducts.filter(p => p.package.includes('1610')).length },
     ],
   },
   {
     name: 'Frequency Range',
+    key: 'frequency',
     options: [
-      { value: '8-16mhz', label: '8-16MHz', count: 2 },
-      { value: '16-25mhz', label: '16-25MHz', count: 2 },
-      { value: '25-50mhz', label: '25-50MHz', count: 2 },
+      { value: '8-16mhz', label: '8-16MHz', count: allProducts.filter(p => {
+        const freq = parseInt(p.frequency);
+        return freq >= 8 && freq <= 16;
+      }).length },
+      { value: '16-25mhz', label: '16-25MHz', count: allProducts.filter(p => {
+        const freq = parseInt(p.frequency);
+        return freq > 16 && freq <= 25;
+      }).length },
+      { value: '25-50mhz', label: '25-50MHz', count: allProducts.filter(p => {
+        const freq = parseInt(p.frequency);
+        return freq > 25 && freq <= 50;
+      }).length },
     ],
   },
 ];
@@ -41,6 +52,24 @@ const filters = [
 function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discontinued' | 'futures' {
   return badge as any;
 }
+
+// Serialize products for client-side filtering
+const productsJson = JSON.stringify(allProducts.map(p => ({
+  id: p.id,
+  model: p.model,
+  brand: p.brandId,
+  category: p.category,
+  frequency: p.frequency,
+  tolerance: p.tolerance,
+  package: p.package,
+  loadCapacitance: p.loadCapacitance,
+  esr: p.esr,
+  stock: p.stock,
+  priceRange: p.priceRange,
+  badge: p.badge,
+  image: p.package.includes('3225') ? '/images/product-resonator-3225_001.jpg' : p.package.includes('2520') ? '/images/product-resonator-2520_001.jpg' : '/images/product-resonator-2016_001.jpg',
+  href: `/products/${p.id}`,
+})));
 ---
 
 <BaseLayout
@@ -52,7 +81,7 @@ function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discont
   <section class="bg-gradient-to-r from-cosmic-600 to-cosmic-800 text-white py-12">
     <Container>
       <h1 class="text-3xl font-bold mb-2">Electronic Components Catalog</h1>
-      <p class="text-white/80">Explore our range of certified electronic components — crystal resonators, oscillators, and RTC modules from {products.length} product lines</p>
+      <p class="text-white/80">Explore our range of certified electronic components — crystal resonators, oscillators, and RTC modules from {allProducts.length} product lines</p>
     </Container>
   </section>
 
@@ -61,8 +90,75 @@ function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discont
       <!-- Filters Sidebar -->
       <aside class="lg:w-64 shrink-0">
         <div class="sticky top-24 bg-white rounded-xl border border-gray-200 p-6">
-          <h3 class="font-semibold text-gray-900 mb-4">{t.product.filter}</h3>
-          <FilterSidebar filters={filters} />
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">{t.product.filter}</h3>
+            <button id="reset-filters" class="text-sm text-cosmic-600 hover:text-cosmic-700 font-medium">
+              Reset
+            </button>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="border-b border-gray-200 pb-6 mb-6">
+            <h4 class="font-medium text-gray-800 mb-3">Category</h4>
+            <div class="space-y-2">
+              {filters[0].options.map((option) => (
+                <label class="flex items-center gap-2 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value={option.value}
+                    class="filter-checkbox w-4 h-4 rounded border-gray-300 text-cosmic-500 focus:ring-cosmic-500"
+                  />
+                  <span class="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                    {option.label}
+                  </span>
+                  <span class="text-xs text-gray-400 ml-auto">({option.count})</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Package Filter -->
+          <div class="border-b border-gray-200 pb-6 mb-6">
+            <h4 class="font-medium text-gray-800 mb-3">Package</h4>
+            <div class="space-y-2">
+              {filters[1].options.map((option) => (
+                <label class="flex items-center gap-2 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    name="package"
+                    value={option.value}
+                    class="filter-checkbox w-4 h-4 rounded border-gray-300 text-cosmic-500 focus:ring-cosmic-500"
+                  />
+                  <span class="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                    {option.label}
+                  </span>
+                  <span class="text-xs text-gray-400 ml-auto">({option.count})</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Frequency Filter -->
+          <div class="pb-6">
+            <h4 class="font-medium text-gray-800 mb-3">Frequency Range</h4>
+            <div class="space-y-2">
+              {filters[2].options.map((option) => (
+                <label class="flex items-center gap-2 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    name="frequency"
+                    value={option.value}
+                    class="filter-checkbox w-4 h-4 rounded border-gray-300 text-cosmic-500 focus:ring-cosmic-500"
+                  />
+                  <span class="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                    {option.label}
+                  </span>
+                  <span class="text-xs text-gray-400 ml-auto">({option.count})</span>
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
       </aside>
 
@@ -70,19 +166,20 @@ function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discont
       <div class="flex-1">
         <!-- Sort & View Controls -->
         <div class="flex items-center justify-between mb-6">
-          <p class="text-sm text-gray-500">{products.length} products</p>
+          <p id="product-count" class="text-sm text-gray-500">{allProducts.length} products</p>
           <div class="flex items-center gap-4">
-            <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
-              <option>Default</option>
-              <option>Stock First</option>
-              <option>Price Low to High</option>
+            <select id="sort-select" class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
+              <option value="default">Default</option>
+              <option value="stock">Stock First</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
             </select>
           </div>
         </div>
 
         <!-- Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-          {products.map((product) => (
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {allProducts.map((product) => (
             <ProductCard
               model={product.model}
               frequency={product.frequency}
@@ -96,6 +193,18 @@ function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discont
             />
           ))}
         </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-16">
+          <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h3 class="text-lg font-medium text-gray-800 mb-2">No products found</h3>
+          <p class="text-gray-500 mb-4">Try adjusting your filters to see more products</p>
+          <button id="clear-filters-btn" class="text-cosmic-600 hover:text-cosmic-700 font-medium">
+            Clear all filters
+          </button>
+        </div>
       </div>
     </div>
   </Container>
@@ -108,3 +217,165 @@ function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discont
     </Container>
   </section>
 </BaseLayout>
+
+<script define:vars={{ productsJson }}>
+  const products = JSON.parse(productsJson);
+  const grid = document.getElementById('products-grid');
+  const countEl = document.getElementById('product-count');
+  const noResults = document.getElementById('no-results');
+  const resetBtn = document.getElementById('reset-filters');
+  const clearFiltersBtn = document.getElementById('clear-filters-btn');
+  const sortSelect = document.getElementById('sort-select');
+  const checkboxes = document.querySelectorAll('.filter-checkbox');
+
+  function getFrequencyRange(freq) {
+    const f = parseInt(freq);
+    if (f >= 8 && f <= 16) return '8-16mhz';
+    if (f > 16 && f <= 25) return '16-25mhz';
+    if (f > 25 && f <= 50) return '25-50mhz';
+    return '';
+  }
+
+  function filterProducts() {
+    const activeFilters = { category: [], package: [], frequency: [] };
+
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        const name = cb.name;
+        const value = cb.value;
+        if (name === 'category') activeFilters.category.push(value);
+        if (name === 'package') activeFilters.package.push(value);
+        if (name === 'frequency') activeFilters.frequency.push(value);
+      }
+    });
+
+    let filtered = products.filter(p => {
+      // Category filter
+      if (activeFilters.category.length > 0 && !activeFilters.category.includes(p.category)) {
+        return false;
+      }
+      // Package filter
+      if (activeFilters.package.length > 0) {
+        const hasPackage = activeFilters.package.some(pk => p.package.includes(pk));
+        if (!hasPackage) return false;
+      }
+      // Frequency filter
+      if (activeFilters.frequency.length > 0) {
+        const freqRange = getFrequencyRange(p.frequency);
+        if (!activeFilters.frequency.includes(freqRange)) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    // Sort
+    const sortValue = sortSelect?.value;
+    if (sortValue === 'stock') {
+      filtered.sort((a, b) => {
+        if (a.badge === 'futures' && b.badge !== 'futures') return 1;
+        if (b.badge === 'futures' && a.badge !== 'futures') return -1;
+        return 0;
+      });
+    }
+
+    return filtered;
+  }
+
+  function renderProducts(productsToRender) {
+    if (!grid) return;
+
+    if (productsToRender.length === 0) {
+      grid.classList.add('hidden');
+      noResults?.classList.remove('hidden');
+      if (countEl) countEl.textContent = '0 products';
+      return;
+    }
+
+    grid.classList.remove('hidden');
+    noResults?.classList.add('hidden');
+    if (countEl) countEl.textContent = `${productsToRender.length} products`;
+
+    grid.innerHTML = productsToRender.map(p => `
+      <a href="${p.href}" class="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-out-expo overflow-hidden">
+        <div class="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+          <img src="${p.image}" alt="${p.model}" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500 ease-out" loading="lazy" />
+          <div class="absolute top-3 left-3">
+            <span class="px-2 py-0.5 text-xs font-medium rounded ${
+              p.badge === 'hot' ? 'bg-red-500 text-white' :
+              p.badge === 'new' ? 'bg-cosmic-500 text-white' :
+              p.badge === 'futures' ? 'bg-amber-500 text-white' :
+              'bg-gray-100 text-gray-600'
+            }">${p.badge}</span>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-start justify-between gap-2 mb-4">
+            <h3 class="font-mono text-base font-semibold text-gray-800 group-hover:text-cosmic-600 transition-colors duration-200">${p.model}</h3>
+            <span class="text-xs text-gray-400 shrink-0 bg-gray-100 px-2 py-1 rounded-md">TongJing</span>
+          </div>
+          <dl class="space-y-1.5 text-sm mb-5">
+            <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
+              <dt class="text-gray-400 text-xs w-16">Freq</dt>
+              <dd class="text-gray-700 font-medium">${p.frequency}</dd>
+            </div>
+            <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
+              <dt class="text-gray-400 text-xs w-16">Tolerance</dt>
+              <dd class="text-gray-700 font-medium">${p.tolerance}</dd>
+            </div>
+            <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50/80">
+              <dt class="text-gray-400 text-xs w-16">Package</dt>
+              <dd class="text-gray-700 font-medium">${p.package}</dd>
+            </div>
+          </dl>
+          <div class="bg-gradient-to-r from-green-50/50 to-green-100/50 border border-green-200/50 rounded-xl p-3 mb-5">
+            <div class="flex items-center justify-between text-sm">
+              <span class="flex items-center gap-2 text-green-600">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                Stock: ${p.stock}
+              </span>
+            </div>
+            <p class="text-aurora-500 font-bold mt-1">${p.priceRange}</p>
+          </div>
+          <div class="flex items-center justify-between gap-1">
+            <button class="flex-1 flex items-center justify-center gap-1 px-2 py-2 rounded-lg border border-gray-200 text-gray-600 hover:border-cosmic-300 hover:text-cosmic-600 hover:bg-cosmic-50 transition-all duration-200 text-xs font-medium">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Datasheet
+            </button>
+            <a href="${p.href}" class="px-3 py-2 rounded-lg text-cosmic-600 hover:bg-cosmic-50 transition-all duration-200 text-xs font-medium text-center">
+              Details
+            </a>
+            <a href="${p.href}?inquiry=true" class="px-3 py-2 rounded-lg bg-gradient-to-br from-aurora-400 to-aurora-500 text-white font-medium text-xs text-center shadow-[0_2px_8px_rgba(249,115,22,0.25)] hover:shadow-[0_4px_12px_rgba(249,115,22,0.35)] hover:from-aurora-300 hover:to-aurora-400 transition-all duration-200">
+              Inquiry
+            </a>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  // Event listeners
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      renderProducts(filterProducts());
+    });
+  });
+
+  sortSelect?.addEventListener('change', () => {
+    renderProducts(filterProducts());
+  });
+
+  function resetFilters() {
+    checkboxes.forEach(cb => cb.checked = false);
+    if (sortSelect) sortSelect.value = 'default';
+    renderProducts(filterProducts());
+  }
+
+  resetBtn?.addEventListener('click', resetFilters);
+  clearFiltersBtn?.addEventListener('click', resetFilters);
+
+  // Initial render
+  renderProducts(filterProducts());
+</script>

@@ -1,11 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/layout/Container.astro';
-import CrossReference from '../components/product/CrossReference.astro';
 import Button from '../components/ui/Button.astro';
-import { useTranslations } from '../utils/i18n';
-
-const t = useTranslations();
 
 const allProducts = [
   { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225' },
@@ -39,30 +35,65 @@ const brands = ['All', 'EPSON', 'NDK', 'KDS', 'Murata'];
     <Container>
       <div class="max-w-5xl mx-auto">
         <div class="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 class="text-lg font-semibold text-gray-800 mb-4">Brand Search</h2>
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">Search by Part Number</h2>
+
+          <!-- Brand Filter Buttons -->
           <div class="flex flex-wrap gap-3 mb-4">
             {brands.map((brand, index) => (
-              <button class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                index === 0 ? 'bg-aurora-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}>
+              <button
+                class={`brand-filter-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  index === 0 ? 'bg-aurora-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+                data-brand={brand.toLowerCase()}
+              >
                 {brand}
               </button>
             ))}
           </div>
+
+          <!-- Search Input -->
           <div class="flex gap-3">
-            <input
-              type="search"
-              placeholder="Enter EPSON / NDK / KDS / Murata part number..."
-              class="flex-1 h-12 px-4 rounded-lg border border-gray-200 focus:border-cosmic-400 focus:ring-1 focus:ring-cosmic-400/10 transition-colors"
-            />
-            <Button variant="primary" size="lg">Search</Button>
+            <div class="flex-1 relative">
+              <input
+                type="search"
+                id="crossref-search"
+                placeholder="Enter EPSON / NDK / KDS / Murata part number..."
+                class="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-cosmic-400 focus:ring-1 focus:ring-cosmic-400/10 transition-colors"
+              />
+            </div>
+            <Button variant="primary" size="lg" id="search-btn">Search</Button>
           </div>
+
+          <!-- Popular Searches -->
           <div class="flex flex-wrap gap-2 mt-4">
-            <span class="text-xs text-gray-500">Popular searches:</span>
+            <span class="text-xs text-gray-500">Popular:</span>
             {['FA-238', 'NX3225GA', 'DSX211G', 'CRSS2012', 'FA-128'].map((s) => (
-              <span class="text-xs text-cosmic-600 bg-cosmic-50 px-2 py-1 rounded cursor-pointer hover:bg-cosmic-100">{s}</span>
+              <button class="popular-search text-xs text-cosmic-600 bg-cosmic-50 px-2 py-1 rounded cursor-pointer hover:bg-cosmic-100 transition-colors" data-query={s}>
+                {s}
+              </button>
             ))}
           </div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="search-results" class="hidden mt-6">
+          <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div class="p-4 border-b border-gray-200 bg-cosmic-50">
+              <h3 class="font-semibold text-gray-800">Search Results</h3>
+              <p id="results-count" class="text-sm text-gray-500 mt-1"></p>
+            </div>
+            <div id="results-container" class="divide-y divide-gray-100">
+            </div>
+          </div>
+        </div>
+
+        <!-- No Results -->
+        <div id="no-results" class="hidden mt-6 text-center py-12 bg-white rounded-xl border border-gray-200">
+          <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h3 class="text-lg font-medium text-gray-800 mb-2">No matching parts found</h3>
+          <p class="text-gray-500">Try searching with a different part number or browse the full table below</p>
         </div>
       </div>
     </Container>
@@ -80,7 +111,44 @@ const brands = ['All', 'EPSON', 'NDK', 'KDS', 'Murata'];
           Export Excel
         </Button>
       </div>
-      <CrossReference products={allProducts} />
+
+      <!-- Cross Reference Table -->
+      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-800">TongJing</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-800">EPSON</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-800">NDK</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-800">KDS</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-800">Murata</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-800">Package</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-800">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            {allProducts.map((product) => (
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <a href={`/products/tongjing-${product.tongjing.toLowerCase().replace('.', '')}`} class="font-mono text-sm font-medium text-cosmic-600 hover:text-cosmic-700">
+                    {product.tongjing}
+                  </a>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600 font-mono">{product.epson}</td>
+                <td class="px-6 py-4 text-sm text-gray-600 font-mono">{product.ndk}</td>
+                <td class="px-6 py-4 text-sm text-gray-600 font-mono">{product.kds}</td>
+                <td class="px-6 py-4 text-sm text-gray-600 font-mono">{product.murata}</td>
+                <td class="px-6 py-4 text-sm text-gray-600">{product.package}</td>
+                <td class="px-6 py-4">
+                  <a href={`/products/tongjing-${product.tongjing.toLowerCase().replace('.', '')}`} class="text-sm text-aurora-500 hover:text-aurora-600 font-medium">
+                    View →
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Container>
   </section>
 
@@ -108,3 +176,134 @@ const brands = ['All', 'EPSON', 'NDK', 'KDS', 'Murata'];
     </Container>
   </section>
 </BaseLayout>
+
+<script>
+  const crossRefData = [
+    { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', href: '/products/tongjing-tj3225k-26m' },
+    { tongjing: 'TJ3225K-24M', epson: 'FA-238V', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', href: '/products/tongjing-tj3225k-24m' },
+    { tongjing: 'TJ2520K-24M', epson: 'FA-128', ndk: 'NX2520SA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', href: '/products/tongjing-tj2520k-24m' },
+    { tongjing: 'TJ2520K-25M', epson: 'FA-128', ndk: 'NX2520GA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', href: '/products/tongjing-tj2520k-25m' },
+    { tongjing: 'TJ2016K-16M', epson: 'FA-1608', ndk: 'NX2012SA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', href: '/products/tongjing-tj2016k-16m' },
+    { tongjing: 'TJ2016K-24M', epson: 'FA-1608', ndk: 'NX2012GA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', href: '/products/tongjing-tj2016k-24m' },
+    { tongjing: 'TJ1610K-12M', epson: 'FA-1612', ndk: 'NX1612SA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', href: '/products/tongjing-tj1610k-12m' },
+    { tongjing: 'TJ1610K-24M', epson: 'FA-1612', ndk: 'NX1612GA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', href: '/products/tongjing-tj1610k-24m' },
+  ];
+
+  const searchInput = document.getElementById('crossref-search') as HTMLInputElement;
+  const searchBtn = document.getElementById('search-btn');
+  const searchResults = document.getElementById('search-results');
+  const resultsContainer = document.getElementById('results-container');
+  const resultsCount = document.getElementById('results-count');
+  const noResults = document.getElementById('no-results');
+  const brandFilterBtns = document.querySelectorAll('.brand-filter-btn');
+  const popularSearchBtns = document.querySelectorAll('.popular-search');
+
+  let activeBrand = 'all';
+
+  function searchCrossRef(query: string, brand: string) {
+    if (!query) return [];
+
+    const q = query.toLowerCase().trim();
+
+    return crossRefData.filter(item => {
+      // Brand filter
+      if (brand !== 'all') {
+        const brandKey = brand as keyof typeof item;
+        const brandValue = item[brandKey];
+        if (brandValue && !brandValue.toLowerCase().includes(q)) {
+          return false;
+        }
+      } else {
+        // Search all fields
+        const searchStr = `${item.tongjing} ${item.epson} ${item.ndk} ${item.kds} ${item.murata}`.toLowerCase();
+        if (!searchStr.includes(q)) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderResults(results: typeof crossRefData) {
+    if (results.length === 0) {
+      searchResults?.classList.add('hidden');
+      noResults?.classList.remove('hidden');
+      return;
+    }
+
+    searchResults?.classList.remove('hidden');
+    noResults?.classList.add('hidden');
+
+    if (resultsCount) {
+      resultsCount.textContent = `Found ${results.length} alternative(s)`;
+    }
+
+    if (resultsContainer) {
+      resultsContainer.innerHTML = results.map(item => `
+        <div class="p-4 flex items-center justify-between hover:bg-gray-50">
+          <div class="flex-1 grid grid-cols-5 gap-4">
+            <div>
+              <p class="text-xs text-gray-500 mb-1">TongJing</p>
+              <a href="${item.href}" class="font-mono text-sm font-medium text-cosmic-600 hover:text-cosmic-700">${item.tongjing}</a>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 mb-1">EPSON</p>
+              <p class="font-mono text-sm text-gray-600">${item.epson || '-'}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 mb-1">NDK</p>
+              <p class="font-mono text-sm text-gray-600">${item.ndk || '-'}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 mb-1">KDS</p>
+              <p class="font-mono text-sm text-gray-600">${item.kds || '-'}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 mb-1">Murata</p>
+              <p class="font-mono text-sm text-gray-600">${item.murata || '-'}</p>
+            </div>
+          </div>
+          <div class="ml-4">
+            <a href="${item.href}" class="inline-flex items-center gap-1 px-4 py-2 bg-cosmic-600 text-white text-sm font-medium rounded-lg hover:bg-cosmic-700 transition-colors">
+              View Product
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  function performSearch() {
+    const query = searchInput?.value || '';
+    const results = searchCrossRef(query, activeBrand);
+    renderResults(results);
+  }
+
+  // Event listeners
+  searchBtn?.addEventListener('click', performSearch);
+  searchInput?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') performSearch();
+  });
+
+  brandFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      brandFilterBtns.forEach(b => {
+        b.classList.remove('bg-aurora-500', 'text-white');
+        b.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      btn.classList.remove('bg-gray-100', 'text-gray-700');
+      btn.classList.add('bg-aurora-500', 'text-white');
+      activeBrand = (btn as HTMLElement).dataset.brand || 'all';
+      performSearch();
+    });
+  });
+
+  popularSearchBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const query = (btn as HTMLElement).dataset.query || '';
+      if (searchInput) searchInput.value = query;
+      performSearch();
+    });
+  });
+</script>
