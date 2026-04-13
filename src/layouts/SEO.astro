@@ -1,6 +1,10 @@
 ---
 import { locales } from '../utils/i18n';
 
+// Google Analytics Measurement ID (格式: G-XXXXXXXXXX)
+// 在 Cloudflare Pages 环境变量中设置 GA_MEASUREMENT_ID
+const gaMeasurementId = import.meta.env.GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
+
 interface Props {
   title: string;
   description: string;
@@ -93,5 +97,16 @@ const jsonLd = {
 
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<!-- Google Analytics 4 -->
+<script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+<script define:vars={{ gaMeasurementId }}>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', gaMeasurementId, {
+    page_path: new URL(window.location.href).pathname,
+  });
+</script>
 
 <title>{title}</title>
