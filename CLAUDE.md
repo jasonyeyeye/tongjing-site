@@ -1,4 +1,4 @@
-# Tongjing Site - Astro 项目规范
+# China NewChip - Astro 项目规范
 
 ## 项目概述
 

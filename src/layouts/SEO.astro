@@ -15,15 +15,15 @@ interface Props {
 }
 
 const { title, description, image, canonical, locale = 'en', type = 'website' } = Astro.props;
-const siteUrl = 'https://tongjing.example.com';
+const siteUrl = 'https://chinanewchip.com';
 const defaultImage = `${siteUrl}/og-image.png`;
 const currentUrl = canonical ?? Astro.url.href;
 
 const siteNames: Record<string, string> = {
-  en: 'TongJing Electronics',
-  zh: '同晶电子',
-  ja: '同晶電子',
-  de: 'TongJing Elektronik',
+  en: 'China NewChip',
+  zh: '中国新芯片',
+  ja: '中国新チップ',
+  de: 'China NewChip',
 };
 
 // Generate hreflang URLs
@@ -47,13 +47,13 @@ const jsonLd = {
   url: currentUrl,
   ...(type === 'product' ? {
     image: image ?? defaultImage,
-    brand: { '@type': 'Brand', name: 'TongJing' },
-    manufacturer: { '@type': 'Organization', name: 'TongJing Electronics' },
+    brand: { '@type': 'Brand', name: 'China NewChip' },
+    manufacturer: { '@type': 'Organization', name: 'China NewChip Electronics' },
   } : {
     logo: `${siteUrl}/favicon.svg`,
     sameAs: [
-      'https://www.linkedin.com/company/tongjing',
-      'https://github.com/tongjing',
+      'https://www.linkedin.com/company/chinanewchip',
+      'https://github.com/chinanewchip',
     ],
     contactPoint: {
       '@type': 'ContactPoint',

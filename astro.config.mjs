@@ -20,7 +20,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: 'https://tongjing.example.com',
+  site: 'https://chinanewchip.com',
   i18n: {
     defaultLocale: 'en',
     locales: ['zh', 'en', 'ja', 'de'],
