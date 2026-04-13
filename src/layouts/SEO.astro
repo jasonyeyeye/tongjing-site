@@ -8,77 +8,271 @@ interface Props {
   description: string;
   image?: string;
   canonical?: string;
-  type?: 'website' | 'product';
+  type?: 'website' | 'product' | 'article';
+  pageType?: 'home' | 'products' | 'brands' | 'about' | 'contact' | 'tools';
 }
 
-const { title, description, image, canonical, type = 'website' } = Astro.props;
+const { title, description, image, canonical, type = 'website', pageType = 'home' } = Astro.props;
 const siteUrl = 'https://chinanewchip.com';
 const defaultImage = `${siteUrl}/og-image.png`;
 const currentUrl = canonical ?? Astro.url.href;
+const siteName = 'China NewChip';
 
-// JSON-LD Structured Data
-const jsonLd = {
+// Organization JSON-LD
+const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': type === 'product' ? 'Product' : 'Organization',
-  name: 'China NewChip',
-  description,
-  url: currentUrl,
-  ...(type === 'product' ? {
-    image: image ?? defaultImage,
-    brand: { '@type': 'Brand', name: 'China NewChip' },
-    manufacturer: { '@type': 'Organization', name: 'China NewChip Electronics' },
-  } : {
-    logo: `${siteUrl}/favicon.svg`,
-    sameAs: [
-      'https://www.linkedin.com/company/chinanewchip',
-      'https://github.com/chinanewchip',
-    ],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+86-551-xxxx-xxxx',
-      contactType: 'customer service',
-      availableLanguage: 'en',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: siteName,
+  alternateName: 'China NewChip Electronics',
+  description: 'Professional electronic components and chip brand platform in China. We distribute and promote high-quality Chinese semiconductor and electronic component brands globally.',
+  url: siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteUrl}/logo.svg`,
+    width: 200,
+    height: 60,
+  },
+  image: {
+    '@type': 'ImageObject',
+    url: defaultImage,
+    width: 1200,
+    height: 630,
+  },
+  foundingLocation: {
+    '@type': 'Place',
+    name: 'Hefei, Anhui, China',
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 31.8206,
+      longitude: 117.2272,
     },
-  }),
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+86-551-xxxx-xxxx',
+    contactType: 'customer service',
+    availableLanguage: ['English', 'Chinese'],
+    areaServed: 'Worldwide',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Hefei High-tech Industrial Development Zone',
+    addressLocality: 'Hefei',
+    addressRegion: 'Anhui',
+    postalCode: '230088',
+    addressCountry: 'CN',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 31.8206,
+    longitude: 117.2272,
+  },
+  areaServed: {
+    '@type': 'Place',
+    name: 'Worldwide',
+  },
+  sameAs: [
+    'https://www.linkedin.com/company/chinanewchip',
+    'https://github.com/chinanewchip',
+    'https://twitter.com/chinanewchip',
+  ],
+  knowsAbout: [
+    'Electronic Components',
+    'Semiconductor Chips',
+    'Quartz Crystal Resonators',
+    'Crystal Oscillators',
+    'RTC Modules',
+    'Chinese Electronics Brands',
+  ],
 };
+
+// LocalBusiness JSON-LD for local SEO
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'ElectronicsStore'],
+  '@id': `${siteUrl}/#localbusiness`,
+  name: siteName,
+  description: 'Electronic components and chip brand distributor based in Hefei, China. Specializing in quartz crystal resonators, oscillators, RTC modules, and promoting Chinese electronics brands globally.',
+  url: siteUrl,
+  telephone: '+86-551-xxxx-xxxx',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Hefei High-tech Industrial Development Zone',
+    addressLocality: 'Hefei',
+    addressRegion: 'Anhui',
+    postalCode: '230088',
+    addressCountry: 'CN',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 31.8206,
+    longitude: 117.2272,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '18:00',
+    timeZone: 'Asia/Shanghai',
+  },
+  priceRange: '$$',
+  image: defaultImage,
+  areaServed: {
+    '@type': 'Country',
+    name: 'Worldwide',
+  },
+};
+
+// Website JSON-LD
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  name: siteName,
+  url: siteUrl,
+  description: 'Professional electronic components and chip brand platform in China',
+  publisher: { '@id': `${siteUrl}/#organization` },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteUrl}/?search={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+  inLanguage: 'en',
+};
+
+// BreadcrumbList JSON-LD
+const getBreadcrumbJsonLd = (pageName: string, pageUrl: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: pageName,
+      item: pageUrl,
+    },
+  ],
+});
+
+// Product JSON-LD for product pages
+const getProductJsonLd = (product: {
+  model: string;
+  description?: string;
+  brand?: string;
+  availability?: string;
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.model,
+  description: product.description || `High-quality ${product.model} quartz crystal resonator from TongJing brand`,
+  brand: {
+    '@type': 'Brand',
+    name: product.brand || 'TongJing',
+  },
+  manufacturer: { '@id': `${siteUrl}/#organization` },
+  image: defaultImage,
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: product.availability || 'https://schema.org/InStock',
+    seller: { '@id': `${siteUrl}/#organization` },
+  },
+  category: 'Electronic Components',
+  countryOfOrigin: 'China',
+});
 ---
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content={description} />
+<meta name="keywords" content="China electronics brands, Chinese chip manufacturers, electronic components, semiconductor chips, quartz crystal resonators, crystal oscillators, RTC modules, Made in China electronics, China semiconductor, electronic components supplier" />
+<meta name="author" content="China NewChip" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="geo.region" content="CN-34" />
+<meta name="geo.placename" content="Hefei, Anhui" />
+<meta name="geo.position" content="31.8206;117.2272" />
+<meta name="ICBM" content="31.8206, 117.2272" />
+
+<!-- Canonical URL -->
 <link rel="canonical" href={currentUrl} />
 
-<!-- Open Graph -->
-<meta property="og:type" content={type === 'product' ? 'product' : 'website'} />
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type === 'product' ? 'product' : type === 'article' ? 'article' : 'website'} />
+<meta property="og:site_name" content={siteName} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={image ?? defaultImage} />
 <meta property="og:url" content={currentUrl} />
-<meta property="og:site_name" content="China NewChip" />
 <meta property="og:locale" content="en_US" />
+<meta property="og:see_also" content="https://www.linkedin.com/company/chinanewchip" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@chinanewchip" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image ?? defaultImage} />
 
-<!-- Sitemap & Robots -->
+<!-- Additional SEO Meta -->
+<meta name="format-detection" content="telephone=no" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+<!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<!-- Alternate Languages -->
+<link rel="alternate" hreflang="en" href={currentUrl} />
+<link rel="alternate" hreflang="x-default" href={currentUrl} />
 
 <!-- JSON-LD Structured Data -->
-<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
 
-<!-- Google Analytics 4 -->
-<script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
-<script define:vars={{ gaMeasurementId }}>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', gaMeasurementId, {
-    page_path: new URL(window.location.href).pathname,
-  });
-</script>
+<!-- Geo Location Data -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'GeoCoordinates',
+  latitude: 31.8206,
+  longitude: 117.2272,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Hefei',
+    addressRegion: 'Anhui',
+    addressCountry: 'CN',
+  },
+})} />
+
+<!-- Organization Network Schema -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: siteName,
+  url: siteUrl,
+  logo: `${siteUrl}/logo.svg`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+86-551-xxxx-xxxx',
+    contactType: 'sales',
+  },
+})} />
 
 <title>{title}</title>

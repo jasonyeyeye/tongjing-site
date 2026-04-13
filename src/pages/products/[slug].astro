@@ -90,7 +90,11 @@ const relatedProducts = allProducts.slice(0, 4).map((p: Product) => ({
 }));
 ---
 
-<BaseLayout title={`${product.model} - ${t.seo.title}`} description={t.seo.description}>
+<BaseLayout
+  title={`${product.model} - Crystal Resonator ${product.frequency} | China NewChip`}
+  description={`High-quality ${product.model} ${product.frequency} crystal resonator. ${product.tolerance} tolerance, ${product.loadCapacitance} load capacitance, SMD ${product.package}. AEC-Q100 certified, in stock. Request a quote today.`}
+  type="product"
+>
   <!-- Breadcrumb -->
   <div class="bg-gray-50 py-3">
     <Container>

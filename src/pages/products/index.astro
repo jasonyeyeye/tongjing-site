@@ -43,12 +43,16 @@ function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discont
 }
 ---
 
-<BaseLayout title={`${t.product.title} - ${t.seo.title}`} description={t.seo.description}>
+<BaseLayout
+  title="Electronic Components & Chips - Crystal Resonators, Oscillators | China NewChip"
+  description="Browse high-quality electronic components from Chinese manufacturers. Crystal resonators, oscillators, RTC modules with ISO/AEC-Q certifications. Wholesale pricing, global shipping."
+  pageType="products"
+>
   <!-- Hero -->
   <section class="bg-gradient-to-r from-cosmic-600 to-cosmic-800 text-white py-12">
     <Container>
-      <h1 class="text-3xl font-bold mb-2">{t.product.title}</h1>
-      <p class="text-white/80">{products.length} products</p>
+      <h1 class="text-3xl font-bold mb-2">Electronic Components Catalog</h1>
+      <p class="text-white/80">Explore our range of certified electronic components — crystal resonators, oscillators, and RTC modules from {products.length} product lines</p>
     </Container>
   </section>
 
