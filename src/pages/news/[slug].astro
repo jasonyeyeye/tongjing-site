@@ -1,0 +1,209 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import { articles, getArticleBySlug } from '../../data/articles';
+
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+
+const categoryLabels = {
+  tech: 'Technical Article',
+  industry: 'Industry News',
+  company: 'Company Update',
+};
+
+const categoryColors = {
+  tech: 'bg-cosmic-100 text-cosmic-600',
+  industry: 'bg-aurora-100 text-aurora-600',
+  company: 'bg-green-100 text-green-600',
+};
+---
+
+<BaseLayout
+  title={`${article.title} - China NewChip News`}
+  description={article.excerpt}
+  type="article"
+>
+  <!-- Breadcrumb -->
+  <div class="bg-gray-50 py-3">
+    <Container>
+      <nav class="flex items-center gap-2 text-sm text-gray-500">
+        <a href="/" class="hover:text-gray-700">Home</a>
+        <span>/</span>
+        <a href="/news" class="hover:text-gray-700">News</a>
+        <span>/</span>
+        <span class="text-gray-700">{article.title}</span>
+      </nav>
+    </Container>
+  </div>
+
+  <!-- Article Header -->
+  <section class="py-12">
+    <Container>
+      <article class="max-w-4xl mx-auto">
+        <!-- Category & Date -->
+        <div class="flex items-center gap-4 mb-6">
+          <span class={`px-3 py-1 text-sm font-medium rounded-full ${categoryColors[article.category]}`}>
+            {categoryLabels[article.category]}
+          </span>
+          <time class="text-gray-500 text-sm">{article.date}</time>
+          <span class="text-gray-300">|</span>
+          <span class="text-gray-500 text-sm">By {article.author}</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+          {article.title}
+        </h1>
+
+        <!-- Excerpt -->
+        <p class="text-lg text-gray-600 mb-8 leading-relaxed border-l-4 border-cosmic-500 pl-4">
+          {article.excerpt}
+        </p>
+
+        <!-- Featured Image -->
+        {article.image && (
+          <div class="aspect-video rounded-xl overflow-hidden mb-10 bg-gray-100">
+            <img
+              src={article.image}
+              alt={article.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
+        <!-- Article Content -->
+        <div class="prose prose-lg max-w-none">
+          <div set:html={article.content.split('\n').map((line: string) => {
+            if (line.startsWith('## ')) {
+              return `<h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">${line.slice(3)}</h2>`;
+            } else if (line.startsWith('### ')) {
+              return `<h3 class="text-xl font-semibold text-gray-800 mt-8 mb-3">${line.slice(4)}</h3>`;
+            } else if (line.startsWith('| ')) {
+              // Handle tables - simplified
+              return '';
+            } else if (line.trim() === '') {
+              return '';
+            } else if (line.trim().startsWith('-') || line.trim().startsWith('1.') || line.trim().startsWith('2.') || line.trim().startsWith('3.') || line.trim().startsWith('4.') || line.trim().startsWith('5.')) {
+              return `<li class="text-gray-700 mb-2 ml-4">${line.replace(/^[-\d.]\s*/, '')}</li>`;
+            } else {
+              return `<p class="text-gray-700 mb-4 leading-relaxed">${line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>').replace(/\|(.*?)\|/g, '<code class="bg-gray-100 px-1 rounded">$1</code>')}</p>`;
+            }
+          }).join('\n')} />
+        </div>
+
+        <!-- Back to News -->
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <a
+            href="/news"
+            class="inline-flex items-center gap-2 text-cosmic-600 hover:text-cosmic-700 font-medium transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to News
+          </a>
+        </div>
+      </article>
+    </Container>
+  </section>
+
+  <!-- Related Articles -->
+  <section class="py-12 bg-gray-50">
+    <Container>
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">More Articles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {articles
+          .filter((a) => a.slug !== article.slug)
+          .slice(0, 3)
+          .map((relatedArticle) => (
+            <a href={`/news/${relatedArticle.slug}`} class="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+              {relatedArticle.image && (
+                <div class="aspect-video overflow-hidden">
+                  <img
+                    src={relatedArticle.image}
+                    alt={relatedArticle.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="p-5">
+                <span class={`inline-block px-2 py-0.5 text-xs font-medium rounded mb-2 ${categoryColors[relatedArticle.category]}`}>
+                  {categoryLabels[relatedArticle.category]}
+                </span>
+                <h3 class="font-semibold text-gray-900 group-hover:text-cosmic-600 transition-colors line-clamp-2">
+                  {relatedArticle.title}
+                </h3>
+                <p class="text-sm text-gray-500 mt-2 line-clamp-2">{relatedArticle.excerpt}</p>
+                <p class="text-xs text-gray-400 mt-3">{relatedArticle.date}</p>
+              </div>
+            </a>
+          ))}
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(17 24 39);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(31 41 55);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose p {
+    color: rgb(55 65 81);
+    margin-bottom: 1rem;
+    line-height: 1.625;
+  }
+  .prose li {
+    color: rgb(55 65 81);
+    margin-bottom: 0.5rem;
+    margin-left: 1rem;
+  }
+  .prose strong {
+    font-weight: 600;
+  }
+  .prose code {
+    background-color: rgb(243 244 246);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .prose th {
+    background-color: rgb(249 250 251);
+    border: 1px solid rgb(229 231 235);
+    padding: 0.5rem 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgb(55 65 81);
+  }
+  .prose td {
+    border: 1px solid rgb(229 231 235);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: rgb(75 85 99);
+  }
+</style>

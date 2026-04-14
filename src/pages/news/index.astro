@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/layout/Container.astro';
 import Button from '../../components/ui/Button.astro';
 import { useTranslations } from '../../utils/i18n';
+import { articles } from '../../data/articles';
 
 const t = useTranslations();
 
@@ -11,37 +12,6 @@ const categories = [
   { key: 'tech', label: t.news.categories.tech },
   { key: 'industry', label: t.news.categories.industry },
   { key: 'company', label: t.news.categories.company },
-];
-
-const articles = [
-  {
-    title: 'Working Principle and Applications of Crystal Resonators',
-    category: 'tech',
-    date: '2026-03-15',
-    excerpt: 'Crystal resonators are precision electronic components that work based on the piezoelectric effect of quartz crystal...',
-    image: null,
-  },
-  {
-    title: '2026 Crystal Oscillator Industry Development Trend Analysis',
-    category: 'industry',
-    date: '2026-03-10',
-    excerpt: 'With the rapid development of 5G communication, automotive electronics, and IoT, crystal resonator demand continues to grow...',
-    image: null,
-  },
-  {
-    title: 'TongJing Electronics Achieves AEC-Q100 Certification',
-    category: 'company',
-    date: '2026-02-28',
-    excerpt: 'Congratulations to our RTC module product line for successfully passing AEC-Q100 automotive certification...',
-    image: null,
-  },
-  {
-    title: 'How to Choose the Right Crystal Resonator Package',
-    category: 'tech',
-    date: '2026-02-20',
-    excerpt: 'Crystal resonator package selection requires considering factors such as size, frequency range, and accuracy requirements...',
-    image: null,
-  },
 ];
 ---
 
@@ -74,9 +44,9 @@ const articles = [
     <Container>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {articles.map((article) => (
-          <article class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+          <a href={`/news/${article.slug}`} class="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
             <div class="aspect-video overflow-hidden">
-              <img src="/images/news-placeholder_001.jpg" alt={article.title} class="w-full h-full object-cover" />
+              <img src={article.image || '/images/news-placeholder_001.jpg'} alt={article.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
             </div>
             <div class="p-6">
               <div class="flex items-center gap-3 mb-3">
@@ -89,12 +59,12 @@ const articles = [
                 </span>
                 <span class="text-xs text-gray-500">{article.date}</span>
               </div>
-              <h2 class="text-lg font-semibold text-gray-800 mb-2 hover:text-cosmic-600 transition-colors cursor-pointer">
+              <h2 class="text-lg font-semibold text-gray-800 mb-2 group-hover:text-cosmic-600 transition-colors">
                 {article.title}
               </h2>
               <p class="text-sm text-gray-500 line-clamp-2">{article.excerpt}</p>
             </div>
-          </article>
+          </a>
         ))}
       </div>
 

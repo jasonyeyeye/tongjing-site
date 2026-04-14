@@ -3,15 +3,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/layout/Container.astro';
 import Button from '../components/ui/Button.astro';
 
+// Mapping from cross-reference part numbers to actual product IDs
+const productIdMap: Record<string, string> = {
+  'TJ3225K-26M': 'tongjing-tj3225k',
+  'TJ3225K-24M': 'tongjing-tj3225k',
+  'TJ2520K-24M': 'tongjing-tj2520k',
+  'TJ2520K-25M': 'tongjing-tj2520k',
+  'TJ2016K-16M': 'tongjing-tj2016k',
+  'TJ2016K-24M': 'tongjing-tj2016k',
+  'TJ1610K-12M': 'tongjing-tj1610k',
+  'TJ1610K-24M': 'tongjing-tj1610k',
+};
+
 const allProducts = [
-  { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225' },
-  { tongjing: 'TJ3225K-24M', epson: 'FA-238V', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225' },
-  { tongjing: 'TJ2520K-24M', epson: 'FA-128', ndk: 'NX2520SA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520' },
-  { tongjing: 'TJ2520K-25M', epson: 'FA-128', ndk: 'NX2520GA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520' },
-  { tongjing: 'TJ2016K-16M', epson: 'FA-1608', ndk: 'NX2012SA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016' },
-  { tongjing: 'TJ2016K-24M', epson: 'FA-1608', ndk: 'NX2012GA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016' },
-  { tongjing: 'TJ1610K-12M', epson: 'FA-1612', ndk: 'NX1612SA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610' },
-  { tongjing: 'TJ1610K-24M', epson: 'FA-1612', ndk: 'NX1612GA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610' },
+  { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', productId: 'tongjing-tj3225k' },
+  { tongjing: 'TJ3225K-24M', epson: 'FA-238V', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', productId: 'tongjing-tj3225k' },
+  { tongjing: 'TJ2520K-24M', epson: 'FA-128', ndk: 'NX2520SA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', productId: 'tongjing-tj2520k' },
+  { tongjing: 'TJ2520K-25M', epson: 'FA-128', ndk: 'NX2520GA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', productId: 'tongjing-tj2520k' },
+  { tongjing: 'TJ2016K-16M', epson: 'FA-1608', ndk: 'NX2012SA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', productId: 'tongjing-tj2016k' },
+  { tongjing: 'TJ2016K-24M', epson: 'FA-1608', ndk: 'NX2012GA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', productId: 'tongjing-tj2016k' },
+  { tongjing: 'TJ1610K-12M', epson: 'FA-1612', ndk: 'NX1612SA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', productId: 'tongjing-tj1610k' },
+  { tongjing: 'TJ1610K-24M', epson: 'FA-1612', ndk: 'NX1612GA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', productId: 'tongjing-tj1610k' },
 ];
 
 const brands = ['All', 'EPSON', 'NDK', 'KDS', 'Murata'];
@@ -130,7 +142,7 @@ const brands = ['All', 'EPSON', 'NDK', 'KDS', 'Murata'];
             {allProducts.map((product) => (
               <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4">
-                  <a href={`/products/tongjing-${product.tongjing.toLowerCase().replace('.', '')}`} class="font-mono text-sm font-medium text-cosmic-600 hover:text-cosmic-700">
+                  <a href={`/products/${product.productId}`} class="font-mono text-sm font-medium text-cosmic-600 hover:text-cosmic-700">
                     {product.tongjing}
                   </a>
                 </td>
@@ -140,7 +152,7 @@ const brands = ['All', 'EPSON', 'NDK', 'KDS', 'Murata'];
                 <td class="px-6 py-4 text-sm text-gray-600 font-mono">{product.murata}</td>
                 <td class="px-6 py-4 text-sm text-gray-600">{product.package}</td>
                 <td class="px-6 py-4">
-                  <a href={`/products/tongjing-${product.tongjing.toLowerCase().replace('.', '')}`} class="text-sm text-aurora-500 hover:text-aurora-600 font-medium">
+                  <a href={`/products/${product.productId}`} class="text-sm text-aurora-500 hover:text-aurora-600 font-medium">
                     View →
                   </a>
                 </td>
@@ -179,14 +191,14 @@ const brands = ['All', 'EPSON', 'NDK', 'KDS', 'Murata'];
 
 <script>
   const crossRefData = [
-    { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', href: '/products/tongjing-tj3225k-26m' },
-    { tongjing: 'TJ3225K-24M', epson: 'FA-238V', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', href: '/products/tongjing-tj3225k-24m' },
-    { tongjing: 'TJ2520K-24M', epson: 'FA-128', ndk: 'NX2520SA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', href: '/products/tongjing-tj2520k-24m' },
-    { tongjing: 'TJ2520K-25M', epson: 'FA-128', ndk: 'NX2520GA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', href: '/products/tongjing-tj2520k-25m' },
-    { tongjing: 'TJ2016K-16M', epson: 'FA-1608', ndk: 'NX2012SA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', href: '/products/tongjing-tj2016k-16m' },
-    { tongjing: 'TJ2016K-24M', epson: 'FA-1608', ndk: 'NX2012GA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', href: '/products/tongjing-tj2016k-24m' },
-    { tongjing: 'TJ1610K-12M', epson: 'FA-1612', ndk: 'NX1612SA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', href: '/products/tongjing-tj1610k-12m' },
-    { tongjing: 'TJ1610K-24M', epson: 'FA-1612', ndk: 'NX1612GA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', href: '/products/tongjing-tj1610k-24m' },
+    { tongjing: 'TJ3225K-26M', epson: 'FA-238', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', href: '/products/tongjing-tj3225k' },
+    { tongjing: 'TJ3225K-24M', epson: 'FA-238V', ndk: 'NX3225GA', kds: 'DSX211G', murata: 'CRSS2012', package: '3225', href: '/products/tongjing-tj3225k' },
+    { tongjing: 'TJ2520K-24M', epson: 'FA-128', ndk: 'NX2520SA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', href: '/products/tongjing-tj2520k' },
+    { tongjing: 'TJ2520K-25M', epson: 'FA-128', ndk: 'NX2520GA', kds: 'DSX210G', murata: 'CRSS1608', package: '2520', href: '/products/tongjing-tj2520k' },
+    { tongjing: 'TJ2016K-16M', epson: 'FA-1608', ndk: 'NX2012SA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', href: '/products/tongjing-tj2016k' },
+    { tongjing: 'TJ2016K-24M', epson: 'FA-1608', ndk: 'NX2012GA', kds: 'DSX1612G', murata: 'CRSS1210', package: '2016', href: '/products/tongjing-tj2016k' },
+    { tongjing: 'TJ1610K-12M', epson: 'FA-1612', ndk: 'NX1612SA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', href: '/products/tongjing-tj1610k' },
+    { tongjing: 'TJ1610K-24M', epson: 'FA-1612', ndk: 'NX1612GA', kds: 'DSX1208G', murata: 'CRSS1005', package: '1610', href: '/products/tongjing-tj1610k' },
   ];
 
   const searchInput = document.getElementById('crossref-search') as HTMLInputElement;

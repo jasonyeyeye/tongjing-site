@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Page Not Found - China NewChip"
+  description="The page you are looking for could not be found."
+>
+  <section class="min-h-[60vh] flex items-center">
+    <Container>
+      <div class="max-w-2xl mx-auto text-center">
+        <!-- 404 Visual -->
+        <div class="mb-8">
+          <div class="text-8xl font-bold bg-gradient-to-r from-cosmic-500 to-aurora-500 bg-clip-text text-transparent">
+            404
+          </div>
+          <div class="relative">
+            <svg class="w-64 h-32 mx-auto text-gray-200" viewBox="0 0 256 128" fill="none">
+              <!-- Circuit board pattern -->
+              <path d="M128 20 L128 60 M108 40 L148 40 M128 60 L128 100 M108 80 L148 80" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="128" cy="20" r="4" fill="currentColor" class="text-cosmic-400"/>
+              <circle cx="108" cy="40" r="3" fill="currentColor" class="text-aurora-400"/>
+              <circle cx="148" cy="40" r="3" fill="currentColor" class="text-aurora-400"/>
+              <circle cx="128" cy="100" r="4" fill="currentColor" class="text-cosmic-400"/>
+              <circle cx="108" cy="80" r="3" fill="currentColor" class="text-aurora-400"/>
+              <circle cx="148" cy="80" r="3" fill="currentColor" class="text-aurora-400"/>
+              <!-- Ground plane hints -->
+              <path d="M60 120 L196 120" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"/>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-4xl">🔌</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">
+          Page Not Found
+        </h1>
+        <p class="text-gray-600 mb-8 leading-relaxed">
+          The page you are looking for might have been moved, deleted, or never existed.
+          It could also be a broken link or outdated bookmark.
+        </p>
+
+        <!-- Suggestions -->
+        <div class="bg-gray-50 rounded-xl p-6 mb-8 text-left">
+          <h2 class="font-semibold text-gray-800 mb-4">You might want to:</h2>
+          <ul class="space-y-3 text-gray-600">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-cosmic-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+              <span>Check the URL for any typos</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-cosmic-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+              <span>Go back to the <a href="/" class="text-cosmic-600 hover:underline">homepage</a></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-cosmic-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+              <span>Browse our <a href="/products" class="text-cosmic-600 hover:underline">products</a></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-cosmic-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+              <span>Use the search bar to find what you need</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-cosmic-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+              <span>Contact us if you believe this is an error</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap justify-center gap-4">
+          <Button variant="primary" href="/">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            Back to Home
+          </Button>
+          <Button variant="outline" href="/contact">
+            Contact Support
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
