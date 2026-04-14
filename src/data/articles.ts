@@ -153,7 +153,7 @@ AEC-Q100 is the automotive-grade stress test qualification for integrated circui
 
 - **Temperature Range**: Operation from -40°C to +125°C
 - **Reliability**: Passed rigorous life-cycle testing
-- **Quality**: Manufactured under严格 quality control systems
+- **Quality**: Manufactured under strict quality control systems
 - **Documentation**: Complete traceability and failure analysis capability
 
 ## Certification Process

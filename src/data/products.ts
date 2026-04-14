@@ -91,7 +91,7 @@ export const products: Product[] = [
     package: 'SMD3225',
     loadCapacitance: '20pF',
     esr: '30Ω',
-    stock: '期货 2周',
+    stock: '2 weeks lead time',
     priceRange: '$0.10 - $0.15',
     badge: 'futures',
     specifications: {
