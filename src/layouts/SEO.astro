@@ -236,10 +236,6 @@ const getProductJsonLd = (product: {
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-<!-- Alternate Languages -->
-<link rel="alternate" hreflang="en" href={currentUrl} />
-<link rel="alternate" hreflang="x-default" href={currentUrl} />
-
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
 <script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
