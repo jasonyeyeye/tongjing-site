@@ -32,14 +32,14 @@ function getCell(row: (string | number | boolean | object)[], idx: number): stri
   return String(v);
 }
 
-function syncBrands(): Brand[] {
+async function syncBrands(): Promise<Brand[]> {
   const sheetToken = process.env.FEISHU_SHEET_BRANDS_TOKEN;
   const sheetId = process.env.FEISHU_SHEET_BRANDS_ID;
   if (!sheetToken || !sheetId) {
     throw new Error('Missing env: FEISHU_SHEET_BRANDS_TOKEN and FEISHU_SHEET_BRANDS_ID');
   }
 
-  const rows = getSheetValues(sheetToken, sheetId, 'A1:G50');
+  const rows = await getSheetValues(sheetToken, sheetId, 'A1:G50');
   const dataRows = rows.slice(1); // 跳过表头
 
   const brands: Brand[] = [];
@@ -112,7 +112,7 @@ export async function run() {
   console.log('🏷️  Syncing brands from Feishu...');
 
   try {
-    const brands = syncBrands();
+    const brands = await syncBrands();
     console.log(`   Found ${brands.length} brands`);
 
     const output = generateBrandsFile(brands);

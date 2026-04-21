@@ -35,7 +35,7 @@ export const products: Product[] = [
       'Package': '3.2×2.5×0.8mm',
       'Load Capacitance': '12pF',
       'ESR': '30Ω max',
-      'Operating Temp': '-40°C to +85°C',
+      'Operating Temp': '-40°C to +85°C'
     },
   },
   {
@@ -55,7 +55,7 @@ export const products: Product[] = [
       'Package': '2.5×2.0×0.65mm',
       'Load Capacitance': '12pF',
       'ESR': '40Ω max',
-      'Operating Temp': '-40°C to +85°C',
+      'Operating Temp': '-40°C to +85°C'
     },
   },
   {
@@ -75,7 +75,7 @@ export const products: Product[] = [
       'Package': '2.0×1.6×0.5mm',
       'Load Capacitance': '8pF',
       'ESR': '50Ω max',
-      'Operating Temp': '-40°C to +85°C',
+      'Operating Temp': '-40°C to +85°C'
     },
   },
   {
@@ -95,7 +95,7 @@ export const products: Product[] = [
       'Package': '3.2×2.5×1.0mm',
       'Load Capacitance': '20pF',
       'ESR': '30Ω max',
-      'Operating Temp': '-40°C to +85°C',
+      'Operating Temp': '-40°C to +85°C'
     },
   },
   {
@@ -115,7 +115,7 @@ export const products: Product[] = [
       'Package': '1.6×1.0×0.35mm',
       'Load Capacitance': '8pF',
       'ESR': '60Ω max',
-      'Operating Temp': '-40°C to +85°C',
+      'Operating Temp': '-40°C to +85°C'
     },
   },
   {
@@ -135,7 +135,7 @@ export const products: Product[] = [
       'Package': '2.5×2.0×0.9mm',
       'Load Capacitance': '15pF',
       'ESR': '40Ω max',
-      'Operating Temp': '-40°C to +85°C',
+      'Operating Temp': '-40°C to +85°C'
     },
   },
 ];

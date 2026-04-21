@@ -39,14 +39,14 @@ function colVal(row: (string | number | boolean)[], idx: number): string {
   return v !== undefined && v !== null ? String(v) : '';
 }
 
-function syncProducts(): Product[] {
+async function syncProducts(): Promise<Product[]> {
   const sheetToken = process.env.FEISHU_SHEET_PRODUCTS_TOKEN;
   const sheetId = process.env.FEISHU_SHEET_PRODUCTS_ID;
   if (!sheetToken || !sheetId) {
     throw new Error('Missing env: FEISHU_SHEET_PRODUCTS_TOKEN and FEISHU_SHEET_PRODUCTS_ID');
   }
   // 读取表头 + 数据（假设最多 100 行）
-  const rows = getSheetValues(sheetToken, sheetId, 'A1:R100');
+  const rows = await getSheetValues(sheetToken, sheetId, 'A1:R100');
   const dataRows = rows.slice(1); // 跳过表头
 
   const products: Product[] = [];
@@ -154,7 +154,7 @@ export async function run() {
   console.log('📦 Syncing products from Feishu...');
 
   try {
-    const products = syncProducts();
+    const products = await syncProducts();
     console.log(`   Found ${products.length} products`);
 
     const output = generateProductsFile(products);

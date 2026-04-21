@@ -16,14 +16,12 @@ export interface CrossRefProduct extends CrossRefItem {
 }
 
 export const crossRefData: CrossRefItem[] = [
-  {     tongjing: 'TJ3225K-26M',     epson: 'FA-238',     ndk: 'NX3225GA',     kds: 'DSX211G',     murata: 'CRSS2012',     package: '3225' as const,     productId: 'tongjing-tj3225k' },
-  {     tongjing: 'TJ3225K-24M',     epson: 'FA-238V',     ndk: 'NX3225GA',     kds: 'DSX211G',     murata: 'CRSS2012',     package: '3225' as const,     productId: 'tongjing-tj3225k' },
-  {     tongjing: 'TJ2520K-24M',     epson: 'FA-128',     ndk: 'NX2520SA',     kds: 'DSX210G',     murata: 'CRSS1608',     package: '2520' as const,     productId: 'tongjing-tj2520k' },
-  {     tongjing: 'TJ2520K-25M',     epson: 'FA-128',     ndk: 'NX2520GA',     kds: 'DSX210G',     murata: 'CRSS1608',     package: '2520' as const,     productId: 'tongjing-tj2520k' },
-  {     tongjing: 'TJ2016K-16M',     epson: 'FA-1608',     ndk: 'NX2012SA',     kds: 'DSX1612G',     murata: 'CRSS1210',     package: '2016' as const,     productId: 'tongjing-tj2016k' },
-  {     tongjing: 'TJ2016K-24M',     epson: 'FA-1608',     ndk: 'NX2012GA',     kds: 'DSX1612G',     murata: 'CRSS1210',     package: '2016' as const,     productId: 'tongjing-tj2016k' },
-  {     tongjing: 'TJ1610K-12M',     epson: 'FA-1612',     ndk: 'NX1612SA',     kds: 'DSX1208G',     murata: 'CRSS1005',     package: '1610' as const,     productId: 'tongjing-tj1610k' },
-  {     tongjing: 'TJ1610K-24M',     epson: 'FA-1612',     ndk: 'NX1612GA',     kds: 'DSX1208G',     murata: 'CRSS1005',     package: '1610' as const,     productId: 'tongjing-tj1610k' },
+  { tongjing: 'tongjing-tj3225k', epson: 'tongjing', ndk: 'TJ3225K-26.000M', kds: 'resonator', murata: '26MHz', package: '±10ppm' as const, productId: 'SMD3225' },
+  { tongjing: 'tongjing-tj2520k', epson: 'tongjing', ndk: 'TJ2520K-24.000M', kds: 'resonator', murata: '24MHz', package: '±20ppm' as const, productId: 'SMD2520' },
+  { tongjing: 'tongjing-tj2016k', epson: 'tongjing', ndk: 'TJ2016K-16.000M', kds: 'resonator', murata: '16MHz', package: '±10ppm' as const, productId: 'SMD2016' },
+  { tongjing: 'tongjing-tj3225o', epson: 'tongjing', ndk: 'TJ3225O-25.000M', kds: 'oscillator', murata: '25MHz', package: '±50ppm' as const, productId: 'SMD3225' },
+  { tongjing: 'tongjing-tj1610k', epson: 'tongjing', ndk: 'TJ1610K-12.000M', kds: 'resonator', murata: '12MHz', package: '±20ppm' as const, productId: 'SMD1610' },
+  { tongjing: 'tongjing-tj2520o', epson: 'tongjing', ndk: 'TJ2520O-40.000M', kds: 'oscillator', murata: '40MHz', package: '±30ppm' as const, productId: 'SMD2520' },
 ];
 
 export function getCrossRefWithHref(): CrossRefProduct[] {

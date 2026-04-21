@@ -22,14 +22,14 @@ function getCell(row: (string | number | boolean)[], idx: number): string {
   return v !== undefined && v !== null ? String(v) : '';
 }
 
-function syncCrossRef(): CrossRefItem[] {
+async function syncCrossRef(): Promise<CrossRefItem[]> {
   const sheetToken = process.env.FEISHU_SHEET_CROSSREF_TOKEN;
   const sheetId = process.env.FEISHU_SHEET_CROSSREF_ID;
   if (!sheetToken || !sheetId) {
     throw new Error('Missing env: FEISHU_SHEET_CROSSREF_TOKEN and FEISHU_SHEET_CROSSREF_ID');
   }
 
-  const rows = getSheetValues(sheetToken, sheetId, 'A1:G50');
+  const rows = await getSheetValues(sheetToken, sheetId, 'A1:G50');
   const dataRows = rows.slice(1);
 
   const items: CrossRefItem[] = [];
@@ -70,7 +70,7 @@ function generateCrossRefFile(items: CrossRefItem[]): string {
   lines.push(`  productId: string;`);
   lines.push(`}`);
   lines.push(``);
-  lines.append(`export interface CrossRefProduct extends CrossRefItem {`);
+  lines.push(`export interface CrossRefProduct extends CrossRefItem {`);
   lines.push(`  href: string;`);
   lines.push(`}`);
   lines.push(``);
@@ -125,7 +125,7 @@ export async function run() {
   console.log('🔗 Syncing cross-reference from Feishu...');
 
   try {
-    const items = syncCrossRef();
+    const items = await syncCrossRef();
     console.log(`   Found ${items.length} cross-reference entries`);
 
     const output = generateCrossRefFile(items);

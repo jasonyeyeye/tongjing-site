@@ -112,11 +112,11 @@ export async function getSheetValues(
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  const result = await response.json() as { code: number; msg: string; data: { value: (string | number | boolean)[][] } };
+  const result = await response.json() as { code: number; msg: string; data: { valueRange: { values: (string | number | boolean)[][] } } };
   if (result.code !== 0) {
     throw new Error(`Feishu API error ${result.code}: ${result.msg}`);
   }
-  return result.data.value;
+  return result.data.valueRange.values;
 }
 
 /**
