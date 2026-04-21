@@ -73,7 +73,7 @@ When choosing a crystal resonator, consider:
 
 Our product line offers crystal resonators in packages from 1610 to 3225, with frequencies ranging from 8MHz to 50MHz, meeting AEC-Q100 automotive standards.
     `,
-    image: '/images/news-placeholder_001.jpg',
+    image: '/images/article-crystal-principles_001.jpg',
   },
   {
     slug: '2026-crystal-oscillator-industry-trends',
@@ -133,7 +133,7 @@ Emerging as a hub for consumer electronics manufacturing, driving local demand.
 
 The crystal resonator industry is adapting to meet the demands of next-generation electronics. Quality, reliability, and miniaturization remain the key focus areas for manufacturers worldwide.
     `,
-    image: '/images/news-placeholder_001.jpg',
+    image: '/images/article-industry-trends-2026_001.jpg',
   },
   {
     slug: 'tongjing-aec-q100-certification',
@@ -188,7 +188,7 @@ These certified modules are ideal for:
 
 This certification reinforces our commitment to providing automotive-grade electronic components that meet the highest standards of reliability and performance.
     `,
-    image: '/images/news-placeholder_001.jpg',
+    image: '/images/article-aec-q100-certification_001.jpg',
   },
   {
     slug: 'crystal-resonator-package-selection',
@@ -266,7 +266,7 @@ Larger packages (3225) are typically more economical due to established manufact
 
 Package selection is a balance between size constraints, performance requirements, and cost considerations. When in doubt, consult with our technical team for recommendations specific to your application.
     `,
-    image: '/images/news-placeholder_001.jpg',
+    image: '/images/article-package-selection_001.jpg',
   },
 ];
 
