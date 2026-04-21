@@ -50,7 +50,8 @@ const filters = [
 ];
 
 function getBadgeForProduct(badge: string): 'hot' | 'new' | 'default' | 'discontinued' | 'futures' {
-  return badge as any;
+  const validBadges = ['hot', 'new', 'default', 'discontinued', 'futures'] as const;
+  return validBadges.includes(badge as any) ? badge as any : 'default';
 }
 
 // Serialize products for client-side filtering

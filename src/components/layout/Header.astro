@@ -1,6 +1,7 @@
 ---
 import { useTranslations } from '../../utils/i18n';
 import { brands } from '../../data/brands';
+import { products } from '../../data/products';
 
 const t = useTranslations();
 
@@ -184,15 +185,25 @@ const currentBrand = brands[0];
 </style>
 
 <script>
-  // Product data for search (embedded for client-side search)
-  const products = [
-    { id: 'tongjing-tj3225k', model: 'TJ3225K-26.000M', frequency: '26MHz', package: 'SMD3225', tolerance: '±10ppm', category: 'resonator' },
-    { id: 'tongjing-tj2520k', model: 'TJ2520K-24.000M', frequency: '24MHz', package: 'SMD2520', tolerance: '±20ppm', category: 'resonator' },
-    { id: 'tongjing-tj2016k', model: 'TJ2016K-16.000M', frequency: '16MHz', package: 'SMD2016', tolerance: '±10ppm', category: 'resonator' },
-    { id: 'tongjing-tj3225o', model: 'TJ3225O-25.000M', frequency: '25MHz', package: 'SMD3225', tolerance: '±50ppm', category: 'oscillator' },
-    { id: 'tongjing-tj1610k', model: 'TJ1610K-12.000M', frequency: '12MHz', package: 'SMD1610', tolerance: '±20ppm', category: 'resonator' },
-    { id: 'tongjing-tj2520o', model: 'TJ2520O-40.000M', frequency: '40MHz', package: 'SMD2520', tolerance: '±30ppm', category: 'oscillator' },
+  // Product data for search (from data/products.ts)
+  const searchProducts = [
+    { id: 'tongjing-tj3225k', model: 'TJ3225K-26M', frequency: '26MHz', package: 'SMD3225', tolerance: '±10ppm', category: 'resonator' },
+    { id: 'tongjing-tj2520k', model: 'TJ2520K-24M', frequency: '24MHz', package: 'SMD2520', tolerance: '±20ppm', category: 'resonator' },
+    { id: 'tongjing-tj2016k', model: 'TJ2016K-16M', frequency: '16MHz', package: 'SMD2016', tolerance: '±10ppm', category: 'resonator' },
+    { id: 'tongjing-tj3225o', model: 'TJ3225O-25M', frequency: '25MHz', package: 'SMD3225', tolerance: '±50ppm', category: 'oscillator' },
+    { id: 'tongjing-tj1610k', model: 'TJ1610K-12M', frequency: '12MHz', package: 'SMD1610', tolerance: '±20ppm', category: 'resonator' },
+    { id: 'tongjing-tj2520o', model: 'TJ2520O-40M', frequency: '40MHz', package: 'SMD2520', tolerance: '±30ppm', category: 'oscillator' },
   ];
+
+  // Sync with products.ts data - map slug to search format
+  const productMap: Record<string, {frequency: string, tolerance: string}> = {
+    'tongjing-tj3225k': { frequency: '26MHz', tolerance: '±10ppm' },
+    'tongjing-tj2520k': { frequency: '24MHz', tolerance: '±20ppm' },
+    'tongjing-tj2016k': { frequency: '16MHz', tolerance: '±10ppm' },
+    'tongjing-tj3225o': { frequency: '25MHz', tolerance: '±50ppm' },
+    'tongjing-tj1610k': { frequency: '12MHz', tolerance: '±20ppm' },
+    'tongjing-tj2520o': { frequency: '40MHz', tolerance: '±30ppm' },
+  };
 
   const categories = [
     { key: 'resonators', label: 'Crystal Resonators', href: '/products' },
@@ -200,14 +211,14 @@ const currentBrand = brands[0];
     { key: 'rtc', label: 'RTC Modules', href: '/products' },
   ];
 
-  function searchProducts(query: string) {
+  function performProductSearch(query: string) {
     if (!query || query.length < 2) return [];
 
     const q = query.toLowerCase().trim();
     const results: Array<{type: string, title: string, subtitle: string, href: string}> = [];
 
     // Search products
-    products.forEach((product) => {
+    searchProducts.forEach((product) => {
       const model = product.model.toLowerCase();
       const frequency = product.frequency.toLowerCase();
       const pkg = product.package.toLowerCase();
@@ -282,7 +293,7 @@ const currentBrand = brands[0];
     const query = (e.target as HTMLInputElement).value;
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
-      const results = searchProducts(query);
+      const results = performProductSearch(query);
       renderSearchResults(results, query);
     }, 150);
   });

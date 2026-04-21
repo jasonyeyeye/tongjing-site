@@ -12,7 +12,7 @@ const { products = [] } = Astro.props;
 <div class="bg-white rounded-xl border border-light-gray p-6">
   <h3 class="text-xl font-semibold text-charcoal mb-6">Send Inquiry</h3>
 
-  <form class="space-y-6">
+  <form id="inquiry-form" class="space-y-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Input label="Full Name" name="name" required placeholder="John Smith" />
       <Input label="Company" name="company" required placeholder="ABC Electronics Co., Ltd." />
@@ -28,7 +28,7 @@ const { products = [] } = Astro.props;
       <label class="block text-sm font-medium text-charcoal">
         Products <span class="text-error">*</span>
       </label>
-      <div class="border border-light-gray rounded-lg p-4 space-y-2 min-h-[120px]">
+      <div id="inquiry-products-list" class="border border-light-gray rounded-lg p-4 space-y-2 min-h-[120px]">
         {products.length === 0 ? (
           <p class="text-mid-gray text-sm text-center py-8">Add products from the product page to send inquiry</p>
         ) : (
@@ -38,7 +38,7 @@ const { products = [] } = Astro.props;
                 <span class="font-mono text-sm">{p.model}</span>
                 <span class="text-mid-gray text-sm">× {p.quantity}</span>
               </div>
-              <button type="button" class="text-mid-gray hover:text-error transition-colors">
+              <button type="button" class="text-mid-gray hover:text-error transition-colors remove-product" data-model={p.model}>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -47,16 +47,16 @@ const { products = [] } = Astro.props;
           ))
         )}
       </div>
-      <button type="button" class="text-sm text-tech-blue hover:underline">
+      <button type="button" id="add-more-products" class="text-sm text-tech-blue hover:underline">
         + Add More Products
       </button>
     </div>
 
     <!-- Message -->
     <div class="space-y-1">
-      <label for="message" class="block text-sm font-medium text-charcoal">Message</label>
+      <label for="inquiry-message" class="block text-sm font-medium text-charcoal">Message</label>
       <textarea
-        id="message"
+        id="inquiry-message"
         name="message"
         rows="4"
         placeholder="Please describe your requirements..."
@@ -64,9 +64,104 @@ const { products = [] } = Astro.props;
       ></textarea>
     </div>
 
+    <!-- Status -->
+    <div id="inquiry-status" class="hidden"></div>
+
     <!-- Submit -->
-    <Button variant="primary" size="lg" type="submit" class="w-full">
-      Submit Inquiry
-    </Button>
+    <div id="inquiry-submit-wrapper">
+      <Button variant="primary" size="lg" type="submit" class="w-full" id="inquiry-submit-btn">
+        Submit Inquiry
+      </Button>
+    </div>
   </form>
+
+  <!-- Fallback Email -->
+  <div id="inquiry-fallback" class="hidden mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+    <p class="text-amber-800 text-sm mb-2">Form submission failed. Please contact us directly:</p>
+    <a href="mailto:jason@chinanewchip.com" class="text-tech-blue hover:underline font-medium">jason@chinanewchip.com</a>
+  </div>
 </div>
+
+<script>
+  const form = document.getElementById('inquiry-form') as HTMLFormElement;
+  const statusDiv = document.getElementById('inquiry-status') as HTMLDivElement;
+  const submitBtn = document.getElementById('inquiry-submit-btn') as HTMLButtonElement;
+  const fallbackDiv = document.getElementById('inquiry-fallback') as HTMLDivElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="opacity-75">Sending...</span>';
+
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name') as string,
+      company: formData.get('company') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string || '',
+      message: formData.get('message') as string,
+      products: window.__inquiryProducts || [],
+    };
+
+    // Validate required fields
+    if (!data.name || !data.company || !data.email) {
+      statusDiv.className = 'p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm';
+      statusDiv.textContent = 'Please fill in all required fields.';
+      statusDiv.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Submit Inquiry';
+      return;
+    }
+
+    try {
+      const endpoints = [
+        '/contact-form',
+        'https://contact.chinanewchip.com/contact-form',
+      ];
+
+      let success = false;
+      let lastError = '';
+
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...data, type: 'inquiry' }),
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+              success = true;
+              break;
+            }
+          }
+          lastError = await response.text();
+        } catch (err) {
+          lastError = err instanceof Error ? err.message : 'Unknown error';
+          continue;
+        }
+      }
+
+      if (success) {
+        statusDiv.className = 'p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm';
+        statusDiv.textContent = 'Thank you! Your inquiry has been sent successfully. We will respond within 24 hours.';
+        statusDiv.classList.remove('hidden');
+        fallbackDiv.classList.add('hidden');
+        form.reset();
+      } else {
+        throw new Error(lastError || 'Failed to send inquiry.');
+      }
+    } catch (error) {
+      statusDiv.className = 'p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm';
+      statusDiv.textContent = error instanceof Error ? error.message : 'An error occurred.';
+      statusDiv.classList.remove('hidden');
+      fallbackDiv.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Submit Inquiry';
+    }
+  });
+</script>
