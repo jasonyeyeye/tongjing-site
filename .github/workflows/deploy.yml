@@ -26,6 +26,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Sync Feishu content
+        run: npx tsx scripts/feishu/sync.ts
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_SHEET_PRODUCTS_TOKEN: ${{ secrets.FEISHU_SHEET_PRODUCTS_TOKEN }}
+          FEISHU_SHEET_PRODUCTS_ID: ${{ secrets.FEISHU_SHEET_PRODUCTS_ID }}
+          FEISHU_SHEET_BRANDS_TOKEN: ${{ secrets.FEISHU_SHEET_BRANDS_TOKEN }}
+          FEISHU_SHEET_BRANDS_ID: ${{ secrets.FEISHU_SHEET_BRANDS_ID }}
+          FEISHU_SHEET_CROSSREF_TOKEN: ${{ secrets.FEISHU_SHEET_CROSSREF_TOKEN }}
+          FEISHU_SHEET_CROSSREF_ID: ${{ secrets.FEISHU_SHEET_CROSSREF_ID }}
+          FEISHU_ARTICLE_DOCS: ${{ secrets.FEISHU_ARTICLE_DOCS }}
+
       - name: Build
         run: npm run build
         env:
