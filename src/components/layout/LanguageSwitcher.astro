@@ -9,7 +9,6 @@ const localeNames: Record<Locale, string> = {
   de: 'DE',
 };
 
-// Serialize for client-side
 const localesJson = JSON.stringify(locales.map(l => ({
   code: l.code,
   nativeName: l.nativeName
@@ -33,7 +32,6 @@ const localeNamesJson = JSON.stringify(localeNames);
     </svg>
   </button>
 
-  <!-- Dropdown -->
   <div
     id="lang-dropdown"
     class="hidden absolute right-0 mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
@@ -47,7 +45,6 @@ const localeNamesJson = JSON.stringify(localeNames);
   const locales = JSON.parse(localesJson);
   const names = JSON.parse(localeNamesJson);
 
-  // Get current locale from cookie
   function getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     return match ? match[2] : 'en';
@@ -61,42 +58,41 @@ const localeNamesJson = JSON.stringify(localeNames);
 
   function setLocale(locale) {
     document.cookie = `locale=${locale};path=/;max-age=31536000;SameSite=Lax`;
-    window.location.reload();
+    // Force hard reload to get new static page
+    window.location.href = window.location.pathname;
   }
 
-  function render() {
+  function renderDropdown() {
     const currentLocale = getCurrentLocale();
     const currentLabel = names[currentLocale] || 'EN';
-
-    // Update button label
     const label = document.getElementById('current-lang-label');
     if (label) label.textContent = currentLabel;
 
-    // Render options
     const container = document.getElementById('lang-options');
-    if (container) {
-      container.innerHTML = locales.map(locale => `
-        <button
-          class="lang-option w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between cursor-pointer ${locale.code === currentLocale ? 'bg-cosmic-50 text-cosmic-700' : 'text-gray-700'}"
-          data-locale="${locale.code}"
-        >
-          <span>${locale.nativeName}</span>
-          ${locale.code === currentLocale ? '<svg class="w-4 h-4 text-cosmic-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>' : ''}
-        </button>
-      `).join('');
+    if (!container) return;
 
-      // Add click handlers
-      container.querySelectorAll('.lang-option').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const locale = btn.getAttribute('data-locale');
-          if (locale) setLocale(locale);
-        });
+    container.innerHTML = locales.map(locale => `
+      <button
+        class="lang-option w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between cursor-pointer ${locale.code === currentLocale ? 'bg-cosmic-50 text-cosmic-700 font-medium' : 'text-gray-700'}"
+        data-locale="${locale.code}"
+      >
+        <span>${locale.nativeName}</span>
+        ${locale.code === currentLocale ? '<svg class="w-4 h-4 text-cosmic-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>' : ''}
+      </button>
+    `).join('');
+
+    container.querySelectorAll('.lang-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const locale = btn.getAttribute('data-locale');
+        if (locale && locale !== getCurrentLocale()) {
+          setLocale(locale);
+        }
       });
-    }
+    });
   }
 
-  // Initialize on load
-  render();
+  // Initialize
+  renderDropdown();
 
   // Toggle dropdown
   const btn = document.getElementById('lang-switcher-btn');
@@ -108,7 +104,6 @@ const localeNamesJson = JSON.stringify(localeNames);
     dropdown?.classList.toggle('hidden');
   });
 
-  // Close on outside click
   document.addEventListener('click', (e) => {
     if (!btn?.contains(e.target as Node) && !dropdown?.contains(e.target as Node)) {
       btn?.setAttribute('aria-expanded', 'false');

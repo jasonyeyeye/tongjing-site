@@ -1,7 +1,4 @@
 ---
-import { useTranslations } from '../../utils/i18n';
-
-const t = useTranslations();
 ---
 
 <footer class="relative bg-gradient-to-b from-gray-900 to-cosmic-900 text-white">
@@ -43,30 +40,30 @@ const t = useTranslations();
 
       <!-- Products -->
       <div>
-        <h4 class="font-semibold mb-5 text-white">{t.nav.products}</h4>
+        <h4 class="font-semibold mb-5 text-white" data-i18n="nav.products">Products</h4>
         <ul class="space-y-3">
           <li>
             <a href="/products" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
-              {t.product.resonators}
+              <span data-i18n="product.resonators">Crystal Resonators</span>
             </a>
           </li>
           <li>
             <a href="/products" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
-              {t.product.oscillators}
+              <span data-i18n="product.oscillators">Crystal Oscillators</span>
             </a>
           </li>
           <li>
             <a href="/products" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
-              {t.product.rtc}
+              <span data-i18n="product.rtc">RTC Modules</span>
             </a>
           </li>
           <li>
             <a href="/tools" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
-              {t.nav.tools}
+              <span data-i18n="nav.tools">Selection Tools</span>
             </a>
           </li>
         </ul>
@@ -79,19 +76,19 @@ const t = useTranslations();
           <li>
             <a href="/about" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
-              {t.nav.about}
+              <span data-i18n="nav.about">About Us</span>
             </a>
           </li>
           <li>
             <a href="/news" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
-              {t.nav.news}
+              <span data-i18n="nav.news">News</span>
             </a>
           </li>
           <li>
             <a href="/contact" class="footer-link group flex items-center gap-2 text-gray-400 text-sm">
               <span class="w-1 h-1 bg-cosmic-500 rounded-full group-hover:w-2 group-hover:bg-aurora-400 transition-all"></span>
-              {t.nav.contact}
+              <span data-i18n="nav.contact">Contact</span>
             </a>
           </li>
         </ul>
@@ -112,9 +109,7 @@ const t = useTranslations();
             <span class="px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg text-xs font-medium border border-gray-700/50">Halogen Free</span>
           </div>
         </div>
-        <p class="text-sm text-gray-500">
-          {t.footer.copyright}
-        </p>
+        <p class="text-sm text-gray-500" data-i18n="footer.copyright">© 2026 China NewChip Electronics. All rights reserved.</p>
       </div>
     </div>
   </div>
