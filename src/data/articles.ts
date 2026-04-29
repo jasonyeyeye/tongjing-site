@@ -4,13 +4,42 @@ import articlesData from './articles.json';
 export interface Article {
   slug: string;
   title: string;
+  title_localized?: Record<string, string>;
   category: 'tech' | 'industry' | 'company';
   date: string;
   author: string;
   excerpt: string;
+  excerpt_localized?: Record<string, string>;
   content: string;
+  content_localized?: Record<string, string>;
   image?: string;
   url?: string;  // Feishu document URL
+}
+
+// Supported locales
+export const SUPPORTED_LOCALES = ['en', 'zh', 'ja', 'ko', 'de'] as const;
+export type Locale = typeof SUPPORTED_LOCALES[number];
+
+// Get localized content based on locale
+export function getLocalizedContent(article: Article, locale: string): {
+  title: string;
+  content: string;
+  excerpt: string;
+} {
+  // If locale is 'en' or not found, use original
+  if (locale === 'en' || !article.content_localized?.[locale]) {
+    return {
+      title: article.title,
+      content: article.content,
+      excerpt: article.excerpt
+    };
+  }
+
+  return {
+    title: article.title_localized?.[locale] || article.title,
+    content: article.content_localized?.[locale] || article.content,
+    excerpt: article.excerpt_localized?.[locale] || article.excerpt
+  };
 }
 
 // Transform raw article data to Article interface
@@ -30,11 +59,14 @@ function transformArticle(raw: any): Article {
   return {
     slug,
     title: raw.title || 'Untitled',
+    title_localized: raw.title_localized || {},
     category,
     date: raw.lastSync ? new Date(raw.lastSync).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
     author: raw.author || 'China NewChip',
     excerpt: raw.excerpt || raw.title || '',
-    content: raw.content || `## ${raw.title || 'Article Content'}\n\nThis article is synced from Feishu. Full content will be available once the Feishu sync is properly configured.`,
+    excerpt_localized: raw.excerpt_localized || {},
+    content: raw.content || `## ${raw.title || 'Article Content'}\n\nThis article is synced from Feishu.`,
+    content_localized: raw.content_localized || {},
     image: raw.image || undefined,
     url: raw.url || raw.docUrl || undefined,
   };
