@@ -1,15 +1,15 @@
 {
-  "model": "7A-25.000MEEJ-T",
+  "model": "2A-24.000MEEJ-T",
   "brand": "同晶",
-  "short_description": "7A",
-  "description": "7A",
+  "short_description": "2A",
+  "description": "2A",
   "lifecycle_status": "量产",
   "featured": false,
   "image_url": "",
   "datasheet_url": "",
   "parameters": {
-    "frequency": "25.000 MHz",
-    "package_type": "7050",
+    "frequency": "24.000 MHz",
+    "package_type": "2520",
     "output_logic": "CMOS",
     "voltage_supply": "3.3V ±5%",
     "operating_temperature": "-40°C to +85°C"
@@ -24,15 +24,13 @@
     "maintenance": []
   },
   "industries": [
-    "汽车电子",
-    "工业自动化"
+    "IoT",
+    "消费电子"
   ],
   "alternatives": [
-    "TXC/7A-25.000MEEJ-T",
-    "Kyocera/KC7050A250000C1E00"
+    "TXC/2A-24.000MEEJ-T"
   ],
   "compatible_replacements": [
-    "Abracon/ASE-25.000MHz-ET",
-    "Connor-Winfield/U200-25.0M"
+    "Abracon/ABM2-24.000MHz-B2"
   ]
 }

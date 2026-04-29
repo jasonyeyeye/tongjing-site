@@ -2,6 +2,7 @@
 import { useTranslations } from '../../utils/i18n';
 import { brands } from '../../data/brands';
 import { products } from '../../data/products';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
 const t = useTranslations();
 
@@ -50,6 +51,7 @@ const currentBrand = brands[0];
 
         <!-- Right Actions -->
         <div class="flex items-center gap-3">
+          <LanguageSwitcher />
           <a
             href="/contact"
             class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-aurora-400 to-aurora-500 text-white rounded-xl font-medium text-sm shadow-[0_4px_14px_rgba(249,115,22,0.3)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.4)] hover:from-aurora-300 hover:to-aurora-400 transition-all duration-200 active:scale-[0.97]"

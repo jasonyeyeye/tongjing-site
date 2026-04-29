@@ -1,17 +1,17 @@
 {
-  "model": "7A-25.000MEEJ-T",
+  "model": "3A-32.768KEEJ-T",
   "brand": "同晶",
-  "short_description": "7A",
-  "description": "7A",
+  "short_description": "3A",
+  "description": "3A",
   "lifecycle_status": "量产",
   "featured": false,
   "image_url": "",
   "datasheet_url": "",
   "parameters": {
-    "frequency": "25.000 MHz",
-    "package_type": "7050",
-    "output_logic": "CMOS",
-    "voltage_supply": "3.3V ±5%",
+    "frequency": "32.768 kHz",
+    "package_type": "3225",
+    "output_logic": "Clipped Sine",
+    "voltage_supply": "1.8V to 5.5V",
     "operating_temperature": "-40°C to +85°C"
   },
   "lifecycle": {
@@ -24,15 +24,17 @@
     "maintenance": []
   },
   "industries": [
-    "汽车电子",
-    "工业自动化"
+    "IoT",
+    "消费电子",
+    "工业自动化",
+    "医疗设备"
   ],
   "alternatives": [
-    "TXC/7A-25.000MEEJ-T",
-    "Kyocera/KC7050A250000C1E00"
+    "Epson/FC-135R32.768KKA7",
+    "Abracon/AB26T-32.768kHz"
   ],
   "compatible_replacements": [
-    "Abracon/ASE-25.000MHz-ET",
-    "Connor-Winfield/U200-25.0M"
+    "TXC/9HT13-32.768kHz",
+    "CML/CM315N32768EZST"
   ]
 }

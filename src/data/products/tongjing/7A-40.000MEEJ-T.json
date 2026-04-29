@@ -1,5 +1,5 @@
 {
-  "model": "7A-25.000MEEJ-T",
+  "model": "7A-40.000MEEJ-T",
   "brand": "同晶",
   "short_description": "7A",
   "description": "7A",
@@ -8,7 +8,7 @@
   "image_url": "",
   "datasheet_url": "",
   "parameters": {
-    "frequency": "25.000 MHz",
+    "frequency": "40.000 MHz",
     "package_type": "7050",
     "output_logic": "CMOS",
     "voltage_supply": "3.3V ±5%",
@@ -24,15 +24,14 @@
     "maintenance": []
   },
   "industries": [
-    "汽车电子",
-    "工业自动化"
+    "通信设备",
+    "汽车电子"
   ],
   "alternatives": [
-    "TXC/7A-25.000MEEJ-T",
-    "Kyocera/KC7050A250000C1E00"
+    "TXC/7A-40.000MEEJ-T",
+    "Kyocera/KC7050A40000C1E00"
   ],
   "compatible_replacements": [
-    "Abracon/ASE-25.000MHz-ET",
-    "Connor-Winfield/U200-25.0M"
+    "Abracon/ASE-40.000MHz-ET"
   ]
 }
