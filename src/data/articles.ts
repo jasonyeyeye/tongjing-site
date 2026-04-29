@@ -26,15 +26,15 @@ export function getLocalizedContent(article: Article, locale: string): {
   content: string;
   excerpt: string;
 } {
-  // If locale is 'en' or not found, use original
-  if (locale === 'en' || !article.content_localized?.[locale]) {
+  // Chinese (zh) uses original content
+  if (locale === 'zh') {
     return {
       title: article.title,
       content: article.content,
       excerpt: article.excerpt
     };
   }
-
+  // For other locales (en, ja, ko, de), use translated content if available
   return {
     title: article.title_localized?.[locale] || article.title,
     content: article.content_localized?.[locale] || article.content,
