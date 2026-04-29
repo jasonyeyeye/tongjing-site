@@ -248,13 +248,15 @@ const categoryColors = {
   }
 
   function getLocalizedText(locale) {
-    if (locale === 'en') {
+    // When locale is 'zh' (Chinese), use original content
+    if (locale === 'zh') {
       return {
         title: articleData.title,
         content: articleData.content,
         excerpt: articleData.excerpt
       };
     }
+    // For all other locales (en, ja, ko, de), use translated content if available
     return {
       title: articleData.title_localized[locale] || articleData.title,
       content: articleData.content_localized[locale] || articleData.content,
@@ -274,11 +276,11 @@ const categoryColors = {
     if (excerptEl) excerptEl.textContent = localized.excerpt;
     if (breadcrumbTitle) breadcrumbTitle.textContent = localized.title;
 
-    // Update content if translation exists
-    if (locale !== 'en' && articleData.content_localized[locale]) {
+    // Update content if localized version exists (for any locale including 'en')
+    if (articleData.content_localized[locale]) {
       var contentEl = document.getElementById('article-content');
       if (contentEl) {
-        contentEl.innerHTML = formatContent(localized.content);
+        contentEl.innerHTML = formatContent(articleData.content_localized[locale]);
       }
     }
 
