@@ -87,39 +87,11 @@ data.forEach(product => {
         brands[brandSlug].categories.push(category);
     }
 
-    // Create product file
-    const modelSlug = product.model.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    // Create product file - write Teable raw format for products.ts to transform
     const productFile = '$DATA_DIR/products/' + brandSlug + '/' + product.model + '.json';
 
-    // Build specifications object
-    const specs = {};
-    if (product.parameters) {
-        if (product.parameters.frequency) specs['Frequency'] = product.parameters.frequency;
-        if (product.parameters.package_type) specs['Package'] = product.parameters.package_type;
-        if (product.parameters.output_logic) specs['Output'] = product.parameters.output_logic;
-        if (product.parameters.voltage_supply) specs['Voltage'] = product.parameters.voltage_supply;
-        if (product.parameters.operating_temperature) specs['Operating Temp'] = product.parameters.operating_temperature;
-    }
-    if (product.short_description) specs['Description'] = product.short_description;
-
-    // Create product object matching Product interface
-    const productData = {
-        id: brandSlug + '-' + modelSlug,
-        brandId: brandSlug,
-        model: product.model,
-        category: category,
-        frequency: product.parameters?.frequency || '',
-        tolerance: '', // Teable doesn't have tolerance field
-        package: product.parameters?.package_type || '',
-        loadCapacitance: '',
-        esr: '',
-        stock: 'In Stock',
-        priceRange: 'Contact for Quote',
-        badge: getBadge(product.lifecycle_status, product.featured),
-        specifications: specs
-    };
-
-    fs.writeFileSync(productFile, JSON.stringify(productData, null, 2));
+    // Write the Teable raw format (products.ts will transform it)
+    fs.writeFileSync(productFile, JSON.stringify(product, null, 2));
     console.log('Written: ' + productFile);
 });
 
