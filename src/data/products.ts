@@ -14,140 +14,115 @@ export interface Product {
   specifications: Record<string, string>;
 }
 
-export const products: Product[] = [
-  {
-    id: 'tongjing-tj3225k',
-    brandId: 'tongjing',
-    model: 'TJ3225K-26.000M',
-    category: 'resonator',
-    frequency: '26MHz',
-    tolerance: '±10ppm',
-    package: 'SMD3225',
-    loadCapacitance: '12pF',
-    esr: '30Ω',
-    stock: '500,000 PCS',
-    priceRange: '$0.08 - $0.12',
-    badge: 'hot',
-    specifications: {
-      'Frequency': '26MHz',
-      'Tolerance': '±10ppm',
-      'Package': '3.2×2.5×0.8mm',
-      'Load Capacitance': '12pF',
-      'ESR': '30Ω max',
-      'Operating Temp': '-40°C to +85°C',
-    },
-  },
-  {
-    id: 'tongjing-tj2520k',
-    brandId: 'tongjing',
-    model: 'TJ2520K-24.000M',
-    category: 'resonator',
-    frequency: '24MHz',
-    tolerance: '±20ppm',
-    package: 'SMD2520',
-    loadCapacitance: '12pF',
-    esr: '40Ω',
-    stock: '320,000 PCS',
-    priceRange: '$0.07 - $0.10',
-    badge: 'new',
-    specifications: {
-      'Frequency': '24MHz',
-      'Tolerance': '±20ppm',
-      'Package': '2.5×2.0×0.65mm',
-      'Load Capacitance': '12pF',
-      'ESR': '40Ω max',
-      'Operating Temp': '-40°C to +85°C',
-    },
-  },
-  {
-    id: 'tongjing-tj2016k',
-    brandId: 'tongjing',
-    model: 'TJ2016K-16.000M',
-    category: 'resonator',
-    frequency: '16MHz',
-    tolerance: '±10ppm',
-    package: 'SMD2016',
-    loadCapacitance: '8pF',
-    esr: '50Ω',
-    stock: '180,000 PCS',
-    priceRange: '$0.06 - $0.09',
-    badge: 'default',
-    specifications: {
-      'Frequency': '16MHz',
-      'Tolerance': '±10ppm',
-      'Package': '2.0×1.6×0.5mm',
-      'Load Capacitance': '8pF',
-      'ESR': '50Ω max',
-      'Operating Temp': '-40°C to +85°C',
-    },
-  },
-  {
-    id: 'tongjing-tj3225o',
-    brandId: 'tongjing',
-    model: 'TJ3225O-25.000M',
-    category: 'oscillator',
-    frequency: '25MHz',
-    tolerance: '±50ppm',
-    package: 'SMD3225',
-    loadCapacitance: '20pF',
-    esr: '30Ω',
-    stock: '2 weeks lead time',
-    priceRange: '$0.10 - $0.15',
-    badge: 'futures',
-    specifications: {
-      'Frequency': '25MHz',
-      'Tolerance': '±50ppm',
-      'Package': '3.2×2.5×1.0mm',
-      'Output': 'CMOS',
-      'Voltage': '3.3V',
-      'Operating Temp': '-40°C to +85°C',
-    },
-  },
-  {
-    id: 'tongjing-tj1610k',
-    brandId: 'tongjing',
-    model: 'TJ1610K-12.000M',
-    category: 'resonator',
-    frequency: '12MHz',
-    tolerance: '±20ppm',
-    package: 'SMD1610',
-    loadCapacitance: '8pF',
-    esr: '60Ω',
-    stock: '85,000 PCS',
-    priceRange: '$0.05 - $0.07',
-    badge: 'default',
-    specifications: {
-      'Frequency': '12MHz',
-      'Tolerance': '±20ppm',
-      'Package': '1.6×1.0×0.35mm',
-      'Load Capacitance': '8pF',
-      'ESR': '60Ω max',
-      'Operating Temp': '-40°C to +85°C',
-    },
-  },
-  {
-    id: 'tongjing-tj2520o',
-    brandId: 'tongjing',
-    model: 'TJ2520O-40.000M',
-    category: 'oscillator',
-    frequency: '40MHz',
-    tolerance: '±30ppm',
-    package: 'SMD2520',
-    loadCapacitance: '15pF',
-    esr: '40Ω',
-    stock: '150,000 PCS',
-    priceRange: '$0.09 - $0.13',
-    badge: 'default',
-    specifications: {
-      'Frequency': '40MHz',
-      'Tolerance': '±30ppm',
-      'Package': '2.5×2.0×0.9mm',
-      'Output': 'CMOS',
-      'Voltage': '3.3V',
-      'Operating Temp': '-40°C to +85°C',
-    },
-  },
-];
+// Import all JSON files from products directory
+const productModules = import.meta.glob('./products/**/*.json', { eager: true });
+
+// Teable data format (from KV)
+interface TeableProduct {
+  model: string;
+  brand: string;
+  short_description: string;
+  description: string;
+  lifecycle_status: string;
+  featured: boolean;
+  image_url: string;
+  datasheet_url: string;
+  parameters: {
+    frequency: string;
+    package_type: string;
+    output_logic: string;
+    voltage_supply: string;
+    operating_temperature: string;
+  };
+  industries: string[];
+  alternatives: string[];
+  compatible_replacements: string[];
+}
+
+// Transform Teable data to Product format
+function transformTeableProduct(data: TeableProduct): Product {
+  // Generate ID from model name
+  const modelSlug = data.model.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+  const brandSlug = 'tongjing'; // Map 同晶 to tongjing
+
+  // Determine category from model prefix
+  let category: 'resonator' | 'oscillator' | 'rtc' = 'oscillator';
+  const modelPrefix = data.model.split('-')[0].toUpperCase();
+  if (modelPrefix.includes('32')) {
+    category = 'rtc';
+  } else if (modelPrefix.startsWith('2A') || modelPrefix.startsWith('3A')) {
+    category = 'resonator';
+  } else if (modelPrefix.startsWith('5A') || modelPrefix.startsWith('7A')) {
+    category = 'oscillator';
+  }
+
+  // Map lifecycle_status to badge
+  let badge: Product['badge'] = 'default';
+  const status = data.lifecycle_status?.toLowerCase() || '';
+  if (status === '量产' || status === 'active') {
+    badge = data.featured ? 'hot' : 'default';
+  } else if (status === '样品' || status === 'sample') {
+    badge = 'new';
+  } else if (status.includes('停产') || status.includes('eol')) {
+    badge = 'discontinued';
+  } else if (status.includes('推荐替代')) {
+    badge = 'futures';
+  }
+
+  // Parse frequency
+  const freq = data.parameters?.frequency || '';
+
+  // Build specifications object
+  const specs: Record<string, string> = {
+    'Frequency': freq,
+    'Package': data.parameters?.package_type || '',
+    'Output': data.parameters?.output_logic || '',
+    'Voltage': data.parameters?.voltage_supply || '',
+    'Operating Temp': data.parameters?.operating_temperature || '',
+  };
+
+  // Add description as short description in specs
+  if (data.short_description) {
+    specs['Description'] = data.short_description;
+  }
+
+  return {
+    id: `${brandSlug}-${modelSlug}`,
+    brandId: brandSlug,
+    model: data.model,
+    category,
+    frequency: freq,
+    tolerance: '', // Teable doesn't have tolerance field, could parse from frequency
+    package: data.parameters?.package_type || '',
+    loadCapacitance: '',
+    esr: '',
+    stock: 'In Stock', // Default stock status
+    priceRange: 'Contact for Quote',
+    badge,
+    specifications: specs,
+  };
+}
+
+// Load products from JSON files
+function loadProducts(): Product[] {
+  const products: Product[] = [];
+
+  for (const [path, module] of Object.entries(productModules)) {
+    const productData = (module as any).default;
+    if (productData && productData.model) {
+      try {
+        products.push(transformTeableProduct(productData));
+      } catch (e) {
+        console.warn(`Failed to transform product from ${path}:`, e);
+      }
+    }
+  }
+
+  return products;
+}
+
+// Export loaded products
+export const products: Product[] = loadProducts();
 
 export function getProductsByBrand(brandId: string): Product[] {
   return products.filter(p => p.brandId === brandId);

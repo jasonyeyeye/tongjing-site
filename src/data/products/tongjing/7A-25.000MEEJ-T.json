@@ -1,0 +1,20 @@
+{
+  "model": "7A-25.000MEEJ-T",
+  "brand": "同晶",
+  "short_description": "25MHz Crystal Oscillator",
+  "description": "25MHz Crystal Oscillator SPXO 3.3V LVPECL",
+  "lifecycle_status": "量产",
+  "featured": true,
+  "image_url": "",
+  "datasheet_url": "",
+  "parameters": {
+    "frequency": "25.000 MHz",
+    "package_type": "7050",
+    "output_logic": "LVPECL",
+    "voltage_supply": "3.3V ±5%",
+    "operating_temperature": "-40°C to +85°C"
+  },
+  "industries": ["通信设备", "工业自动化"],
+  "alternatives": ["TXC/7A-25.000MEEJ-T"],
+  "compatible_replacements": ["Abracon/ASE-25.000MHz-ET"]
+}
