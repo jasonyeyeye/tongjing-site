@@ -34,6 +34,10 @@ const { title, description, image, canonical, type, pageType } = Astro.props;
         var lang = urlParams.get('lang');
         if (lang && ['en', 'zh', 'ja', 'ko', 'de'].indexOf(lang) !== -1) {
           document.cookie = 'locale=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
+          // Store lang in sessionStorage for other scripts to read
+          try { sessionStorage.setItem('preferred_lang', lang); } catch(e) {}
+          // Store on window for immediate access by other scripts
+          window.__INITIAL_LANG__ = lang;
           // Clean URL without reloading
           var cleanUrl = window.location.pathname + (window.location.hash || '');
           window.history.replaceState({}, '', cleanUrl);

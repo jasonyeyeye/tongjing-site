@@ -211,7 +211,6 @@ const categoryColors = {
       </div>
     </Container>
   </section>
-</BaseLayout>
 
 <script is:inline define:vars={{ articleData }}>
 (function() {
@@ -223,11 +222,17 @@ const categoryColors = {
   }
 
   function getLocale() {
+    // Check window.__INITIAL_LANG__ first (set by BaseLayout before URL cleaning)
+    if (window.__INITIAL_LANG__ && supportedLocales.indexOf(window.__INITIAL_LANG__) !== -1) {
+      return window.__INITIAL_LANG__;
+    }
+    // Then check URL params
     var urlParams = new URLSearchParams(window.location.search);
     var urlLang = urlParams.get('lang');
     if (urlLang && supportedLocales.indexOf(urlLang) !== -1) {
       return urlLang;
     }
+    // Then check cookie
     var cookie = getCookie('locale');
     if (cookie && supportedLocales.indexOf(cookie) !== -1) {
       return cookie;
@@ -399,3 +404,4 @@ const categoryColors = {
     color: rgb(75 85 99);
   }
 </style>
+</BaseLayout>
