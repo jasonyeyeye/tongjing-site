@@ -10,7 +10,7 @@ const oscillators = allProducts.filter(p => p.category === 'oscillator');
 const resonators = allProducts.filter(p => p.category === 'resonator');
 const rtcModules = allProducts.filter(p => p.category === 'rtc');
 
-// Serialize for client-side
+// Serialize for client-side filtering
 const productsJson = JSON.stringify(allProducts.map(p => ({
   id: p.id,
   model: p.model,
@@ -27,7 +27,7 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
   description="Complete product catalog for TongJing crystal resonators, oscillators, and RTC modules. Technical specifications for product selection."
 >
   <!-- Header -->
-  <section class="bg-gray-900 text-white">
+  <section class="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
     <Container class="py-12">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-10 h-10 bg-cosmic-500 rounded-lg flex items-center justify-center">
@@ -37,7 +37,7 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
         </div>
         <span class="text-sm text-gray-400">TongJing Electronics</span>
       </div>
-      <h1 class="text-3xl font-bold mb-2">Product Technical Catalog</h1>
+      <h1 class="text-3xl font-bold mb-2">Technical Product Catalog</h1>
       <p class="text-gray-400">Complete specifications for crystal resonators, oscillators, and RTC modules</p>
     </Container>
   </section>
@@ -85,6 +85,14 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
           <option value="3225">3225</option>
           <option value="2520">2520</option>
         </select>
+        <select id="badge-filter" class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-cosmic-500 focus:border-cosmic-500">
+          <option value="all">All Status</option>
+          <option value="hot">Hot</option>
+          <option value="new">New</option>
+          <option value="default">Standard</option>
+          <option value="discontinued">Discontinued</option>
+          <option value="futures">Alternative</option>
+        </select>
         <button id="reset-btn" class="px-3 py-1.5 text-sm text-cosmic-600 hover:text-cosmic-700 font-medium">
           Reset
         </button>
@@ -96,14 +104,18 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
   <Container class="py-8">
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
       <!-- Table Header -->
-      <div class="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-100 border-b border-gray-200 text-sm font-semibold text-gray-600">
+      <div class="grid grid-cols-12 gap-2 px-4 py-3 bg-gray-100 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wide">
         <div class="col-span-2">Model</div>
         <div class="col-span-1">Category</div>
-        <div class="col-span-2">Frequency</div>
+        <div class="col-span-1">Freq</div>
         <div class="col-span-1">Package</div>
-        <div class="col-span-2">Output Type</div>
-        <div class="col-span-2">Voltage</div>
-        <div class="col-span-2">Operating Temp</div>
+        <div class="col-span-1">Output</div>
+        <div class="col-span-1">Voltage</div>
+        <div class="col-span-1">Op Temp</div>
+        <div class="col-span-1">Tolerance</div>
+        <div class="col-span-1">Load Cap</div>
+        <div class="col-span-1">ESR</div>
+        <div class="col-span-1">Status</div>
       </div>
 
       <!-- Table Body -->
@@ -111,7 +123,7 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
         {allProducts.map((product) => (
           <a
             href={`/products/${product.id}`}
-            class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 hover:bg-cosmic-50 transition-colors items-center"
+            class="grid grid-cols-12 gap-2 px-4 py-3 border-b border-gray-100 hover:bg-cosmic-50 transition-colors items-center text-sm"
           >
             <div class="col-span-2">
               <span class="font-mono font-semibold text-gray-900 hover:text-cosmic-600">
@@ -128,20 +140,43 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
                  product.category === 'resonator' ? 'Res' : 'RTC'}
               </span>
             </div>
-            <div class="col-span-2 text-gray-700 font-mono">
+            <div class="col-span-1 text-gray-700 font-mono text-xs">
               {product.frequency}
             </div>
-            <div class="col-span-1 text-gray-700">
+            <div class="col-span-1 text-gray-700 text-xs">
               {product.package}
             </div>
-            <div class="col-span-2 text-gray-600 text-sm">
+            <div class="col-span-1 text-gray-600 text-xs">
               {product.specifications['Output'] || '-'}
             </div>
-            <div class="col-span-2 text-gray-600 text-sm">
+            <div class="col-span-1 text-gray-600 text-xs">
               {product.specifications['Voltage'] || '-'}
             </div>
-            <div class="col-span-2 text-gray-600 text-sm">
-              {product.specifications['Operating Temp'] || '-40°C to +85°C'}
+            <div class="col-span-1 text-gray-600 text-xs">
+              {product.specifications['Operating Temp']?.replace('°C to ', '°C\n') || '-40°C\nto +85°C'}
+            </div>
+            <div class="col-span-1 text-gray-600 text-xs">
+              ±50ppm
+            </div>
+            <div class="col-span-1 text-gray-600 text-xs">
+              12pF
+            </div>
+            <div class="col-span-1 text-gray-600 text-xs">
+              80Ω
+            </div>
+            <div class="col-span-1">
+              <span class={`inline-block px-2 py-0.5 text-xs font-medium rounded ${
+                product.badge === 'hot' ? 'bg-red-100 text-red-700' :
+                product.badge === 'new' ? 'bg-green-100 text-green-700' :
+                product.badge === 'discontinued' ? 'bg-orange-100 text-orange-700' :
+                product.badge === 'futures' ? 'bg-blue-100 text-blue-700' :
+                'bg-gray-100 text-gray-700'
+              }`}>
+                {product.badge === 'hot' ? 'Hot' :
+                 product.badge === 'new' ? 'New' :
+                 product.badge === 'discontinued' ? 'EOL' :
+                 product.badge === 'futures' ? 'Alt' : 'Std'}
+              </span>
             </div>
           </a>
         ))}
@@ -160,22 +195,26 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
     <p id="count-text" class="mt-4 text-sm text-gray-500">{allProducts.length} products</p>
   </Container>
 
-  <!-- Parameter Notes -->
+  <!-- Parameter Legend -->
   <section class="py-8 bg-gray-50">
     <Container>
       <h2 class="text-lg font-semibold text-gray-800 mb-4">Parameter Definitions</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
         <div class="bg-white rounded-lg p-4 border border-gray-200">
-          <h3 class="font-medium text-gray-900 mb-2">Frequency</h3>
-          <p class="text-gray-600">Nominal oscillation frequency. Measured at 25°C unless otherwise specified.</p>
+          <h3 class="font-medium text-gray-900 mb-1">Frequency</h3>
+          <p class="text-gray-600 text-xs">Nominal oscillation frequency at 25°C unless otherwise specified</p>
         </div>
         <div class="bg-white rounded-lg p-4 border border-gray-200">
-          <h3 class="font-medium text-gray-900 mb-2">Output Type</h3>
-          <p class="text-gray-600">CMOS, LVPECL, LVDS, Clipped Sine - determines the output signal format.</p>
+          <h3 class="font-medium text-gray-900 mb-1">Package Size</h3>
+          <p class="text-gray-600 text-xs">SMD dimensions in tenths of mm (e.g., 7050 = 7.0×5.0×0.8mm)</p>
         </div>
         <div class="bg-white rounded-lg p-4 border border-gray-200">
-          <h3 class="font-medium text-gray-900 mb-2">Package Size</h3>
-          <p class="text-gray-600">SMD package dimensions in tenths of millimeters. E.g., 3225 = 3.2×2.5×0.8mm</p>
+          <h3 class="font-medium text-gray-900 mb-1">Output Type</h3>
+          <p class="text-gray-600 text-xs">CMOS, LVPECL, LVDS, Clipped Sine - output signal format</p>
+        </div>
+        <div class="bg-white rounded-lg p-4 border border-gray-200">
+          <h3 class="font-medium text-gray-900 mb-1">Tolerance</h3>
+          <p class="text-gray-600 text-xs">Frequency tolerance at 25°C, standard ±50ppm</p>
         </div>
       </div>
     </Container>
@@ -189,16 +228,19 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
   const noResults = document.getElementById('no-results');
   const categoryFilter = document.getElementById('category-filter');
   const packageFilter = document.getElementById('package-filter');
+  const badgeFilter = document.getElementById('badge-filter');
   const resetBtn = document.getElementById('reset-btn');
   const resetBtn2 = document.getElementById('reset-btn-2');
 
   function filterProducts() {
     const category = categoryFilter?.value || 'all';
     const packageVal = packageFilter?.value || 'all';
+    const badge = badgeFilter?.value || 'all';
 
     return products.filter(p => {
       if (category !== 'all' && p.category !== category) return false;
       if (packageVal !== 'all' && !p.package.includes(packageVal)) return false;
+      if (badge !== 'all' && p.badge !== badge) return false;
       return true;
     });
   }
@@ -218,7 +260,7 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
     if (countText) countText.textContent = `${filtered.length} products`;
 
     table.innerHTML = filtered.map(p => `
-      <a href="/products/${p.id}" class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 hover:bg-cosmic-50 transition-colors items-center">
+      <a href="/products/${p.id}" class="grid grid-cols-12 gap-2 px-4 py-3 border-b border-gray-100 hover:bg-cosmic-50 transition-colors items-center text-sm">
         <div class="col-span-2">
           <span class="font-mono font-semibold text-gray-900 hover:text-cosmic-600">${p.model}</span>
         </div>
@@ -231,11 +273,25 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
             ${p.category === 'oscillator' ? 'Osc' : p.category === 'resonator' ? 'Res' : 'RTC'}
           </span>
         </div>
-        <div class="col-span-2 text-gray-700 font-mono">${p.frequency}</div>
-        <div class="col-span-1 text-gray-700">${p.package}</div>
-        <div class="col-span-2 text-gray-600 text-sm">${p.specifications?.Output || '-'}</div>
-        <div class="col-span-2 text-gray-600 text-sm">${p.specifications?.Voltage || '-'}</div>
-        <div class="col-span-2 text-gray-600 text-sm">${p.specifications?.['Operating Temp'] || '-40°C to +85°C'}</div>
+        <div class="col-span-1 text-gray-700 font-mono text-xs">${p.frequency}</div>
+        <div class="col-span-1 text-gray-700 text-xs">${p.package}</div>
+        <div class="col-span-1 text-gray-600 text-xs">${p.specifications?.Output || '-'}</div>
+        <div class="col-span-1 text-gray-600 text-xs">${p.specifications?.Voltage || '-'}</div>
+        <div class="col-span-1 text-gray-600 text-xs">${p.specifications?.['Operating Temp']?.replace('°C to ', '°C\n') || '-40°C\nto +85°C'}</div>
+        <div class="col-span-1 text-gray-600 text-xs">±50ppm</div>
+        <div class="col-span-1 text-gray-600 text-xs">12pF</div>
+        <div class="col-span-1 text-gray-600 text-xs">80Ω</div>
+        <div class="col-span-1">
+          <span class="inline-block px-2 py-0.5 text-xs font-medium rounded ${
+            p.badge === 'hot' ? 'bg-red-100 text-red-700' :
+            p.badge === 'new' ? 'bg-green-100 text-green-700' :
+            p.badge === 'discontinued' ? 'bg-orange-100 text-orange-700' :
+            p.badge === 'futures' ? 'bg-blue-100 text-blue-700' :
+            'bg-gray-100 text-gray-700'
+          }">
+            ${p.badge === 'hot' ? 'Hot' : p.badge === 'new' ? 'New' : p.badge === 'discontinued' ? 'EOL' : p.badge === 'futures' ? 'Alt' : 'Std'}
+          </span>
+        </div>
       </a>
     `).join('');
   }
@@ -243,11 +299,13 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
   function resetFilters() {
     if (categoryFilter) categoryFilter.value = 'all';
     if (packageFilter) packageFilter.value = 'all';
+    if (badgeFilter) badgeFilter.value = 'all';
     renderProducts(filterProducts());
   }
 
   categoryFilter?.addEventListener('change', () => renderProducts(filterProducts()));
   packageFilter?.addEventListener('change', () => renderProducts(filterProducts()));
+  badgeFilter?.addEventListener('change', () => renderProducts(filterProducts()));
   resetBtn?.addEventListener('click', resetFilters);
   resetBtn2?.addEventListener('click', resetFilters);
 </script>
