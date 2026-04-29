@@ -222,15 +222,22 @@ const categoryColors = {
   }
 
   function getLocale() {
-    // Check window.__INITIAL_LANG__ first (set by BaseLayout before URL cleaning)
-    if (window.__INITIAL_LANG__ && supportedLocales.indexOf(window.__INITIAL_LANG__) !== -1) {
-      return window.__INITIAL_LANG__;
-    }
-    // Then check URL params
+    // Check URL params first (works even if URL is cleaned after)
     var urlParams = new URLSearchParams(window.location.search);
     var urlLang = urlParams.get('lang');
     if (urlLang && supportedLocales.indexOf(urlLang) !== -1) {
       return urlLang;
+    }
+    // Check sessionStorage (set by BaseLayout before URL cleaning)
+    try {
+      var sessLang = sessionStorage.getItem('preferred_lang');
+      if (sessLang && supportedLocales.indexOf(sessLang) !== -1) {
+        return sessLang;
+      }
+    } catch(e) {}
+    // Check window.__INITIAL_LANG__ (set by BaseLayout before URL cleaning)
+    if (window.__INITIAL_LANG__ && supportedLocales.indexOf(window.__INITIAL_LANG__) !== -1) {
+      return window.__INITIAL_LANG__;
     }
     // Then check cookie
     var cookie = getCookie('locale');
