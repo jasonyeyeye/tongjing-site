@@ -1,8 +1,6 @@
 ---
 import { locales, type Locale } from '../../utils/i18n';
-import { getLocale } from '../../utils/i18n';
 
-const currentLocale = getLocale();
 const localeNames: Record<Locale, string> = {
   en: 'EN',
   zh: '中文',
@@ -10,6 +8,13 @@ const localeNames: Record<Locale, string> = {
   ko: '한국어',
   de: 'DE',
 };
+
+// Serialize for client-side
+const localesJson = JSON.stringify(locales.map(l => ({
+  code: l.code,
+  nativeName: l.nativeName
+})));
+const localeNamesJson = JSON.stringify(localeNames);
 ---
 
 <div class="relative">
@@ -22,7 +27,7 @@ const localeNames: Record<Locale, string> = {
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
     </svg>
-    <span id="current-lang">{localeNames[currentLocale]}</span>
+    <span id="current-lang-label">EN</span>
     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
     </svg>
@@ -31,56 +36,76 @@ const localeNames: Record<Locale, string> = {
   <!-- Dropdown -->
   <div
     id="lang-dropdown"
-    class="hidden absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+    class="hidden absolute right-0 mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
     role="menu"
   >
-    {locales.map((locale) => (
-      <button
-        class="lang-option w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between"
-        data-locale={locale.code}
-        role="menuitem"
-      >
-        <span>{locale.nativeName}</span>
-        {currentLocale === locale.code && (
-          <svg class="w-4 h-4 text-cosmic-500" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-        )}
-      </button>
-    ))}
+    <div id="lang-options"></div>
   </div>
 </div>
 
-<script>
-  const btn = document.getElementById('lang-switcher-btn');
-  const dropdown = document.getElementById('lang-dropdown');
-  const currentLang = document.getElementById('current-lang');
-  const options = document.querySelectorAll('.lang-option');
+<script define:vars={{ localesJson, localeNamesJson }}>
+  const locales = JSON.parse(localesJson);
+  const names = JSON.parse(localeNamesJson);
 
-  const localeNames: Record<string, string> = {
-    en: 'EN',
-    zh: '中文',
-    ja: '日本語',
-    ko: '한국어',
-    de: 'DE',
-  };
+  // Get current locale from cookie
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : 'en';
+  }
 
-  function setLocale(locale: string) {
-    document.cookie = `locale=${locale};path=/;max-age=31536000`;
+  function getCurrentLocale() {
+    const cookie = getCookie('locale');
+    if (locales.some(l => l.code === cookie)) return cookie;
+    return 'en';
+  }
+
+  function setLocale(locale) {
+    document.cookie = `locale=${locale};path=/;max-age=31536000;SameSite=Lax`;
     window.location.reload();
   }
+
+  function render() {
+    const currentLocale = getCurrentLocale();
+    const currentLabel = names[currentLocale] || 'EN';
+
+    // Update button label
+    const label = document.getElementById('current-lang-label');
+    if (label) label.textContent = currentLabel;
+
+    // Render options
+    const container = document.getElementById('lang-options');
+    if (container) {
+      container.innerHTML = locales.map(locale => `
+        <button
+          class="lang-option w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between cursor-pointer ${locale.code === currentLocale ? 'bg-cosmic-50 text-cosmic-700' : 'text-gray-700'}"
+          data-locale="${locale.code}"
+        >
+          <span>${locale.nativeName}</span>
+          ${locale.code === currentLocale ? '<svg class="w-4 h-4 text-cosmic-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>' : ''}
+        </button>
+      `).join('');
+
+      // Add click handlers
+      container.querySelectorAll('.lang-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const locale = btn.getAttribute('data-locale');
+          if (locale) setLocale(locale);
+        });
+      });
+    }
+  }
+
+  // Initialize on load
+  render();
+
+  // Toggle dropdown
+  const btn = document.getElementById('lang-switcher-btn');
+  const dropdown = document.getElementById('lang-dropdown');
 
   btn?.addEventListener('click', () => {
     const expanded = btn.getAttribute('aria-expanded') === 'true';
     btn.setAttribute('aria-expanded', (!expanded).toString());
     dropdown?.classList.toggle('hidden');
-  });
-
-  options.forEach(option => {
-    option.addEventListener('click', () => {
-      const locale = option.getAttribute('data-locale');
-      if (locale) setLocale(locale);
-    });
   });
 
   // Close on outside click
