@@ -27,6 +27,19 @@ const { title, description, image, canonical, type, pageType } = Astro.props;
       type={type}
       pageType={pageType}
     />
+    <script is:inline>
+      // Handle ?lang= URL param on first load for static site
+      (function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var lang = urlParams.get('lang');
+        if (lang && ['en', 'zh', 'ja', 'ko', 'de'].indexOf(lang) !== -1) {
+          document.cookie = 'locale=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
+          // Clean URL without reloading
+          var cleanUrl = window.location.pathname + (window.location.hash || '');
+          window.history.replaceState({}, '', cleanUrl);
+        }
+      })();
+    </script>
   </head>
   <body class="flex flex-col min-h-screen bg-white text-charcoal">
     <Header />
@@ -36,88 +49,93 @@ const { title, description, image, canonical, type, pageType } = Astro.props;
     <Footer />
 
     <script is:inline>
-      // Flat translations for client-side use
-      const translations = {
-        en: {
-          'nav.home': 'Home', 'nav.brands': 'Brands', 'nav.products': 'Products', 'nav.tools': 'Selection Tools',
-          'nav.about': 'About Us', 'nav.contact': 'Contact', 'nav.news': 'News',
-          'header.inquiry': 'Inquiry',
-          'product.search': 'Search products, brands, or part numbers...',
-          'product.resonators': 'Crystal Resonators',
-          'product.oscillators': 'Crystal Oscillators',
-          'product.rtc': 'RTC Modules',
-          'footer.copyright': '© 2026 China NewChip Electronics. All rights reserved.',
-        },
-        zh: {
-          'nav.home': '首页', 'nav.brands': '品牌', 'nav.products': '产品', 'nav.tools': '选型工具',
-          'nav.about': '关于我们', 'nav.contact': '联系我们', 'nav.news': '新闻资讯',
-          'header.inquiry': '询价',
-          'product.search': '搜索产品、品牌或型号...',
-          'product.resonators': '石英晶体谐振器',
-          'product.oscillators': '石英晶体振荡器',
-          'product.rtc': 'RTC模块',
-          'footer.copyright': '© 2026 中国芯电子有限公司. 保留所有权利.',
-        },
-        ja: {
-          'nav.home': 'ホーム', 'nav.brands': 'ブランド', 'nav.products': '製品', 'nav.tools': '選定ツール',
-          'nav.about': '会社概要', 'nav.contact': 'お問い合わせ', 'nav.news': 'ニュース',
-          'header.inquiry': '見積もり',
-          'product.search': '製品、ブランド、型番号を検索...',
-          'product.resonators': '水晶振動子',
-          'product.oscillators': '水晶発振器',
-          'product.rtc': 'RTCモジュール',
-          'footer.copyright': '© 2026 中国芯電子株式会社. 全著作権所有.',
-        },
-        ko: {
-          'nav.home': '홈', 'nav.brands': '브랜드', 'nav.products': '製品', 'nav.tools': '選択 도구',
-          'nav.about': '회사 소개', 'nav.contact': '문의', 'nav.news': 'ニュース',
-          'header.inquiry': '문의',
-          'product.search': '製品, 브랜드, 型番号を検索...',
-          'product.resonators': '수정 진동子',
-          'product.oscillators': '수정 발진기',
-          'product.rtc': 'RTC 모듈',
-          'footer.copyright': '© 2026 차이나 뉴칩 일렉트로닉스. 모든 권리 보유.',
-        },
-        de: {
-          'nav.home': 'Startseite', 'nav.brands': 'Marken', 'nav.products': 'Produkte', 'nav.tools': 'Auswahlwerkzeuge',
-          'nav.about': 'Über uns', 'nav.contact': 'Kontakt', 'nav.news': 'Neuigkeiten',
-          'header.inquiry': 'Anfrage',
-          'product.search': 'Produkte, Marken oder Teilenummern suchen...',
-          'product.resonators': 'Quarzresonatoren',
-          'product.oscillators': 'Quarzoszillatoren',
-          'product.rtc': 'RTC-Module',
-          'footer.copyright': '© 2026 China NewChip Electronics. Alle Rechte vorbehalten.',
+      (function() {
+        var translations = {
+          en: {
+            'nav.home': 'Home', 'nav.brands': 'Brands', 'nav.products': 'Products', 'nav.tools': 'Selection Tools',
+            'nav.about': 'About Us', 'nav.contact': 'Contact', 'nav.news': 'News',
+            'header.inquiry': 'Inquiry',
+            'product.search': 'Search products, brands, or part numbers...',
+            'product.resonators': 'Crystal Resonators',
+            'product.oscillators': 'Crystal Oscillators',
+            'product.rtc': 'RTC Modules',
+            'footer.copyright': '© 2026 China NewChip Electronics. All rights reserved.',
+          },
+          zh: {
+            'nav.home': '首页', 'nav.brands': '品牌', 'nav.products': '产品', 'nav.tools': '选型工具',
+            'nav.about': '关于我们', 'nav.contact': '联系我们', 'nav.news': '新闻资讯',
+            'header.inquiry': '询价',
+            'product.search': '搜索产品、品牌或型号...',
+            'product.resonators': '石英晶体谐振器',
+            'product.oscillators': '石英晶体振荡器',
+            'product.rtc': 'RTC模块',
+            'footer.copyright': '© 2026 中国芯电子有限公司. 保留所有权利.',
+          },
+          ja: {
+            'nav.home': 'ホーム', 'nav.brands': 'ブランド', 'nav.products': '製品', 'nav.tools': '選定ツール',
+            'nav.about': '会社概要', 'nav.contact': 'お問い合わせ', 'nav.news': 'ニュース',
+            'header.inquiry': '見積もり',
+            'product.search': '製品、ブランド、型番号を検索...',
+            'product.resonators': '水晶振動子',
+            'product.oscillators': '水晶発振器',
+            'product.rtc': 'RTCモジュール',
+            'footer.copyright': '© 2026 中国芯電子株式会社. 全著作権所有.',
+          },
+          ko: {
+            'nav.home': '홈', 'nav.brands': '브랜드', 'nav.products': '製品', 'nav.tools': '選択 도구',
+            'nav.about': '회사 소개', 'nav.contact': '문의', 'nav.news': 'ニュース',
+            'header.inquiry': '문의',
+            'product.search': '製品, 브랜드, 型番号を検索...',
+            'product.resonators': '수정 진동자',
+            'product.oscillators': '수정 발진기',
+            'product.rtc': 'RTC 모듈',
+            'footer.copyright': '© 2026 차이나 뉴칩 일렉트로닉스. 모든 권리 보유.',
+          },
+          de: {
+            'nav.home': 'Startseite', 'nav.brands': 'Marken', 'nav.products': 'Produkte', 'nav.tools': 'Auswahlwerkzeuge',
+            'nav.about': 'Über uns', 'nav.contact': 'Kontakt', 'nav.news': 'Neuigkeiten',
+            'header.inquiry': 'Anfrage',
+            'product.search': 'Produkte, Marken oder Teilenummern suchen...',
+            'product.resonators': 'Quarzresonatoren',
+            'product.oscillators': 'Quarzoszillatoren',
+            'product.rtc': 'RTC-Module',
+            'footer.copyright': '© 2026 China NewChip Electronics. Alle Rechte vorbehalten.',
+          }
+        };
+
+        function getLocale() {
+          var match = document.cookie.match(/locale=([^;]+)/);
+          if (match && translations[match[1]]) return match[1];
+          return 'en';
         }
-      };
 
-      function getLocale() {
-        const match = document.cookie.match(/locale=([^;]+)/);
-        if (match && translations[match[1]]) return match[1];
-        return 'en';
-      }
+        function applyTranslations() {
+          var locale = getLocale();
+          var trans = translations[locale] || translations['en'];
 
-      function applyTranslations() {
-        const locale = getLocale();
-        const trans = translations[locale] || translations['en'];
+          var elements = document.querySelectorAll('[data-i18n]');
+          for (var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            var key = el.getAttribute('data-i18n');
+            if (key && trans[key]) el.textContent = trans[key];
+          }
 
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-          const key = el.getAttribute('data-i18n');
-          if (key && trans[key]) el.textContent = trans[key];
-        });
+          var inputs = document.querySelectorAll('[data-i18n-placeholder]');
+          for (var j = 0; j < inputs.length; j++) {
+            var input = inputs[j];
+            var key = input.getAttribute('data-i18n-placeholder');
+            if (key && trans[key] && input.tagName === 'INPUT') input.placeholder = trans[key];
+          }
 
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-          const key = el.getAttribute('data-i18n-placeholder');
-          if (key && trans[key] && el.tagName === 'INPUT') el.placeholder = trans[key];
-        });
+          document.documentElement.lang = locale;
+        }
 
-        document.documentElement.lang = locale;
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', applyTranslations);
-      } else {
-        applyTranslations();
-      }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', applyTranslations);
+        } else {
+          applyTranslations();
+        }
+      })();
     </script>
   </body>
 </html>

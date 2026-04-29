@@ -1,13 +1,5 @@
 ---
-import { locales, type Locale } from '../../utils/i18n';
-
-const localeNames: Record<Locale, string> = {
-  en: 'EN',
-  zh: '中文',
-  ja: '日本語',
-  ko: '한국어',
-  de: 'DE',
-};
+import { locales } from '../../utils/i18n';
 
 const localesData = locales.map(l => ({
   code: l.code,
@@ -51,6 +43,18 @@ const localesData = locales.map(l => ({
   }
 
   function getCurrentLocale() {
+    // Check URL param first (for initial redirect)
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlLang = urlParams.get('lang');
+    if (urlLang && locales.some(function(l) { return l.code === urlLang; })) {
+      // Clear the URL param and set cookie
+      document.cookie = 'locale=' + urlLang + ';path=/;max-age=31536000;SameSite=Lax';
+      // Clean URL
+      var cleanUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, '', cleanUrl);
+      return urlLang;
+    }
+    // Check cookie
     var cookie = getCookie('locale');
     if (cookie && locales.some(function(l) { return l.code === cookie; })) {
       return cookie;
@@ -58,9 +62,16 @@ const localesData = locales.map(l => ({
     return 'en';
   }
 
-  function setLocale(locale) {
+  function switchLocale(locale) {
+    var current = getCurrentLocale();
+    if (locale === current) return;
+
     document.cookie = 'locale=' + locale + ';path=/;max-age=31536000;SameSite=Lax';
-    window.location.reload();
+
+    // For static site: use query param approach, redirect to same page with ?lang=xx
+    var url = new URL(window.location.href);
+    url.searchParams.set('lang', locale);
+    window.location.href = url.toString();
   }
 
   function renderDropdown() {
@@ -88,9 +99,7 @@ const localesData = locales.map(l => ({
     for (var j = 0; j < options.length; j++) {
       options[j].addEventListener('click', function() {
         var locale = this.getAttribute('data-locale');
-        if (locale && locale !== getCurrentLocale()) {
-          setLocale(locale);
-        }
+        if (locale) switchLocale(locale);
       });
     }
   }
