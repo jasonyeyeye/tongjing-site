@@ -43,18 +43,14 @@ const localesData = locales.map(l => ({
   }
 
   function getCurrentLocale() {
-    // Check URL param first (for initial redirect)
     var urlParams = new URLSearchParams(window.location.search);
     var urlLang = urlParams.get('lang');
     if (urlLang && locales.some(function(l) { return l.code === urlLang; })) {
-      // Clear the URL param and set cookie
       document.cookie = 'locale=' + urlLang + ';path=/;max-age=31536000;SameSite=Lax';
-      // Clean URL
       var cleanUrl = window.location.pathname + window.location.hash;
       window.history.replaceState({}, '', cleanUrl);
       return urlLang;
     }
-    // Check cookie
     var cookie = getCookie('locale');
     if (cookie && locales.some(function(l) { return l.code === cookie; })) {
       return cookie;
@@ -65,10 +61,7 @@ const localesData = locales.map(l => ({
   function switchLocale(locale) {
     var current = getCurrentLocale();
     if (locale === current) return;
-
     document.cookie = 'locale=' + locale + ';path=/;max-age=31536000;SameSite=Lax';
-
-    // For static site: use query param approach, redirect to same page with ?lang=xx
     var url = new URL(window.location.href);
     url.searchParams.set('lang', locale);
     window.location.href = url.toString();
@@ -97,7 +90,8 @@ const localesData = locales.map(l => ({
 
     var options = container.querySelectorAll('.lang-option');
     for (var j = 0; j < options.length; j++) {
-      options[j].addEventListener('click', function() {
+      options[j].addEventListener('click', function(e) {
+        e.stopPropagation();
         var locale = this.getAttribute('data-locale');
         if (locale) switchLocale(locale);
       });
@@ -114,20 +108,28 @@ const localesData = locales.map(l => ({
   // Toggle dropdown
   var btn = document.getElementById('lang-switcher-btn');
   var dropdown = document.getElementById('lang-dropdown');
+  var isDropdownOpen = false;
 
-  if (btn) {
-    btn.addEventListener('click', function() {
-      var expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', (!expanded).toString());
-      if (dropdown) dropdown.classList.toggle('hidden');
+  if (btn && dropdown) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      isDropdownOpen = !isDropdownOpen;
+      btn.setAttribute('aria-expanded', isDropdownOpen.toString());
+      if (isDropdownOpen) {
+        dropdown.classList.remove('hidden');
+      } else {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (isDropdownOpen && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+        isDropdownOpen = false;
+        btn.setAttribute('aria-expanded', 'false');
+        dropdown.classList.add('hidden');
+      }
     });
   }
-
-  document.addEventListener('click', function(e) {
-    if (btn && !btn.contains(e.target) && dropdown && !dropdown.contains(e.target)) {
-      btn.setAttribute('aria-expanded', 'false');
-      dropdown.classList.add('hidden');
-    }
-  });
 })();
 </script>
