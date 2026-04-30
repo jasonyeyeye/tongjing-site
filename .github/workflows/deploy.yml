@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run prebuild
+        run: ./scripts/prebuild.sh
+
       - name: Build
         run: npm run build
         env:
