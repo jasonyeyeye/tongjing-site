@@ -1,0 +1,36 @@
+{
+  "model": "5A-16.000MEEJ-T",
+  "brand": "同晶",
+  "short_description": "5A",
+  "description": "5A",
+  "lifecycle_status": "量产",
+  "featured": false,
+  "image_url": "",
+  "datasheet_url": "",
+  "parameters": {
+    "frequency": "16.000 MHz",
+    "package_type": "5032",
+    "output_logic": "CMOS",
+    "voltage_supply": "3.3V ±5%",
+    "operating_temperature": "-20°C to +70°C"
+  },
+  "lifecycle": {
+    "design": [],
+    "manufacturing": [],
+    "testing": [],
+    "integration": [],
+    "usage": [],
+    "failure": [],
+    "maintenance": []
+  },
+  "industries": [
+    "消费电子",
+    "IoT"
+  ],
+  "alternatives": [
+    "TXC/5A-16.000MEEJ-T"
+  ],
+  "compatible_replacements": [
+    "Abracon/ABM3-16.000MHz-B2"
+  ]
+}

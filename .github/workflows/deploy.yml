@@ -39,6 +39,9 @@ jobs:
           FEISHU_SHEET_CROSSREF_ID: ${{ secrets.FEISHU_SHEET_CROSSREF_ID }}
           FEISHU_ARTICLE_DOCS: ${{ secrets.FEISHU_ARTICLE_DOCS }}
 
+      - name: Run prebuild (backup)
+        run: ./scripts/prebuild.sh
+
       - name: Build
         run: npm run build
         env:

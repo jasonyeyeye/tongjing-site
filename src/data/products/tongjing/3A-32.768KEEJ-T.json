@@ -1,0 +1,40 @@
+{
+  "model": "3A-32.768KEEJ-T",
+  "brand": "同晶",
+  "short_description": "3A",
+  "description": "3A",
+  "lifecycle_status": "量产",
+  "featured": false,
+  "image_url": "",
+  "datasheet_url": "",
+  "parameters": {
+    "frequency": "32.768 kHz",
+    "package_type": "3225",
+    "output_logic": "Clipped Sine",
+    "voltage_supply": "1.8V to 5.5V",
+    "operating_temperature": "-40°C to +85°C"
+  },
+  "lifecycle": {
+    "design": [],
+    "manufacturing": [],
+    "testing": [],
+    "integration": [],
+    "usage": [],
+    "failure": [],
+    "maintenance": []
+  },
+  "industries": [
+    "IoT",
+    "消费电子",
+    "工业自动化",
+    "医疗设备"
+  ],
+  "alternatives": [
+    "Epson/FC-135R32.768KKA7",
+    "Abracon/AB26T-32.768kHz"
+  ],
+  "compatible_replacements": [
+    "TXC/9HT13-32.768kHz",
+    "CML/CM315N32768EZST"
+  ]
+}

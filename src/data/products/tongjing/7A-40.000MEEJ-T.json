@@ -1,0 +1,37 @@
+{
+  "model": "7A-40.000MEEJ-T",
+  "brand": "同晶",
+  "short_description": "7A",
+  "description": "7A",
+  "lifecycle_status": "量产",
+  "featured": false,
+  "image_url": "",
+  "datasheet_url": "",
+  "parameters": {
+    "frequency": "40.000 MHz",
+    "package_type": "7050",
+    "output_logic": "CMOS",
+    "voltage_supply": "3.3V ±5%",
+    "operating_temperature": "-40°C to +85°C"
+  },
+  "lifecycle": {
+    "design": [],
+    "manufacturing": [],
+    "testing": [],
+    "integration": [],
+    "usage": [],
+    "failure": [],
+    "maintenance": []
+  },
+  "industries": [
+    "通信设备",
+    "汽车电子"
+  ],
+  "alternatives": [
+    "TXC/7A-40.000MEEJ-T",
+    "Kyocera/KC7050A40000C1E00"
+  ],
+  "compatible_replacements": [
+    "Abracon/ASE-40.000MHz-ET"
+  ]
+}

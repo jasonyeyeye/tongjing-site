@@ -1,0 +1,36 @@
+{
+  "model": "2A-24.000MEEJ-T",
+  "brand": "同晶",
+  "short_description": "2A",
+  "description": "2A",
+  "lifecycle_status": "量产",
+  "featured": false,
+  "image_url": "",
+  "datasheet_url": "",
+  "parameters": {
+    "frequency": "24.000 MHz",
+    "package_type": "2520",
+    "output_logic": "CMOS",
+    "voltage_supply": "3.3V ±5%",
+    "operating_temperature": "-40°C to +85°C"
+  },
+  "lifecycle": {
+    "design": [],
+    "manufacturing": [],
+    "testing": [],
+    "integration": [],
+    "usage": [],
+    "failure": [],
+    "maintenance": []
+  },
+  "industries": [
+    "IoT",
+    "消费电子"
+  ],
+  "alternatives": [
+    "TXC/2A-24.000MEEJ-T"
+  ],
+  "compatible_replacements": [
+    "Abracon/ABM2-24.000MHz-B2"
+  ]
+}

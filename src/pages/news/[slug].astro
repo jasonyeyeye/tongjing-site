@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/layout/Container.astro';
-import { articles, getArticleBySlug } from '../../data/articles';
+import { articles, getArticleBySlug, getLocalizedContent, type Locale } from '../../data/articles';
 
 export function getStaticPaths() {
   return articles.map((article) => ({
@@ -11,6 +11,23 @@ export function getStaticPaths() {
 }
 
 const { article } = Astro.props;
+
+// Default English content (original)
+const localized = {
+  title: article.title,
+  content: article.content,
+  excerpt: article.excerpt
+};
+
+// Serialize article data for client-side translation
+const articleData = {
+  title: article.title,
+  title_localized: article.title_localized || {},
+  content: article.content,
+  content_localized: article.content_localized || {},
+  excerpt: article.excerpt,
+  excerpt_localized: article.excerpt_localized || {}
+};
 
 const categoryLabels = {
   tech: 'Technical Article',
@@ -58,12 +75,12 @@ const categoryColors = {
         </div>
 
         <!-- Title -->
-        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+        <h1 id="article-title" class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight">
           {article.title}
         </h1>
 
         <!-- Excerpt -->
-        <p class="text-lg text-gray-600 mb-8 leading-relaxed border-l-4 border-cosmic-500 pl-4">
+        <p id="article-excerpt" class="text-lg text-gray-600 mb-8 leading-relaxed border-l-4 border-cosmic-500 pl-4">
           {article.excerpt}
         </p>
 
@@ -80,7 +97,7 @@ const categoryColors = {
 
         <!-- Article Content -->
         <div class="prose prose-lg max-w-none">
-          <div set:html={(() => {
+          <div id="article-content" set:html={(() => {
             const lines = article.content.split('\n');
             const elements: string[] = [];
             let i = 0;
@@ -194,7 +211,151 @@ const categoryColors = {
       </div>
     </Container>
   </section>
-</BaseLayout>
+
+<script is:inline define:vars={{ articleData }}>
+(function() {
+  var supportedLocales = ['en', 'zh', 'ja', 'ko', 'de'];
+
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
+  function getLocale() {
+    // Check URL params first (works even if URL is cleaned after)
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlLang = urlParams.get('lang');
+    if (urlLang && supportedLocales.indexOf(urlLang) !== -1) {
+      return urlLang;
+    }
+    // Check sessionStorage (set by BaseLayout before URL cleaning)
+    try {
+      var sessLang = sessionStorage.getItem('preferred_lang');
+      if (sessLang && supportedLocales.indexOf(sessLang) !== -1) {
+        return sessLang;
+      }
+    } catch(e) {}
+    // Check window.__INITIAL_LANG__ (set by BaseLayout before URL cleaning)
+    if (window.__INITIAL_LANG__ && supportedLocales.indexOf(window.__INITIAL_LANG__) !== -1) {
+      return window.__INITIAL_LANG__;
+    }
+    // Then check cookie
+    var cookie = getCookie('locale');
+    if (cookie && supportedLocales.indexOf(cookie) !== -1) {
+      return cookie;
+    }
+    return 'en';
+  }
+
+  function getLocalizedText(locale) {
+    // When locale is 'zh' (Chinese), use original content
+    if (locale === 'zh') {
+      return {
+        title: articleData.title,
+        content: articleData.content,
+        excerpt: articleData.excerpt
+      };
+    }
+    // For all other locales (en, ja, ko, de), use translated content if available
+    return {
+      title: articleData.title_localized[locale] || articleData.title,
+      content: articleData.content_localized[locale] || articleData.content,
+      excerpt: articleData.excerpt_localized[locale] || articleData.excerpt
+    };
+  }
+
+  function applyLocale() {
+    var locale = getLocale();
+    var localized = getLocalizedText(locale);
+
+    var titleEl = document.getElementById('article-title');
+    var excerptEl = document.getElementById('article-excerpt');
+    var breadcrumbTitle = document.querySelector('nav span.text-gray-700');
+
+    if (titleEl) titleEl.textContent = localized.title;
+    if (excerptEl) excerptEl.textContent = localized.excerpt;
+    if (breadcrumbTitle) breadcrumbTitle.textContent = localized.title;
+
+    // Update content if localized version exists (for any locale including 'en')
+    if (articleData.content_localized[locale]) {
+      var contentEl = document.getElementById('article-content');
+      if (contentEl) {
+        contentEl.innerHTML = formatContent(articleData.content_localized[locale]);
+      }
+    }
+
+    document.documentElement.lang = locale;
+  }
+
+  function formatContent(content) {
+    var lines = content.split('\n');
+    var elements = [];
+    var i = 0;
+    var inTable = false;
+    var tableRows = [];
+
+    while (i < lines.length) {
+      var line = lines[i];
+
+      if (line.startsWith('## ')) {
+        elements.push('<h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">' + line.slice(3) + '</h2>');
+        inTable = false;
+      } else if (line.startsWith('### ')) {
+        elements.push('<h3 class="text-xl font-semibold text-gray-800 mt-8 mb-3">' + line.slice(4) + '</h3>');
+        inTable = false;
+      } else if (line.startsWith('|')) {
+        inTable = true;
+        tableRows.push(line);
+      } else if (inTable && (line.trim() === '' || !line.startsWith(','))) {
+        if (tableRows.length >= 2) {
+          var headerRow = tableRows[0];
+          var rows = tableRows.slice(2);
+          var headers = headerRow.split('|').filter(function(c) { return c.trim() && c.trim() !== '---'; }).map(function(c) { return c.trim(); });
+          var tableHtml = '<table class="w-full border-collapse my-6"><thead><tr>';
+          headers.forEach(function(h) {
+            tableHtml += '<th class="border border-gray-300 bg-gray-50 px-4 py-2 text-left font-semibold">' + h + '</th>';
+          });
+          tableHtml += '</tr></thead><tbody>';
+          rows.forEach(function(row) {
+            var cells = row.split('|').filter(function(c) { return c.trim() !== '' && !c.trim().match(/^-+$/); });
+            if (cells.length > 0) {
+              tableHtml += '<tr>';
+              cells.forEach(function(cell) {
+                tableHtml += '<td class="border border-gray-300 px-4 py-2">' + cell.trim() + '</td>';
+              });
+              tableHtml += '</tr>';
+            }
+          });
+          tableHtml += '</tbody></table>';
+          elements.push(tableHtml);
+        }
+        tableRows = [];
+        inTable = false;
+        if (line.trim() !== '') {
+          i--;
+        }
+      } else if (inTable) {
+        tableRows.push(line);
+      } else if (line.trim() === '') {
+        // skip empty
+      } else if (line.trim().startsWith('-') || line.match(/^[\d]+\./)) {
+        elements.push('<li class="text-gray-700 mb-2 ml-4">' + line.replace(/^[-\d.]+\s*/, '') + '</li>');
+      } else {
+        var formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>').replace(/\|(.*?)\|/g, '<code class="bg-gray-100 px-1 rounded">$1</code>');
+        elements.push('<p class="text-gray-700 mb-4 leading-relaxed">' + formatted + '</p>');
+      }
+      i++;
+    }
+    return elements.join('\n');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyLocale);
+  } else {
+    applyLocale();
+  }
+})();
+</script>
 
 <style>
   .prose h2 {
@@ -252,3 +413,4 @@ const categoryColors = {
     color: rgb(75 85 99);
   }
 </style>
+</BaseLayout>

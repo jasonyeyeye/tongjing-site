@@ -1,0 +1,135 @@
+---
+import { locales } from '../../utils/i18n';
+
+const localesData = locales.map(l => ({
+  code: l.code,
+  nativeName: l.nativeName
+}));
+---
+
+<div class="relative">
+  <button
+    id="lang-switcher-btn"
+    class="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-cosmic-600 rounded-lg hover:bg-gray-100 transition-colors"
+    aria-expanded="false"
+    aria-haspopup="true"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+    </svg>
+    <span id="current-lang-label">EN</span>
+    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div
+    id="lang-dropdown"
+    class="hidden absolute right-0 mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+    role="menu"
+  >
+    <div id="lang-options"></div>
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  var locales = [{"code":"en","nativeName":"English"},{"code":"zh","nativeName":"中文"},{"code":"ja","nativeName":"日本語"},{"code":"ko","nativeName":"한국어"},{"code":"de","nativeName":"Deutsch"}];
+  var names = {"en":"EN","zh":"中文","ja":"日本語","ko":"한국어","de":"DE"};
+
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
+  function getCurrentLocale() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlLang = urlParams.get('lang');
+    if (urlLang && locales.some(function(l) { return l.code === urlLang; })) {
+      document.cookie = 'locale=' + urlLang + ';path=/;max-age=31536000;SameSite=Lax';
+      var cleanUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, '', cleanUrl);
+      return urlLang;
+    }
+    var cookie = getCookie('locale');
+    if (cookie && locales.some(function(l) { return l.code === cookie; })) {
+      return cookie;
+    }
+    return 'en';
+  }
+
+  function switchLocale(locale) {
+    var current = getCurrentLocale();
+    if (locale === current) return;
+    document.cookie = 'locale=' + locale + ';path=/;max-age=31536000;SameSite=Lax';
+    var url = new URL(window.location.href);
+    url.searchParams.set('lang', locale);
+    window.location.href = url.toString();
+  }
+
+  function renderDropdown() {
+    var currentLocale = getCurrentLocale();
+    var label = document.getElementById('current-lang-label');
+    if (label) label.textContent = names[currentLocale] || 'EN';
+
+    var container = document.getElementById('lang-options');
+    if (!container) return;
+
+    var html = '';
+    for (var i = 0; i < locales.length; i++) {
+      var locale = locales[i];
+      var isActive = locale.code === currentLocale;
+      html += '<button class="lang-option w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between cursor-pointer ' + (isActive ? 'bg-cosmic-50 text-cosmic-700 font-medium' : 'text-gray-700') + '" data-locale="' + locale.code + '">';
+      html += '<span>' + locale.nativeName + '</span>';
+      if (isActive) {
+        html += '<svg class="w-4 h-4 text-cosmic-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>';
+      }
+      html += '</button>';
+    }
+    container.innerHTML = html;
+
+    var options = container.querySelectorAll('.lang-option');
+    for (var j = 0; j < options.length; j++) {
+      options[j].addEventListener('click', function(e) {
+        e.stopPropagation();
+        var locale = this.getAttribute('data-locale');
+        if (locale) switchLocale(locale);
+      });
+    }
+  }
+
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderDropdown);
+  } else {
+    renderDropdown();
+  }
+
+  // Toggle dropdown
+  var btn = document.getElementById('lang-switcher-btn');
+  var dropdown = document.getElementById('lang-dropdown');
+  var isDropdownOpen = false;
+
+  if (btn && dropdown) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      isDropdownOpen = !isDropdownOpen;
+      btn.setAttribute('aria-expanded', isDropdownOpen.toString());
+      if (isDropdownOpen) {
+        dropdown.classList.remove('hidden');
+      } else {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (isDropdownOpen && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+        isDropdownOpen = false;
+        btn.setAttribute('aria-expanded', 'false');
+        dropdown.classList.add('hidden');
+      }
+    });
+  }
+})();
+</script>

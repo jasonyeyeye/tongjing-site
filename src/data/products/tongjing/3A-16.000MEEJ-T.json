@@ -1,0 +1,37 @@
+{
+  "model": "3A-16.000MEEJ-T",
+  "brand": "同晶",
+  "short_description": "3A",
+  "description": "3A",
+  "lifecycle_status": "量产",
+  "featured": false,
+  "image_url": "",
+  "datasheet_url": "",
+  "parameters": {
+    "frequency": "16.000 MHz",
+    "package_type": "3225",
+    "output_logic": "CMOS",
+    "voltage_supply": "3.3V ±5%",
+    "operating_temperature": "-40°C to +85°C"
+  },
+  "lifecycle": {
+    "design": [],
+    "manufacturing": [],
+    "testing": [],
+    "integration": [],
+    "usage": [],
+    "failure": [],
+    "maintenance": []
+  },
+  "industries": [
+    "IoT",
+    "消费电子",
+    "通信设备"
+  ],
+  "alternatives": [
+    "TXC/3A-16.000MEEJ-T"
+  ],
+  "compatible_replacements": [
+    "Abracon/ABM3-16.000MHz-B2"
+  ]
+}
