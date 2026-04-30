@@ -313,11 +313,26 @@ export async function run() {
     const articles = await syncArticles();
     console.log(`   Found ${articles.length} articles`);
 
-    const output = generateArticlesFile(articles);
-    const outputPath = path.resolve(process.cwd(), 'src/data/articles.ts');
-    fs.writeFileSync(outputPath, output, 'utf-8');
+    // Transform to match the format expected by articles.ts (imports from JSON)
+    const jsonData = articles.map(a => ({
+      slug: a.slug,
+      title: a.title,
+      title_localized: {},
+      category: a.category,
+      date: a.date,
+      author: a.author,
+      excerpt: a.excerpt,
+      excerpt_localized: {},
+      content: a.content,
+      content_localized: {},
+      image: a.image || undefined,
+      url: undefined,
+    }));
 
-    console.log(`   ✅ Written to src/data/articles.ts`);
+    const outputPath = path.resolve(process.cwd(), 'src/data/articles.json');
+    fs.writeFileSync(outputPath, JSON.stringify(jsonData, null, 2), 'utf-8');
+
+    console.log(`   ✅ Written to src/data/articles.json`);
     return { articles, count: articles.length };
   } catch (err) {
     console.error(`   ❌ Failed to sync articles: ${err}`);
